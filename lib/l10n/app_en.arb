@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appTitle": "Captain Tactics",
+  "toolsHeader": "Tactical Tools",
+  "passTool": "Pass",
+  "runTool": "Run",
+  "pressZoneTool": "Press Zone",
+  "clearBoard": "Clear Pitch",
+  "exportPdf": "Export PDF",
+  "distanceCovered": "Distance: {meters}m",
+  "@distanceCovered": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  }
+}

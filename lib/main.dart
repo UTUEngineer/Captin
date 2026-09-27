@@ -4,6 +4,7 @@ import 'package:captain/core/constants/app_constants.dart';
 
 import 'package:captain/core/presentation/app_shell.dart';
 import 'package:captain/core/router/app_router.dart';
+import 'package:captain/core/router/deep_link_listener.dart';
 
 import 'package:captain/core/theme/app_theme.dart';
 
@@ -119,9 +120,11 @@ class CaptainApp extends ConsumerWidget {
 
           routerConfig: appRouter,
 
-          builder: (context, child) => AppShell(
-            prefs: prefs,
-            child: child,
+          builder: (context, child) => DeepLinkListener(
+            child: AppShell(
+              prefs: prefs,
+              child: child,
+            ),
           ),
 
         );

@@ -35,7 +35,13 @@ class VideoAnalysisResultScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Analysis result'),
         actions: [
-          if (state.result != null)
+          if (state.result != null) ...[
+            TextButton.icon(
+              onPressed: () =>
+                  context.push(AppRoutes.scoutingReportForVideo(videoId)),
+              icon: const Icon(Icons.analytics_outlined),
+              label: const Text('Scouting'),
+            ),
             TextButton.icon(
               onPressed: () {
                 final players = state.result!.playersAt(
@@ -49,6 +55,7 @@ class VideoAnalysisResultScreen extends ConsumerWidget {
               icon: const Icon(Icons.draw_outlined),
               label: const Text('Open as board'),
             ),
+          ],
         ],
       ),
       body: state.isLoading

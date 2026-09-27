@@ -1,3 +1,4 @@
+import 'package:captain/core/config/app_config.dart';
 import 'package:captain/features/leagues/domain/league.dart';
 import 'package:captain/features/leagues/domain/match_fixture.dart';
 import 'package:captain/features/leagues/domain/player.dart';
@@ -6,13 +7,15 @@ import 'package:captain/features/leagues/domain/team.dart';
 import 'package:dio/dio.dart';
 
 class FootballApiClient {
-  FootballApiClient(String apiKey)
-      : _dio = Dio(
+  FootballApiClient(
+    String apiKey, {
+    String host = AppConfig.defaultFootballApiHost,
+  }) : _dio = Dio(
           BaseOptions(
-            baseUrl: 'https://v3.football.api-sports.io',
+            baseUrl: 'https://$host',
             headers: {
               'x-apisports-key': apiKey,
-              'x-rapidapi-host': 'v3.football.api-sports.io',
+              'x-rapidapi-host': host,
             },
             connectTimeout: const Duration(seconds: 10),
             receiveTimeout: const Duration(seconds: 15),
@@ -134,4 +137,14 @@ class FootballApiClient {
     }
     return PlayerStats.fromJson(items.first as Map<String, dynamic>);
   }
+
+  Future<Map<String, dynamic>> getTacticalLineups(int fixtureId) async {
+    final response = await _dio.get<Map<String, dynamic>>(
+      '/fixtures/lineups',
+      queryParameters: {'fixture': fixtureId},
+    );
+    final items = response.data?['response'] as List<dynamic>? ?? [];
+    return {'raw_response': items};
+  }
 }
+

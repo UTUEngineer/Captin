@@ -1,4 +1,5 @@
 import 'package:captain/core/config/app_config.dart';
+import 'package:captain/core/config/platform_vision_url.dart';
 import 'package:captain/features/export/domain/export_hub_context.dart';
 import 'package:captain/features/settings/domain/app_language.dart';
 import 'package:captain/features/settings/domain/app_theme_variant.dart';
@@ -17,6 +18,7 @@ class AppPreferences {
     this.coachRole = CoachRole.headCoach,
     this.defaultSessionName = '',
     this.autoJoinLastSession = false,
+    this.lastCollaborationSessionCode = '',
     this.defaultExportFormat = ExportFileFormat.png,
     this.defaultExportQuality = ExportQuality.standard,
     this.exportWatermarkEnabled = true,
@@ -34,6 +36,7 @@ class AppPreferences {
   final CoachRole coachRole;
   final String defaultSessionName;
   final bool autoJoinLastSession;
+  final String lastCollaborationSessionCode;
   final ExportFileFormat defaultExportFormat;
   final ExportQuality defaultExportQuality;
   final bool exportWatermarkEnabled;
@@ -42,7 +45,13 @@ class AppPreferences {
   String get effectiveBackendUrl {
     final trimmed = backendBaseUrl.trim();
     if (trimmed.isNotEmpty) return trimmed;
-    return AppConfig.visionApiBaseUrl;
+
+    final configured = AppConfig.visionApiBaseUrl;
+    if (configured != AppConfig.defaultVisionApiBaseUrl) {
+      return configured;
+    }
+
+    return platformDefaultVisionApiUrl();
   }
 
   bool get isArabic => language == AppLanguage.arabic;
@@ -59,6 +68,7 @@ class AppPreferences {
     CoachRole? coachRole,
     String? defaultSessionName,
     bool? autoJoinLastSession,
+    String? lastCollaborationSessionCode,
     ExportFileFormat? defaultExportFormat,
     ExportQuality? defaultExportQuality,
     bool? exportWatermarkEnabled,
@@ -77,6 +87,8 @@ class AppPreferences {
       coachRole: coachRole ?? this.coachRole,
       defaultSessionName: defaultSessionName ?? this.defaultSessionName,
       autoJoinLastSession: autoJoinLastSession ?? this.autoJoinLastSession,
+      lastCollaborationSessionCode:
+          lastCollaborationSessionCode ?? this.lastCollaborationSessionCode,
       defaultExportFormat: defaultExportFormat ?? this.defaultExportFormat,
       defaultExportQuality: defaultExportQuality ?? this.defaultExportQuality,
       exportWatermarkEnabled:
@@ -98,6 +110,7 @@ class AppPreferences {
       'coachRole': coachRole.wireName,
       'defaultSessionName': defaultSessionName,
       'autoJoinLastSession': autoJoinLastSession,
+      'lastCollaborationSessionCode': lastCollaborationSessionCode,
       'defaultExportFormat': defaultExportFormat.name,
       'defaultExportQuality': defaultExportQuality.name,
       'exportWatermarkEnabled': exportWatermarkEnabled,
@@ -118,6 +131,8 @@ class AppPreferences {
       coachRole: CoachRole.fromWire(json['coachRole'] as String?),
       defaultSessionName: json['defaultSessionName'] as String? ?? '',
       autoJoinLastSession: json['autoJoinLastSession'] as bool? ?? false,
+      lastCollaborationSessionCode:
+          json['lastCollaborationSessionCode'] as String? ?? '',
       defaultExportFormat: ExportFileFormat.values.firstWhere(
         (format) => format.name == json['defaultExportFormat'],
         orElse: () => ExportFileFormat.png,

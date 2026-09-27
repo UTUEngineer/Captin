@@ -28,16 +28,17 @@ import 'package:captain/features/video_analysis/presentation/video_calibration_s
 
 import 'package:captain/features/video_analysis/presentation/video_processing_screen.dart';
 
+import 'package:captain/screens/captain_main_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-
 
 abstract final class AppRoutes {
 
   static const splash = '/';
 
   static const home = '/home';
+
+  static const dashboard = '/dashboard';
 
   static const tacticalBoard = '/tactical-board';
 
@@ -103,6 +104,14 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.home,
 
       builder: (context, state) => const HomeScreen(),
+
+    ),
+
+    GoRoute(
+
+      path: AppRoutes.dashboard,
+
+      builder: (context, state) => const CaptainMainDashboard(),
 
     ),
 
@@ -180,9 +189,13 @@ final GoRouter appRouter = GoRouter(
             if (league != null) {
               return LeagueDetailScreen(league: league);
             }
-            return const Scaffold(
-              body: Center(child: Text('League not found')),
-            );
+            final leagueId = int.tryParse(state.pathParameters['leagueId'] ?? '');
+            if (leagueId == null) {
+              return const Scaffold(
+                body: Center(child: Text('League not found')),
+              );
+            }
+            return LeagueByIdScreen(leagueId: leagueId);
           },
         ),
       ],

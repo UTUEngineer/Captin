@@ -1,3 +1,4 @@
+import 'package:captain/core/config/app_config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ClaudeApiKeyStore {
@@ -11,7 +12,11 @@ class ClaudeApiKeyStore {
 
   final FlutterSecureStorage _storage;
 
-  Future<String?> readApiKey() => _storage.read(key: storageKey);
+  Future<String?> readApiKey() async {
+    final stored = await _storage.read(key: storageKey);
+    if (stored != null && stored.trim().isNotEmpty) return stored.trim();
+    return AppConfig.anthropicApiKey.isEmpty ? null : AppConfig.anthropicApiKey;
+  }
 
   Future<void> saveApiKey(String apiKey) =>
       _storage.write(key: storageKey, value: apiKey.trim());

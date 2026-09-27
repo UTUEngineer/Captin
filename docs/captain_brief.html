@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Captain App — Executive Brief & Future Roadmap</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 18mm 16mm 20mm 16mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.6;
+      color: #1e293b;
+      background-color: #ffffff;
+    }
+
+    /* Page container */
+    .page {
+      page-break-after: always;
+      position: relative;
+      min-height: 940px;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    /* Header Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #090d16 0%, #0f172a 60%, #064e3b 100%);
+      color: #ffffff;
+      padding: 28px 30px;
+      border-radius: 14px;
+      margin-bottom: 24px;
+      border: 1px solid #1e293b;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid #10b981;
+      color: #34d399;
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-size: 24pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 11.5pt;
+      color: #94a3b8;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 9pt;
+      color: #cbd5e1;
+    }
+
+    .meta-bar strong {
+      color: #38bdf8;
+    }
+
+    /* Headings */
+    h2.section-header {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2.5px solid #e2e8f0;
+      margin-top: 10px;
+      margin-bottom: 16px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .dot-green { background-color: #10b981; }
+    .dot-blue { background-color: #3b82f6; }
+    .dot-purple { background-color: #8b5cf6; }
+    .dot-amber { background-color: #f59e0b; }
+
+    /* Cards */
+    .feature-card {
+      background-color: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+
+    .accent-green { border-left: 5px solid #10b981; }
+    .accent-blue { border-left: 5px solid #3b82f6; }
+    .accent-purple { border-left: 5px solid #8b5cf6; }
+    .accent-amber { border-left: 5px solid #f59e0b; }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .badge-pill {
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pill-done { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .pill-next { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+    .pill-plan { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+
+    .card-lead {
+      font-size: 10pt;
+      color: #334155;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    ul.clean-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.clean-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 9.5pt;
+      color: #475569;
+      margin-bottom: 6px;
+      line-height: 1.45;
+    }
+
+    ul.clean-list li strong {
+      color: #0f172a;
+    }
+
+    ul.clean-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    ul.todo-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.todo-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 9.5pt;
+      color: #475569;
+      margin-bottom: 6px;
+      line-height: 1.45;
+    }
+
+    ul.todo-list li strong {
+      color: #0f172a;
+    }
+
+    ul.todo-list li::before {
+      content: "➔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #f59e0b;
+      font-weight: bold;
+    }
+
+    /* Tables */
+    table.styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+      margin: 14px 0;
+      page-break-inside: avoid;
+    }
+
+    table.styled-table th {
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 8.5pt;
+    }
+
+    table.styled-table td {
+      border: 1px solid #e2e8f0;
+      padding: 9px 12px;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    table.styled-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Diagram block */
+    .diagram-box {
+      background-color: #0f172a;
+      color: #38bdf8;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      padding: 14px;
+      border-radius: 8px;
+      line-height: 1.35;
+      margin: 12px 0 18px 0;
+      overflow-x: hidden;
+      white-space: pre;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    <div class="hero-banner">
+      <span class="badge-tag">Executive Summary & Technical Architecture</span>
+      <h1 class="hero-title">Captain Football Tactical System</h1>
+      <p class="hero-subtitle">
+        A clear, end-to-end breakdown of what has been built in the <strong>Captain</strong> application to date, the problems it solves, and the actionable roadmap for the next development phases.
+      </p>
+      <div class="meta-bar">
+        <div>Platform: <strong>Flutter (iOS / Android / Desktop) & Web 3D</strong></div>
+        <div>Intelligence: <strong>Claude 3.5 Sonnet + YOLOv8 Tracking</strong></div>
+        <div>Status: <strong>Production-Ready Foundations + AI Active</strong></div>
+      </div>
+    </div>
+
+    <h2 class="section-header">
+      <span class="dot dot-green"></span>
+      1. What is Captain & What Problem Does It Solve?
+    </h2>
+
+    <div class="feature-card accent-green">
+      <div class="card-lead">
+        Traditional football analysis apps force coaches to choose between two extremes:
+      </div>
+      <p style="font-size: 9.5pt; color: #475569; margin-bottom: 8px;">
+        1. <strong>Flat 2D whiteboards:</strong> Static, unable to show actual player perspectives, blind spots, or passing angles.<br>
+        2. <strong>Expensive video software:</strong> Clunky, disconnected from whiteboard tactics, requiring hours of manual video tagging.
+      </p>
+      <p style="font-size: 9.5pt; color: #0f172a; font-weight: 600;">
+        Captain bridges this divide by providing an all-in-one ecosystem: an interactive 3D tactical pitch with a First-Person "Be The Player" camera, frame-by-frame synchronized match video analysis, live league lineup imports, and automated AI tactical scouting powered by Claude 3.5 Sonnet.
+      </p>
+    </div>
+
+    <div class="diagram-box">
+                      CAPTAIN APPLICATION ARCHITECTURE
+   ┌────────────────────────────────────────────────────────────────────────┐
+   │                       CAPTAIN MAIN DASHBOARD                           │
+   │               (Central 3-Hub Switcher & Navigation)                    │
+   └──────────────┬─────────────────────────┬───────────────────────────────┘
+                  │                         │
+                  ▼                         ▼
+    ┌──────────────────────────┐┌──────────────────────────┐┌──────────────────────────┐
+    │  HUB 1: 3D PLAYGROUND    ││  HUB 2: VIDEO/3D SYNC    ││  HUB 3: SCOUTING & AI    │
+    ├──────────────────────────┤├──────────────────────────┤├──────────────────────────┤
+    │ • 3D Pitch Orbit & Pan   ││ • Dual Synced Playback   ││ • Live League Fixtures   │
+    │ • "Be The Player" POV    ││ • 22 Tracked Players     ││ • Official Lineups       │
+    │ • 5 Preset Formations    ││ • 3D Dynamic Heatmaps    ││ • Iraq Stars League      │
+    │ • Keyframe Play Animator ││ • Passing Risk Corridors ││ • Claude 3.5 AI Advisor  │
+    │ • Supabase Cloud Save    ││ • Bi-directional Scrub  ││ • UEFA Pro Match Reports │
+    └──────────────────────────┘└──────────────────────────┘└──────────────────────────┘</div>
+
+    <div class="footer">
+      <span>Captain Football Tactical System — Confidential</span>
+      <span>Page 1 of 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <h2 class="section-header">
+      <span class="dot dot-blue"></span>
+      2. What Has Been Built (Detailed Features Completed)
+    </h2>
+
+    <!-- Hub 1 -->
+    <div class="feature-card accent-green">
+      <div class="card-title-row">
+        <span class="card-title">Hub 1: 3D Tactical Playground & First-Person POV</span>
+        <span class="badge-pill pill-done">Implemented</span>
+      </div>
+      <div class="card-lead">Built with Flutter 3D and Three.js engines (<code>VirtualPlaygroundScreen.dart</code>)</div>
+      <ul class="clean-list">
+        <li><strong>Interactive 3D Pitch:</strong> Dynamic orbit, pan, pitch tilt, and zoom camera controls around a photorealistic football turf.</li>
+        <li><strong>"Be The Player" First-Person POV:</strong> With one click, the camera drops directly into the chosen player's eye level (1.75 meters) to show coaches what the player actually sees in real match conditions.</li>
+        <li><strong>Formations Engine:</strong> Animated transitions between <code>4-3-3</code>, <code>4-2-3-1</code>, <code>3-5-2</code>, <code>4-4-2</code>, and <code>5-3-2</code>.</li>
+        <li><strong>Tactical Keyframe Sequence Engine:</strong> Coaches record multi-phase plays (e.g. Build-up ➔ Overlap ➔ Cross); the engine automatically interpolates player paths and plays them back smoothly.</li>
+        <li><strong>Supabase Cloud Boards:</strong> Save tactics to the cloud database with full formation parameters.</li>
+      </ul>
+    </div>
+
+    <!-- Hub 2 -->
+    <div class="feature-card accent-blue">
+      <div class="card-title-row">
+        <span class="card-title">Hub 2: AI Video vs. 3D Simulation Sync</span>
+        <span class="badge-pill pill-done">Implemented</span>
+      </div>
+      <div class="card-lead">Frame-accurate sync between match video and 3D space (<code>VideoMatchAnalysisScreen.dart</code>)</div>
+      <ul class="clean-list">
+        <li><strong>Dual-Screen Synchronized Playback:</strong> Real match footage is synchronized with 3D player nodes at 25 FPS.</li>
+        <li><strong>22-Player Tracking Ingestion:</strong> Connects to computer vision models (YOLOv8 + ByteTrack) to trace all 22 player trajectories plus the ball.</li>
+        <li><strong>3D Dynamic Heatmaps:</strong> Visual density clouds rendered directly over the 3D grass showing positional domination.</li>
+        <li><strong>Passing Risk Corridors:</strong> Dynamic color vectors between players showing safe vs. contested passing lanes.</li>
+      </ul>
+    </div>
+
+    <!-- Hub 3 -->
+    <div class="feature-card accent-purple">
+      <div class="card-title-row">
+        <span class="card-title">Hub 3: League Scouting & Claude 3.5 AI Advisor</span>
+        <span class="badge-pill pill-done">Implemented</span>
+      </div>
+      <div class="card-lead">Live data and AI tactical dossiers (<code>LeagueScoutingScreen.dart</code>)</div>
+      <ul class="clean-list">
+        <li><strong>Global & Local Leagues:</strong> Premier League, La Liga, Serie A, Champions League, and the <strong>Iraq Stars League</strong> (Al-Zawraa, Al-Shorta, Al-Quwa Al-Jawiya) with real player rosters.</li>
+        <li><strong>1-Click Squad Ingestion:</strong> Ingest official matchday starting XIs directly onto the 3D tactical pitch.</li>
+        <li><strong>Claude 3.5 Sonnet Scouting Engine:</strong> Generates instant UEFA Pro analysis identifying opponent defensive vulnerabilities, primary offensive threats, recommended counter-tactics, and key players to press.</li>
+        <li><strong>Automated PDF Reports:</strong> Generates high-res tactical reports with Arabic (Cairo font) & English typography.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>Captain Football Tactical System — Confidential</span>
+      <span>Page 2 of 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3 ==================== -->
+  <div class="page">
+    <h2 class="section-header">
+      <span class="dot dot-amber"></span>
+      3. What Needs To Be Done Next (Actionable Roadmap)
+    </h2>
+
+    <p style="font-size: 9.5pt; color: #475569; margin-bottom: 12px;">
+      Here is the prioritized engineering roadmap organized by delivery urgency:
+    </p>
+
+    <!-- Phase 1 Table -->
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Phase & Priority</th>
+          <th style="width: 28%;">Feature / Initiative</th>
+          <th>What It Delivers & Why It Matters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-pill pill-next">Phase 1 • Critical</span></td>
+          <td><strong>Automated Pitch Homography</strong></td>
+          <td>Replaces manual 4-point pitch corner clicks with automated keypoint pitch detection (penalty boxes, center circle) via computer vision so coaches don't have to calibrate videos manually.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-next">Phase 1 • High</span></td>
+          <td><strong>Real-Time Multi-Coach Collaboration</strong></td>
+          <td>Connects Supabase Realtime WebSockets so the head coach and assistant analysts on different iPads/laptops can see player movements and annotations live during halftime talks.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-next">Phase 1 • High</span></td>
+          <td><strong>Offline-First Storage Fallback</strong></td>
+          <td>Provides full local SQLite/Hive caching for saved tactics, formations, and scouting reports so coaches can work on the pitch without Wi-Fi or cellular signal.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-plan">Phase 2 • Medium</span></td>
+          <td><strong>xG & xT Quantitative Analytics</strong></td>
+          <td>Overlays Expected Goals (xG) shot maps and Expected Threat (xT) passing vectors, plus automatic calculation of defensive compactness area (m²).</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-plan">Phase 2 • Medium</span></td>
+          <td><strong>Live Matchday Bench Mode</strong></td>
+          <td>A high-contrast tablet interface for the dugout during matches: 1-touch event logger (fouls, pressing errors) and a quick drag-and-drop substitution impact preview.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-plan">Phase 2 • Planned</span></td>
+          <td><strong>Voiceover Tactical Notes</strong></td>
+          <td>Allows coaches to record short voice memos attached directly to animated keyframe steps for players to listen to before games.</td>
+        </tr>
+        <tr>
+          <td><span class="badge-pill pill-plan">Phase 3 • Long-Term</span></td>
+          <td><strong>Cloud GPU Cluster & App Store Launch</strong></td>
+          <td>Containerized FastAPI + TensorRT backend on AWS/RunPod for rapid 90-minute video processing, followed by iOS App Store and Google Play Store rollout.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="feature-card accent-amber" style="margin-top: 14px;">
+      <div class="card-title" style="margin-bottom: 6px;">How to Read & Share This Project</div>
+      <p style="font-size: 9.2pt; color: #475569; line-height: 1.5;">
+        • <strong>Markdown Version:</strong> Open <code>c:\captin\CAPTAIN_APP_BRIEF.md</code> inside your IDE or GitHub for immediate preview.<br>
+        • <strong>PDF Version:</strong> Open <code>c:\captin\Captain_Tactical_Brief_and_Roadmap.pdf</code> using any PDF viewer (Microsoft Edge, Google Chrome, or Adobe Acrobat Reader).<br>
+        • <strong>Source Code:</strong> The main entry hub is located at <code>c:\captin\lib\screens\captain_main_dashboard.dart</code>.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>Captain Football Tactical System — Confidential</span>
+      <span>Page 3 of 3</span>
+    </div>
+  </div>
+
+</body>
+</html>

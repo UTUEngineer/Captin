@@ -19,6 +19,7 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
+  final _displayNameController = TextEditingController();
   final _teamNameController = TextEditingController();
   var _pageIndex = 0;
   var _language = AppLanguage.arabic;
@@ -29,6 +30,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    _displayNameController.dispose();
     _teamNameController.dispose();
     super.dispose();
   }
@@ -59,7 +61,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             teamName: _teamNameController.text.trim(),
             teamColorValue: _selectedColor,
             coachRole: _selectedRole,
-            displayName: _teamNameController.text.trim(),
+            displayName: _displayNameController.text.trim(),
+            defaultSessionName: _displayNameController.text.trim(),
           ),
         );
 
@@ -134,6 +137,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     FeaturesOnboardingPage(isArabic: _isArabic),
                     SetupOnboardingPage(
                       isArabic: _isArabic,
+                      displayNameController: _displayNameController,
                       teamNameController: _teamNameController,
                       selectedColor: _selectedColor,
                       selectedRole: _selectedRole,

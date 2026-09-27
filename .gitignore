@@ -5,6 +5,11 @@
 *.swp
 .DS_Store
 .env
+supabase/.env
+node_modules/
+supabase/functions/node_modules/
+supabase/.branches/
+supabase/.temp/
 .atom/
 .build/
 .buildlog/
@@ -44,3 +49,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
+

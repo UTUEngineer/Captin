@@ -11,7 +11,11 @@ import 'package:captain/features/tactical_board/domain/pitch_style.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/drawing_toolbar.dart';
 import 'package:captain/features/export/presentation/export_hub_sheet.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/formation_picker_sheet.dart';
+import 'package:captain/features/collaboration/application/collaboration_providers.dart';
+import 'package:captain/features/collaboration/application/pending_collab_join_provider.dart';
 import 'package:captain/features/collaboration/presentation/collaboration_bar.dart';
+import 'package:captain/features/collaboration/presentation/widgets/join_session_dialog.dart';
+import 'package:captain/features/settings/application/app_preferences_notifier.dart';
 import 'package:captain/features/shape_simulation/application/shape_simulation_providers.dart';
 import 'package:captain/features/shape_simulation/presentation/simulation_mode_panel.dart';
 import 'package:captain/features/training/application/training_providers.dart';
@@ -44,6 +48,7 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
   String? _savedTemplateDescription;
   var _isPresentationMode = false;
   var _autosaveRestored = false;
+  var _collaborationBootstrapDone = false;
   Size _canvasSize = Size.zero;
 
   void _openExportSheet() {
@@ -101,6 +106,42 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
     ref.read(tacticalBoardProvider.notifier).syncOrientationWithViewport(
           width: size.width,
           height: size.height,
+        );
+
+    if (!_collaborationBootstrapDone) {
+      _collaborationBootstrapDone = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _handlePendingCollabJoin();
+        _maybeAutoJoinLastSession();
+      });
+    }
+  }
+
+  Future<void> _handlePendingCollabJoin() async {
+    if (!mounted) return;
+    final pendingCode = ref.read(pendingCollabJoinCodeProvider);
+    if (pendingCode == null || pendingCode.trim().isEmpty) return;
+
+    ref.read(pendingCollabJoinCodeProvider.notifier).state = null;
+    await JoinSessionDialog.show(context, initialCode: pendingCode);
+  }
+
+  Future<void> _maybeAutoJoinLastSession() async {
+    if (!mounted) return;
+    final prefs = ref.read(appPreferencesProvider).value;
+    if (prefs == null || !prefs.autoJoinLastSession) return;
+    if (ref.read(collaborationProvider).isInSession) return;
+
+    final code = prefs.lastCollaborationSessionCode.trim();
+    if (code.isEmpty) return;
+
+    final displayName = prefs.displayName.trim().isNotEmpty
+        ? prefs.displayName.trim()
+        : 'Coach';
+
+    await ref.read(collaborationProvider.notifier).joinSession(
+          code: code,
+          displayName: displayName,
         );
   }
 

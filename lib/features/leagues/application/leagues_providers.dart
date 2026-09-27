@@ -1,3 +1,4 @@
+import 'package:captain/core/config/app_config.dart';
 import 'package:captain/core/api/football_api_client.dart';
 import 'package:captain/features/leagues/data/football_api_key_store.dart';
 import 'package:captain/features/leagues/data/leagues_cache_store.dart';
@@ -23,7 +24,7 @@ final footballApiKeyProvider = FutureProvider<String?>((ref) async {
 final footballApiClientProvider = Provider<FootballApiClient?>((ref) {
   final apiKey = ref.watch(footballApiKeyProvider).valueOrNull;
   if (apiKey == null || apiKey.isEmpty) return null;
-  return FootballApiClient(apiKey);
+  return FootballApiClient(apiKey, host: AppConfig.footballApiHost);
 });
 
 final leaguesCacheStoreProvider = FutureProvider<LeaguesCacheStore>((ref) async {
@@ -82,4 +83,13 @@ final teamsProvider =
     leagueId: params.leagueId,
     season: params.season,
   );
+});
+
+final leagueByIdProvider =
+    FutureProvider.family<League?, int>((ref, leagueId) async {
+  final repository = await ref.watch(leaguesRepositoryProvider.future);
+  if (repository == null) {
+    throw StateError('Football API key is not configured.');
+  }
+  return repository.getLeagueById(leagueId);
 });

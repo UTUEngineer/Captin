@@ -8,6 +8,7 @@ class SetupOnboardingPage extends StatelessWidget {
   const SetupOnboardingPage({
     super.key,
     required this.isArabic,
+    required this.displayNameController,
     required this.teamNameController,
     required this.selectedColor,
     required this.selectedRole,
@@ -18,6 +19,7 @@ class SetupOnboardingPage extends StatelessWidget {
   });
 
   final bool isArabic;
+  final TextEditingController displayNameController;
   final TextEditingController teamNameController;
   final int selectedColor;
   final CoachRole selectedRole;
@@ -28,7 +30,7 @@ class SetupOnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,6 +44,15 @@ class SetupOnboardingPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
+          TextField(
+            controller: displayNameController,
+            textDirection: TextDirection.rtl,
+            decoration: InputDecoration(
+              labelText: isArabic ? 'اسمك' : 'Your name',
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 16),
           TextField(
             controller: teamNameController,
             textDirection: TextDirection.rtl,
@@ -100,7 +111,7 @@ class SetupOnboardingPage extends StatelessWidget {
                 ),
             ],
           ),
-          const Spacer(),
+          const SizedBox(height: 32),
           FilledButton(
             onPressed: isSaving ? null : onComplete,
             child: isSaving

@@ -23,8 +23,8 @@ class BackendUnavailableBanner extends StatelessWidget {
         'Start the vision backend:',
         r'cd c:\captin-vision-backend\docker',
         'docker compose up --build',
-        'Then run the app with:',
-        r'flutter run --dart-define=VISION_API_BASE_URL=http://127.0.0.1:8000',
+        'Then set VISION_BACKEND_URL in .env or run:',
+        r'flutter run --dart-define=VISION_BACKEND_URL=http://10.0.2.2:8000',
       ],
     ];
 

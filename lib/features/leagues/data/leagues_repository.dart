@@ -59,4 +59,8 @@ class LeaguesRepository {
   }) {
     return _client.getTeams(leagueId, season);
   }
+
+  Future<League?> getLeagueById(int leagueId) {
+    return _client.getLeagueById(leagueId);
+  }
 }

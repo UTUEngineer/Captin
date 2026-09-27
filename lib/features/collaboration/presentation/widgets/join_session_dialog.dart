@@ -1,14 +1,20 @@
 import 'package:captain/features/collaboration/application/collaboration_providers.dart';
+import 'package:captain/features/settings/application/app_preferences_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class JoinSessionDialog extends ConsumerStatefulWidget {
-  const JoinSessionDialog({super.key});
+  const JoinSessionDialog({super.key, this.initialCode});
 
-  static Future<void> show(BuildContext context) {
+  final String? initialCode;
+
+  static Future<void> show(
+    BuildContext context, {
+    String? initialCode,
+  }) {
     return showDialog<void>(
       context: context,
-      builder: (context) => const JoinSessionDialog(),
+      builder: (context) => JoinSessionDialog(initialCode: initialCode),
     );
   }
 
@@ -17,9 +23,20 @@ class JoinSessionDialog extends ConsumerStatefulWidget {
 }
 
 class _JoinSessionDialogState extends ConsumerState<JoinSessionDialog> {
-  final _codeController = TextEditingController();
-  final _nameController = TextEditingController(text: 'Coach');
+  late final TextEditingController _codeController;
+  late final TextEditingController _nameController;
   var _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final prefs = ref.read(appPreferencesProvider).value;
+    final displayName = prefs?.displayName.trim();
+    _codeController = TextEditingController(text: widget.initialCode ?? '');
+    _nameController = TextEditingController(
+      text: displayName != null && displayName.isNotEmpty ? displayName : 'Coach',
+    );
+  }
 
   @override
   void dispose() {

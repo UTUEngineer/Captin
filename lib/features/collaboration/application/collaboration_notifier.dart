@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:captain/core/config/app_config.dart';
 import 'package:captain/features/collaboration/application/session_manager.dart';
+import 'package:captain/features/settings/application/app_preferences_notifier.dart';
+import 'package:captain/features/settings/domain/app_preferences.dart';
 import 'package:captain/features/collaboration/data/collaboration_event_queue.dart';
 import 'package:captain/features/collaboration/data/collaboration_service.dart';
 import 'package:captain/features/collaboration/domain/collaboration_event.dart';
@@ -167,6 +169,8 @@ class CollaborationNotifier extends StateNotifier<CollaborationState> {
         payload: localCollaborator.toJson(),
       ),
     );
+
+    await _persistLastSessionCode(session.code);
   }
 
   Future<void> joinSession({
@@ -211,6 +215,8 @@ class CollaborationNotifier extends StateNotifier<CollaborationState> {
         payload: localCollaborator.toJson(),
       ),
     );
+
+    await _persistLastSessionCode(session.code);
   }
 
   Future<void> leaveSession() async {
@@ -611,6 +617,14 @@ class CollaborationNotifier extends StateNotifier<CollaborationState> {
         payload: const {},
       ),
     );
+  }
+
+  Future<void> _persistLastSessionCode(String code) async {
+    final current =
+        _ref.read(appPreferencesProvider).value ?? const AppPreferences();
+    await _ref.read(appPreferencesProvider.notifier).savePreferences(
+          current.copyWith(lastCollaborationSessionCode: code),
+        );
   }
 
   int _nowMs() => DateTime.now().millisecondsSinceEpoch;

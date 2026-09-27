@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "كابتن للخطط التكتيكية",
+  "toolsHeader": "أدوات التكتيك",
+  "passTool": "تمرير",
+  "runTool": "تحرك",
+  "pressZoneTool": "منطقة ضغط",
+  "clearBoard": "مسح الملعب",
+  "exportPdf": "تصدير PDF",
+  "distanceCovered": "المسافة: {meters} م",
+  "@distanceCovered": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  }
+}

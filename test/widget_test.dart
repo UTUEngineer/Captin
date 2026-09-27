@@ -29,10 +29,9 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Captain'), findsOneWidget);
-    expect(find.text('Tactical Analysis'), findsOneWidget);
+    expect(find.textContaining('CAPTAIN'), findsWidgets);
 
-    await tester.pump(const Duration(seconds: 2));
+    await tester.tap(find.text('دخول التطبيق'));
     await tester.pumpAndSettle();
 
     expect(find.text('New Tactical Board'), findsOneWidget);

@@ -1,4 +1,5 @@
 import 'package:captain/core/theme/app_colors.dart';
+import 'package:captain/features/leagues/application/leagues_providers.dart';
 import 'package:captain/features/leagues/domain/league.dart';
 import 'package:captain/features/leagues/presentation/widgets/fixtures_tab.dart';
 import 'package:captain/features/leagues/presentation/widgets/standings_tab.dart';
@@ -79,6 +80,40 @@ class _LeagueDetailScreenState extends ConsumerState<LeagueDetailScreen>
           ],
         ),
       ),
+    );
+  }
+}
+
+class LeagueByIdScreen extends ConsumerWidget {
+  const LeagueByIdScreen({super.key, required this.leagueId});
+
+  final int leagueId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final leagueAsync = ref.watch(leagueByIdProvider(leagueId));
+
+    return leagueAsync.when(
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, _) => Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text('$error'),
+          ),
+        ),
+      ),
+      data: (league) {
+        if (league == null) {
+          return const Scaffold(
+            body: Center(child: Text('League not found')),
+          );
+        }
+        return LeagueDetailScreen(league: league);
+      },
     );
   }
 }

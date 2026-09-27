@@ -1,0 +1,15 @@
+{
+  "name": "captain-supabase-functions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/server": "^0.1.0",
+    "@supabase/supabase-js": "^2.49.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}

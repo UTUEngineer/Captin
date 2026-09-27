@@ -94,6 +94,16 @@ class _RecentAnalysisCard extends StatelessWidget {
                 ),
               ),
               const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              IconButton(
+                tooltip: 'Scouting report',
+                onPressed: () => context.push(
+                  AppRoutes.scoutingReportForVideo(entry.videoId),
+                ),
+                icon: const Icon(
+                  Icons.analytics_outlined,
+                  color: AppColors.textSecondary,
+                ),
+              ),
             ],
           ),
         ),

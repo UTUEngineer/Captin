@@ -1,4 +1,5 @@
 import 'package:captain/features/collaboration/application/collaboration_providers.dart';
+import 'package:captain/features/settings/application/app_preferences_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,8 +18,27 @@ class StartSessionDialog extends ConsumerStatefulWidget {
 }
 
 class _StartSessionDialogState extends ConsumerState<StartSessionDialog> {
-  final _controller = TextEditingController(text: 'Coach');
+  late final TextEditingController _controller;
   var _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _defaultName());
+  }
+
+  String _defaultName() {
+    final prefs = ref.read(appPreferencesProvider).value;
+    if (prefs == null) return 'Coach';
+
+    final displayName = prefs.displayName.trim();
+    if (displayName.isNotEmpty) return displayName;
+
+    final sessionName = prefs.defaultSessionName.trim();
+    if (sessionName.isNotEmpty) return sessionName;
+
+    return 'Coach';
+  }
 
   @override
   void dispose() {
