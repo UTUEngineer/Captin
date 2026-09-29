@@ -28,7 +28,19 @@ import 'package:captain/features/video_analysis/presentation/video_calibration_s
 
 import 'package:captain/features/video_analysis/presentation/video_processing_screen.dart';
 
+import 'package:captain/screens/captain_hub_screen.dart';
 import 'package:captain/screens/captain_main_dashboard.dart';
+import 'package:captain/screens/captain_stadium_login_screen.dart';
+import 'package:captain/screens/live_match_dashboard_screen.dart';
+import 'package:captain/screens/post_match_report_screen.dart';
+import 'package:captain/screens/squad_leaderboard_screen.dart';
+import 'package:captain/screens/tactics_hub_screen.dart';
+import 'package:captain/screens/playground_3d_hub_screen.dart';
+import 'package:captain/screens/leagues_scouting_hub_screen.dart';
+import 'package:captain/screens/play_sequence_screen.dart';
+import 'package:captain/features/tactics/tactical_3d_pitch_board.dart';
+import 'package:captain/features/scouting/player_profile_screen.dart';
+import 'package:captain/features/scouting/dynamic_player_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -39,6 +51,22 @@ abstract final class AppRoutes {
   static const home = '/home';
 
   static const dashboard = '/dashboard';
+
+  static const hub = '/hub';
+
+  static const stadiumLogin = '/stadium_login';
+
+  static const liveMatchDashboard = '/live_match_dashboard';
+
+  static const postMatchReport = '/post_match_report';
+
+  static const squadLeaderboard = '/squad_leaderboard';
+
+  static const tactics = '/tactics';
+
+  static const playground3d = '/playground_3d';
+
+  static const leaguesScouting = '/leagues_scouting';
 
   static const tacticalBoard = '/tactical-board';
 
@@ -113,6 +141,90 @@ final GoRouter appRouter = GoRouter(
 
       builder: (context, state) => const CaptainMainDashboard(),
 
+    ),
+
+    GoRoute(
+
+      path: AppRoutes.hub,
+      name: AppRoutes.hub,
+
+      builder: (context, state) => const CaptainHubScreen(),
+
+    ),
+
+    GoRoute(
+      path: AppRoutes.stadiumLogin,
+      name: AppRoutes.stadiumLogin,
+      builder: (context, state) => const CaptainStadiumLoginScreen(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.liveMatchDashboard,
+      name: AppRoutes.liveMatchDashboard,
+      builder: (context, state) => const LiveMatchDashboardScreen(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.postMatchReport,
+      name: AppRoutes.postMatchReport,
+      builder: (context, state) => const PostMatchReportScreen(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.squadLeaderboard,
+      name: AppRoutes.squadLeaderboard,
+      builder: (context, state) => const SquadLeaderboardScreen(),
+    ),
+
+    GoRoute(
+
+      path: AppRoutes.tactics,
+      name: AppRoutes.tactics,
+
+      builder: (context, state) => const TacticsHubScreen(),
+
+    ),
+
+    GoRoute(
+
+      path: AppRoutes.playground3d,
+      name: AppRoutes.playground3d,
+
+      builder: (context, state) => const Playground3DHubScreen(),
+
+    ),
+
+    GoRoute(
+
+      path: AppRoutes.leaguesScouting,
+      name: AppRoutes.leaguesScouting,
+
+      builder: (context, state) => const LeaguesScoutingHubScreen(),
+
+    ),
+
+    GoRoute(
+      path: '/tactical_3d_engine',
+      name: '/tactical_3d_engine',
+      builder: (context, state) => const Tactical3DBoardScreen(),
+    ),
+
+    GoRoute(
+      path: '/play_sequence',
+      name: '/play_sequence',
+      builder: (context, state) => const KeyframeSequencePlaygroundScreen(),
+    ),
+
+    GoRoute(
+      path: '/player_profile',
+      name: '/player_profile',
+      builder: (context, state) => const PlayerProfileScreen(),
+    ),
+
+    GoRoute(
+      path: '/scouting_dynamic',
+      name: '/scouting_dynamic',
+      builder: (context, state) => const DynamicPlayerProfileScreen(playerId: 'sample-123'),
     ),
 
     GoRoute(
