@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -155,10 +156,10 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
         decoration: BoxDecoration(
           color: const Color(0xFF09182D),
           borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.4)),
+          border: Border.all(color: AppColors.info.withValues(alpha: 0.4)),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF06B6D4).withValues(alpha: 0.25),
+              color: AppColors.info.withValues(alpha: 0.25),
               blurRadius: 40,
               spreadRadius: 2,
             ),
@@ -257,11 +258,11 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
   Widget _buildHeader(DetailedPlayerProfile p) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF0C233F), Color(0xFF09182D), Color(0xFF0C233F)],
         ),
-        border: Border(bottom: BorderSide(color: Colors.white12)),
+        border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -274,11 +275,11 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 height: 56,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
-                  color: const Color(0xFFFBBF24),
+                  color: AppColors.gold,
                   border: Border.all(color: const Color(0xFFFDE68A), width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFBBF24).withValues(alpha: 0.4),
+                      color: AppColors.gold.withValues(alpha: 0.4),
                       blurRadius: 16,
                     ),
                   ],
@@ -302,8 +303,8 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                     children: [
                       Text(
                         p.name,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.w900,
                         ),
@@ -312,9 +313,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF06B6D4).withValues(alpha: 0.2),
+                          color: AppColors.info.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.4)),
+                          border: Border.all(color: AppColors.info.withValues(alpha: 0.4)),
                         ),
                         child: Text(
                           p.role,
@@ -330,14 +331,14 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFBBF24).withValues(alpha: 0.2),
+                            color: AppColors.gold.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: const Color(0xFFFBBF24).withValues(alpha: 0.4)),
+                            border: Border.all(color: AppColors.gold.withValues(alpha: 0.4)),
                           ),
                           child: Text(
                             '★ ${p.mvpAwards} MVP Awards',
                             style: const TextStyle(
-                              color: Color(0xFFFCD34D),
+                              color: AppColors.gold,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -349,7 +350,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                   const SizedBox(height: 4),
                   Text(
                     '${p.team} • ${p.age} yrs • ${p.dominantFoot}-Footed',
-                    style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                   ),
                 ],
               ),
@@ -364,10 +365,10 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 Navigator.of(context).pop();
               }
             },
-            icon: const Icon(Icons.close_rounded, color: Colors.white70, size: 20),
+            icon: Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFF0F172A),
-              side: const BorderSide(color: Colors.white12),
+              backgroundColor: AppColors.background,
+              side: BorderSide(color: AppColors.border),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
           ),
@@ -391,7 +392,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
             title: 'MATCH RATING AVG',
             value: p.avgRating.toStringAsFixed(2),
             subtitle: 'Ranked #1 in Squad',
-            valueColor: const Color(0xFF10B981),
+            valueColor: AppColors.primary,
           ),
         ),
         const SizedBox(width: 10),
@@ -403,12 +404,12 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 children: [
                   TextSpan(
                     text: '${p.totalGoals}G ',
-                    style: const TextStyle(color: Color(0xFF06B6D4), fontSize: 18, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                    style: const TextStyle(color: AppColors.info, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                   ),
-                  const TextSpan(text: '+ ', style: TextStyle(color: Colors.white38, fontSize: 14)),
+                  TextSpan(text: '+ ', style: TextStyle(color: AppColors.textMuted, fontSize: 14)),
                   TextSpan(
                     text: '${p.totalAssists}A',
-                    style: const TextStyle(color: Color(0xFF10B981), fontSize: 18, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                    style: TextStyle(color: AppColors.primary, fontSize: 18, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                   ),
                 ],
               ),
@@ -430,7 +431,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
             title: 'CLEAN DISCIPLINE',
             value: '${p.cleanMatchesPercent}%',
             subtitle: p.redCards == 0 ? 'Zero Red Cards' : '${p.redCards} Red Cards',
-            valueColor: const Color(0xFFFCD34D),
+            valueColor: AppColors.gold,
           ),
         ),
       ],
@@ -447,17 +448,17 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1F38).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Colors.white38,
+            style: TextStyle(
+              color: AppColors.textMuted,
               fontSize: 9,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.8,
@@ -477,7 +478,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           const SizedBox(height: 2),
           Text(
             subtitle,
-            style: const TextStyle(color: Colors.white54, fontSize: 10),
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 10),
           ),
         ],
       ),
@@ -491,9 +492,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1F38).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
@@ -506,7 +507,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                   const Text(
                     'RATING PROGRESSION',
                     style: TextStyle(
-                      color: Color(0xFF06B6D4),
+                      color: AppColors.info,
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.2,
@@ -515,7 +516,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                   const SizedBox(height: 2),
                   Text(
                     'Performance arc across last ${p.history.length} league matches',
-                    style: const TextStyle(color: Colors.white38, fontSize: 11),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                   ),
                 ],
               ),
@@ -534,7 +535,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                     ),
                     Text(
                       _hoveredMatch!.fixture,
-                      style: const TextStyle(color: Colors.white38, fontSize: 9),
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 9),
                     ),
                   ],
                 ),
@@ -565,15 +566,15 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
             children: [
               Text(
                 p.history.isNotEmpty ? p.history.last.date : '',
-                style: const TextStyle(color: Colors.white38, fontSize: 9, fontFamily: 'monospace'),
+                style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontFamily: 'monospace'),
               ),
-              const Text(
+              Text(
                 'SEASON PROGRESSION',
-                style: TextStyle(color: Colors.white24, fontSize: 9, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.bold),
               ),
               Text(
                 p.history.isNotEmpty ? p.history.first.date : '',
-                style: const TextStyle(color: Colors.white38, fontSize: 9, fontFamily: 'monospace'),
+                style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontFamily: 'monospace'),
               ),
             ],
           ),
@@ -589,9 +590,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1F38).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -599,7 +600,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           const Text(
             'TACTICAL PROFILE ATTRIBUTES',
             style: TextStyle(
-              color: Color(0xFF06B6D4),
+              color: AppColors.info,
               fontSize: 10,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
@@ -630,7 +631,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           children: [
             Text(
               label,
-              style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.bold),
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
             ),
             Text(
               '$value',
@@ -648,9 +649,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           height: 6,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: const Color(0xFF0F172A),
+            color: AppColors.background,
             borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: Colors.white12),
+            border: Border.all(color: AppColors.border),
           ),
           child: FractionallySizedBox(
             alignment: Alignment.centerLeft,
@@ -658,8 +659,8 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF06B6D4), Color(0xFF10B981)],
+                gradient: LinearGradient(
+                  colors: [AppColors.info, AppColors.primary],
                 ),
               ),
             ),
@@ -680,9 +681,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1F38).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -690,16 +691,16 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           const Text(
             'DISCIPLINARY STATUS',
             style: TextStyle(
-              color: Color(0xFFFCD34D),
+              color: AppColors.gold,
               fontSize: 10,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
             ),
           ),
           const SizedBox(height: 2),
-          const Text(
+          Text(
             'Fair play and referee bookings log',
-            style: TextStyle(color: Colors.white38, fontSize: 11),
+            style: TextStyle(color: AppColors.textMuted, fontSize: 11),
           ),
           const SizedBox(height: 14),
 
@@ -709,9 +710,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A),
+                    color: AppColors.background,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.white12),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Row(
                     children: [
@@ -719,7 +720,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         width: 16,
                         height: 22,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFBBF24),
+                          color: AppColors.gold,
                           borderRadius: BorderRadius.circular(3),
                           border: Border.all(color: const Color(0xFFFDE68A)),
                         ),
@@ -730,9 +731,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         children: [
                           Text(
                             '${p.yellowCards}',
-                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                            style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                           ),
-                          const Text('YELLOWS', style: TextStyle(color: Colors.white38, fontSize: 8, fontWeight: FontWeight.bold)),
+                          Text('YELLOWS', style: TextStyle(color: AppColors.textMuted, fontSize: 8, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -744,9 +745,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A),
+                    color: AppColors.background,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.white12),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Row(
                     children: [
@@ -754,7 +755,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         width: 16,
                         height: 22,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE11D48),
+                          color: AppColors.danger,
                           borderRadius: BorderRadius.circular(3),
                           border: Border.all(color: const Color(0xFFFDA4AF)),
                         ),
@@ -765,9 +766,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         children: [
                           Text(
                             '${p.redCards}',
-                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                            style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                           ),
-                          const Text('REDS', style: TextStyle(color: Colors.white38, fontSize: 8, fontWeight: FontWeight.bold)),
+                          Text('REDS', style: TextStyle(color: AppColors.textMuted, fontSize: 8, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -784,15 +785,15 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
             decoration: BoxDecoration(
               color: Colors.black26,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white12),
+              border: Border.all(color: AppColors.border),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Fouls Committed:', style: TextStyle(color: Colors.white60, fontSize: 11)),
+                Text('Fouls Committed:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                 Text(
                   '${p.totalFouls} (${foulsPerGame.toStringAsFixed(1)} / game)',
-                  style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                 ),
               ],
             ),
@@ -809,9 +810,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1F38).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -819,7 +820,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
           const Text(
             'RECENT MATCH LOG',
             style: TextStyle(
-              color: Color(0xFF06B6D4),
+              color: AppColors.info,
               fontSize: 10,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
@@ -836,9 +837,9 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A).withValues(alpha: 0.8),
+                    color: AppColors.background.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white12),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -847,17 +848,17 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                         children: [
                           Text(
                             entry.date,
-                            style: const TextStyle(color: Colors.white38, fontSize: 10, fontFamily: 'monospace'),
+                            style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontFamily: 'monospace'),
                           ),
                           const SizedBox(width: 10),
                           Text(
                             entry.fixture,
-                            style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w900),
+                            style: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w900),
                           ),
                           const SizedBox(width: 6),
                           Text(
                             '(${entry.minutes}\')',
-                            style: const TextStyle(color: Colors.white38, fontSize: 9, fontFamily: 'monospace'),
+                            style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontFamily: 'monospace'),
                           ),
                         ],
                       ),
@@ -868,7 +869,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                               padding: const EdgeInsets.only(right: 8),
                               child: Text(
                                 '${entry.goals > 0 ? '⚽ ${entry.goals} ' : ''}${entry.assists > 0 ? '🎯 ${entry.assists}' : ''}',
-                                style: const TextStyle(color: Color(0xFF10B981), fontSize: 10, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold),
                               ),
                             ),
                           if (entry.yellowCard)
@@ -877,7 +878,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                               height: 12,
                               margin: const EdgeInsets.only(right: 4),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFFBBF24),
+                                color: AppColors.gold,
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),
@@ -887,7 +888,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                               height: 12,
                               margin: const EdgeInsets.only(right: 4),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFE11D48),
+                                color: AppColors.danger,
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),
@@ -896,17 +897,17 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
                               color: entry.rating >= 8.5
-                                  ? const Color(0xFF10B981).withValues(alpha: 0.2)
+                                  ? AppColors.primary.withValues(alpha: 0.2)
                                   : entry.rating >= 7.5
-                                      ? const Color(0xFF06B6D4).withValues(alpha: 0.2)
-                                      : const Color(0xFF1E293B),
+                                      ? AppColors.info.withValues(alpha: 0.2)
+                                      : AppColors.surfaceElevated,
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(
                                 color: entry.rating >= 8.5
-                                    ? const Color(0xFF10B981)
+                                    ? AppColors.primary
                                     : entry.rating >= 7.5
-                                        ? const Color(0xFF06B6D4)
-                                        : Colors.white12,
+                                        ? AppColors.info
+                                        : AppColors.border,
                               ),
                             ),
                             child: Text(
@@ -916,7 +917,7 @@ class _PlayerProfileModalState extends State<PlayerProfileModal> {
                                     ? const Color(0xFF6EE7B7)
                                     : entry.rating >= 7.5
                                         ? const Color(0xFF67E8F9)
-                                        : Colors.white70,
+                                        : AppColors.textSecondary,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w900,
                                 fontFamily: 'monospace',
@@ -1007,8 +1008,8 @@ class SparklineGraphPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        const Color(0xFF06B6D4).withValues(alpha: 0.35),
-        const Color(0xFF06B6D4).withValues(alpha: 0.0),
+        AppColors.info.withValues(alpha: 0.35),
+        AppColors.info.withValues(alpha: 0.0),
       ],
     );
 
@@ -1020,7 +1021,7 @@ class SparklineGraphPainter extends CustomPainter {
 
     // Line Stroke
     final linePaint = Paint()
-      ..color = const Color(0xFF06B6D4)
+      ..color = AppColors.info
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -1033,12 +1034,12 @@ class SparklineGraphPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final dotBorderPaint = Paint()
-      ..color = const Color(0xFF06B6D4)
+      ..color = AppColors.info
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
     final hoveredBorderPaint = Paint()
-      ..color = const Color(0xFF38BDF8)
+      ..color = AppColors.info
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 

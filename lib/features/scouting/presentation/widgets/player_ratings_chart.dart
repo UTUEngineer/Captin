@@ -60,7 +60,7 @@ class PlayerRatingsChart extends StatelessWidget {
                     value: fraction,
                     minHeight: 8,
                     backgroundColor: AppColors.border,
-                    color: const Color(0xFF00C853),
+                    color: AppColors.primary,
                   ),
                 ),
               ],

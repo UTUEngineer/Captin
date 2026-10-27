@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,11 +89,11 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
     final asyncSquad = ref.watch(squadLeaderboardProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF061120),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: asyncSquad.when(
           loading: () => const Center(
-            child: CircularProgressIndicator(color: Color(0xFF06B6D4)),
+            child: CircularProgressIndicator(color: AppColors.info),
           ),
           error: (err, stack) => _buildMainLayout(kDefaultSquadData),
           data: (squad) => _buildMainLayout(squad),
@@ -187,10 +188,10 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                       context.go('/hub');
                     }
                   },
-                  icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70, size: 20),
+                  icon: Icon(Icons.arrow_back_rounded, color: AppColors.textSecondary, size: 20),
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(0xFF0B1C33),
-                    side: const BorderSide(color: Colors.white12),
+                    backgroundColor: AppColors.background,
+                    side: BorderSide(color: AppColors.border),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
@@ -204,7 +205,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                           width: 8,
                           height: 8,
                           decoration: const BoxDecoration(
-                            color: Color(0xFF06B6D4),
+                            color: AppColors.info,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -212,7 +213,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                         const Text(
                           'SEASON 2026/27',
                           style: TextStyle(
-                            color: Color(0xFF06B6D4),
+                            color: AppColors.info,
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.5,
@@ -221,10 +222,10 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                       ],
                     ),
                     const SizedBox(height: 2),
-                    const Text(
+                    Text(
                       'SQUAD PERFORMANCE LEADERBOARD',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -242,7 +243,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
               decoration: BoxDecoration(
                 color: const Color(0xFF0A192F).withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.white12),
+                border: Border.all(color: AppColors.border),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -285,16 +286,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF06B6D4).withValues(alpha: 0.2)
+              ? AppColors.info.withValues(alpha: 0.2)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFF06B6D4) : Colors.transparent,
+            color: isSelected ? AppColors.info : Colors.transparent,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: const Color(0xFF06B6D4).withValues(alpha: 0.3),
+                    color: AppColors.info.withValues(alpha: 0.3),
                     blurRadius: 12,
                   ),
                 ]
@@ -303,7 +304,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? const Color(0xFF67E8F9) : Colors.white54,
+            color: isSelected ? const Color(0xFF67E8F9) : AppColors.textSecondary,
             fontSize: 11,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.3,
@@ -330,9 +331,9 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1C33).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
@@ -342,7 +343,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
               const Text(
                 'PODIUM STANDINGS',
                 style: TextStyle(
-                  color: Color(0xFF06B6D4),
+                  color: AppColors.info,
                   fontSize: 10,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.2,
@@ -351,8 +352,8 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
               const SizedBox(height: 4),
               Text(
                 titleText,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
                 ),
@@ -374,13 +375,13 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                       rank: 2,
                       metricText: _getMetricValue(second),
                       pillarHeight: 110,
-                      borderColor: const Color(0xFF94A3B8),
-                      pillarGradient: const LinearGradient(
+                      borderColor: AppColors.textSecondary,
+                      pillarGradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
-                        colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+                        colors: [AppColors.background, AppColors.surfaceElevated],
                       ),
-                      rankTextColor: const Color(0xFF94A3B8),
+                      rankTextColor: AppColors.textSecondary,
                     ),
                   ),
 
@@ -395,16 +396,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                       metricText: _getMetricValue(first),
                       pillarHeight: 145,
                       isGold: true,
-                      borderColor: const Color(0xFFFBBF24),
+                      borderColor: AppColors.gold,
                       pillarGradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          const Color(0xFFFBBF24).withValues(alpha: 0.2),
-                          const Color(0xFFFBBF24).withValues(alpha: 0.4),
+                          AppColors.gold.withValues(alpha: 0.2),
+                          AppColors.gold.withValues(alpha: 0.4),
                         ],
                       ),
-                      rankTextColor: const Color(0xFFFCD34D),
+                      rankTextColor: AppColors.gold,
                     ),
                   ),
 
@@ -419,10 +420,10 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                       metricText: _getMetricValue(third),
                       pillarHeight: 85,
                       borderColor: const Color(0xFFB45309),
-                      pillarGradient: const LinearGradient(
+                      pillarGradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
-                        colors: [Color(0xFF0F172A), Color(0xFF451A03)],
+                        colors: [AppColors.background, Color(0xFF451A03)],
                       ),
                       rankTextColor: const Color(0xFFD97706),
                     ),
@@ -439,13 +440,13 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
             decoration: BoxDecoration(
               color: Colors.black26,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white12),
+              border: Border.all(color: AppColors.border),
             ),
             child: Text(
               'Ratings calibrated across $totalApps squad appearances.',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white54,
+              style: TextStyle(
+                color: AppColors.textSecondary,
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
               ),
@@ -484,12 +485,12 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
           height: isGold ? 48 : 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isGold ? const Color(0xFFFBBF24) : const Color(0xFF1E293B),
+            color: isGold ? AppColors.gold : AppColors.surfaceElevated,
             border: Border.all(color: borderColor, width: 2),
             boxShadow: isGold
                 ? [
                     BoxShadow(
-                      color: const Color(0xFFFBBF24).withValues(alpha: 0.5),
+                      color: AppColors.gold.withValues(alpha: 0.5),
                       blurRadius: 16,
                     ),
                   ]
@@ -499,7 +500,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
             child: Text(
               '#${player.number}',
               style: TextStyle(
-                color: isGold ? const Color(0xFF0F172A) : Colors.white,
+                color: isGold ? const Color(0xFF0F172A) : AppColors.textPrimary,
                 fontWeight: FontWeight.w900,
                 fontSize: isGold ? 15 : 13,
               ),
@@ -516,7 +517,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isGold ? Colors.white : Colors.white70,
+            color: isGold ? AppColors.textPrimary : AppColors.textSecondary,
             fontSize: isGold ? 12 : 11,
             fontWeight: FontWeight.w900,
           ),
@@ -526,7 +527,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
         Text(
           metricText,
           style: TextStyle(
-            color: isGold ? const Color(0xFFFCD34D) : const Color(0xFF67E8F9),
+            color: isGold ? AppColors.gold : const Color(0xFF67E8F9),
             fontSize: 11,
             fontWeight: FontWeight.w900,
           ),
@@ -551,7 +552,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
             boxShadow: isGold
                 ? [
                     BoxShadow(
-                      color: const Color(0xFFFBBF24).withValues(alpha: 0.2),
+                      color: AppColors.gold.withValues(alpha: 0.2),
                       blurRadius: 20,
                     ),
                   ]
@@ -581,9 +582,9 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1C33).withValues(alpha: 0.7),
+        color: AppColors.background.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
@@ -593,11 +594,11 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'COMPLETE SQUAD STANDINGS',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 14,
                       fontWeight: FontWeight.w900,
                     ),
@@ -605,16 +606,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                   SizedBox(height: 2),
                   Text(
                     'All registered squad players across verified match shifts',
-                    style: TextStyle(color: Colors.white38, fontSize: 11),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                   ),
                 ],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF06B6D4).withValues(alpha: 0.15),
+                  color: AppColors.info.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
                 ),
                 child: Text(
                   '${sortedSquad.length} Players',
@@ -633,23 +634,23 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
           // Table Columns Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white12)),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: AppColors.border)),
             ),
             child: Row(
-              children: const [
+              children: [
                 SizedBox(
                   width: 36,
                   child: Text(
                     'RANK',
-                    style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w900),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Expanded(
                   flex: 4,
                   child: Text(
                     'PLAYER',
-                    style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w900),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Expanded(
@@ -657,7 +658,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                   child: Text(
                     'APPS',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w900),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Expanded(
@@ -665,7 +666,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                   child: Text(
                     'G / A',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w900),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Expanded(
@@ -673,7 +674,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                   child: Text(
                     'AVG RATING',
                     textAlign: TextAlign.right,
-                    style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w900),
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w900),
                   ),
                 ),
               ],
@@ -700,16 +701,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     decoration: BoxDecoration(
                       color: isFirst
-                          ? const Color(0xFFFBBF24).withValues(alpha: 0.1)
+                          ? AppColors.gold.withValues(alpha: 0.1)
                           : isTopThree
-                              ? const Color(0xFF06B6D4).withValues(alpha: 0.08)
+                              ? AppColors.info.withValues(alpha: 0.08)
                               : Colors.black26,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: isFirst
-                            ? const Color(0xFFFBBF24).withValues(alpha: 0.4)
+                            ? AppColors.gold.withValues(alpha: 0.4)
                             : isTopThree
-                                ? const Color(0xFF06B6D4).withValues(alpha: 0.3)
+                                ? AppColors.info.withValues(alpha: 0.3)
                                 : Colors.white.withValues(alpha: 0.05),
                       ),
                     ),
@@ -727,7 +728,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                                         ? '🥉'
                                         : '#$rank',
                             style: TextStyle(
-                              color: isTopThree ? Colors.white : Colors.white38,
+                              color: isTopThree ? AppColors.textPrimary : AppColors.textMuted,
                               fontSize: rank <= 3 ? 14 : 11,
                               fontWeight: FontWeight.w900,
                               fontFamily: rank > 3 ? 'monospace' : null,
@@ -745,16 +746,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                                 height: 26,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(0xFF1E293B),
+                                  color: AppColors.surfaceElevated,
                                   border: Border.all(
-                                    color: isFirst ? const Color(0xFFFBBF24) : const Color(0xFF06B6D4).withValues(alpha: 0.5),
+                                    color: isFirst ? AppColors.gold : AppColors.info.withValues(alpha: 0.5),
                                   ),
                                 ),
                                 child: Center(
                                   child: Text(
                                     '${player.number}',
                                     style: TextStyle(
-                                      color: isFirst ? const Color(0xFFFCD34D) : const Color(0xFF67E8F9),
+                                      color: isFirst ? AppColors.gold : const Color(0xFF67E8F9),
                                       fontSize: 10,
                                       fontWeight: FontWeight.w900,
                                     ),
@@ -771,16 +772,16 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                                       player.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      style: TextStyle(
+                                        color: AppColors.textPrimary,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w900,
                                       ),
                                     ),
                                     Text(
                                       player.role,
-                                      style: const TextStyle(
-                                        color: Colors.white38,
+                                      style: TextStyle(
+                                        color: AppColors.textMuted,
                                         fontSize: 9,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -798,8 +799,8 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                           child: Text(
                             '${player.appearances}',
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white54,
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'monospace',
@@ -823,14 +824,14 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                                     fontFamily: 'monospace',
                                   ),
                                 ),
-                                const TextSpan(
+                                TextSpan(
                                   text: ' / ',
-                                  style: TextStyle(color: Colors.white24, fontSize: 11),
+                                  style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                                 ),
                                 TextSpan(
                                   text: '${player.assists}',
-                                  style: const TextStyle(
-                                    color: Colors.white70,
+                                  style: TextStyle(
+                                    color: AppColors.textSecondary,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'monospace',
@@ -849,7 +850,7 @@ class _SquadLeaderboardScreenState extends ConsumerState<SquadLeaderboardScreen>
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               color: player.avgRating >= 8.0
-                                  ? const Color(0xFF10B981)
+                                  ? AppColors.primary
                                   : const Color(0xFF67E8F9),
                               fontSize: 13,
                               fontWeight: FontWeight.w900,

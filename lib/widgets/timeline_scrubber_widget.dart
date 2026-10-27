@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TimelineScrubberWidget extends StatefulWidget {
@@ -45,7 +46,7 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withValues(alpha: 0.85), // Dark Slate Glass
+        color: AppColors.background.withValues(alpha: 0.85), // Dark Slate Glass
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
         boxShadow: [
@@ -66,7 +67,7 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
               IconButton(
                 icon: Icon(
                   widget.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
-                  color: const Color(0xFF38BDF8), // Sky Blue Accent
+                  color: AppColors.info, // Sky Blue Accent
                   size: 36,
                 ),
                 onPressed: widget.onTogglePlayPause,
@@ -81,8 +82,8 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
                 ),
                 child: Text(
                   "${_formatTimestamp(widget.currentFrame)} / ${_formatTimestamp(widget.totalFrames)}",
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
                     fontSize: 12,
                     fontFamily: 'monospace',
                     fontWeight: FontWeight.bold,
@@ -96,12 +97,12 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
               Expanded(
                 child: SliderTheme(
                   data: SliderTheme.of(context).copyWith(
-                    activeTrackColor: const Color(0xFF38BDF8),
-                    inactiveTrackColor: Colors.white24,
+                    activeTrackColor: AppColors.info,
+                    inactiveTrackColor: AppColors.textMuted,
                     trackHeight: 4.0,
-                    thumbColor: Colors.white,
+                    thumbColor: AppColors.textPrimary,
                     thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
-                    overlayColor: const Color(0xFF38BDF8).withValues(alpha: 0.3),
+                    overlayColor: AppColors.info.withValues(alpha: 0.3),
                     overlayShape: const RoundSliderOverlayShape(overlayRadius: 16.0),
                   ),
                   child: Slider(
@@ -122,19 +123,19 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
                 initialValue: widget.playbackSpeed,
                 tooltip: "سرعة العرض",
                 onSelected: widget.onSpeedChanged,
-                color: const Color(0xFF1E293B),
+                color: AppColors.surfaceElevated,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.white12),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Text(
                     "${widget.playbackSpeed}x",
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -210,7 +211,7 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
       value: speed,
       child: Text(
         "${speed}x",
-        style: const TextStyle(color: Colors.white, fontSize: 13),
+        style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
       ),
     );
   }
@@ -221,7 +222,7 @@ class _TimelineScrubberWidgetState extends State<TimelineScrubberWidget> {
     required VoidCallback onPressed,
   }) {
     return IconButton(
-      icon: Icon(icon, color: Colors.white70, size: 20),
+      icon: Icon(icon, color: AppColors.textSecondary, size: 20),
       tooltip: tooltip,
       onPressed: onPressed,
       splashRadius: 18,

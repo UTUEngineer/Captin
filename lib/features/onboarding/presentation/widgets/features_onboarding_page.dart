@@ -91,7 +91,7 @@ class _FeaturesOnboardingPageState extends State<FeaturesOnboardingPage>
           Expanded(
             child: ListView.separated(
               itemCount: OnboardingFeature.values.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final feature = OnboardingFeature.values[index];
                 final isActive = _activeFeature == feature;
@@ -135,9 +135,9 @@ class _FeaturesOnboardingPageState extends State<FeaturesOnboardingPage>
                             if (isActive)
                               FadeTransition(
                                 opacity: _demoController,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.play_circle_outline,
-                                  color: AppColors.pitchGreenLight,
+                                  color: AppColors.primary,
                                 ),
                               ),
                           ],

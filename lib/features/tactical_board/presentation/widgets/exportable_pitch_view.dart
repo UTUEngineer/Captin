@@ -124,7 +124,7 @@ class ExportablePitchView extends StatelessWidget {
                     ),
                     child: Text(
                       note.text,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,

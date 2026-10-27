@@ -8,7 +8,11 @@ import 'package:captain/features/tactical_board/application/board_autosave_contr
 import 'package:captain/features/tactical_board/application/tactical_board_notifier.dart';
 import 'package:captain/features/tactical_board/domain/pitch_orientation.dart';
 import 'package:captain/features/tactical_board/domain/pitch_style.dart';
-import 'package:captain/features/tactical_board/presentation/widgets/drawing_toolbar.dart';
+import 'package:captain/features/tactical_board/application/tactic_playback.dart';
+import 'package:captain/features/tactical_board/domain/board_tool.dart';
+import 'package:captain/features/tactical_board/presentation/widgets/board_3d_view.dart';
+import 'package:captain/features/tactical_board/presentation/widgets/board_toolkit.dart';
+import 'package:captain/features/tactical_board/presentation/widgets/playback_bar.dart';
 import 'package:captain/features/export/presentation/export_hub_sheet.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/formation_picker_sheet.dart';
 import 'package:captain/features/collaboration/application/collaboration_providers.dart';
@@ -47,6 +51,7 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
   String? _savedTemplateName;
   String? _savedTemplateDescription;
   var _isPresentationMode = false;
+  var _show3D = false;
   var _autosaveRestored = false;
   var _collaborationBootstrapDone = false;
   Size _canvasSize = Size.zero;
@@ -62,6 +67,7 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
   }
 
   void _enterPresentationMode() {
+    ref.read(tacticPlaybackProvider.notifier).stop();
     ref.read(presentationModeProvider.notifier).reset();
     setState(() => _isPresentationMode = true);
   }
@@ -85,36 +91,39 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_autosaveRestored && widget.initialTemplate == null) {
-      _autosaveRestored = true;
-      ref.read(boardAutosaveControllerProvider).restoreIfAvailable(
-            hasInitialTemplate: false,
-          );
-    }
-
-    if (!_templateLoaded && widget.initialTemplate != null) {
-      _templateLoaded = true;
-      ref
-          .read(tacticalBoardProvider.notifier)
-          .loadTemplate(widget.initialTemplate!);
-    }
-
-    if (_orientationInitialized) return;
-    _orientationInitialized = true;
-
     final size = MediaQuery.sizeOf(context);
-    ref.read(tacticalBoardProvider.notifier).syncOrientationWithViewport(
-          width: size.width,
-          height: size.height,
-        );
 
-    if (!_collaborationBootstrapDone) {
-      _collaborationBootstrapDone = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      if (!_autosaveRestored && widget.initialTemplate == null) {
+        _autosaveRestored = true;
+        ref.read(boardAutosaveControllerProvider).restoreIfAvailable(
+              hasInitialTemplate: false,
+            );
+      }
+
+      if (!_templateLoaded && widget.initialTemplate != null) {
+        _templateLoaded = true;
+        ref
+            .read(tacticalBoardProvider.notifier)
+            .loadTemplate(widget.initialTemplate!);
+      }
+
+      if (!_orientationInitialized) {
+        _orientationInitialized = true;
+        ref.read(tacticalBoardProvider.notifier).syncOrientationWithViewport(
+              width: size.width,
+              height: size.height,
+            );
+      }
+
+      if (!_collaborationBootstrapDone) {
+        _collaborationBootstrapDone = true;
         _handlePendingCollabJoin();
         _maybeAutoJoinLastSession();
-      });
-    }
+      }
+    });
   }
 
   Future<void> _handlePendingCollabJoin() async {
@@ -210,9 +219,47 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
     }
 
     final formationLabel = boardState.selectedFormation?.label ?? 'Formation';
+    final compact = MediaQuery.sizeOf(context).width < 640;
 
     return CallbackShortcuts(
       bindings: {
+        const SingleActivator(LogicalKeyboardKey.delete): () =>
+            ref.read(tacticalBoardProvider.notifier).deleteSelected(),
+        const SingleActivator(LogicalKeyboardKey.backspace): () =>
+            ref.read(tacticalBoardProvider.notifier).deleteSelected(),
+        const SingleActivator(LogicalKeyboardKey.escape): () {
+          ref.read(tacticalBoardProvider.notifier).clearSelection();
+          ref.read(tacticalBoardProvider.notifier).cancelDraft();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyA, control: true): () =>
+            ref.read(tacticalBoardProvider.notifier).selectAll(),
+        const SingleActivator(LogicalKeyboardKey.keyA, meta: true): () =>
+            ref.read(tacticalBoardProvider.notifier).selectAll(),
+        const SingleActivator(LogicalKeyboardKey.keyD, control: true): () =>
+            ref.read(tacticalBoardProvider.notifier).duplicateSelected(),
+        const SingleActivator(LogicalKeyboardKey.space): () {
+          final playback = ref.read(tacticPlaybackProvider.notifier);
+          if (ref.read(tacticPlaybackProvider).isActive) {
+            playback.togglePlay();
+          } else {
+            playback.play();
+          }
+        },
+        const SingleActivator(LogicalKeyboardKey.keyV): () => ref
+            .read(tacticalBoardProvider.notifier)
+            .setTool(BoardTool.select),
+        const SingleActivator(LogicalKeyboardKey.keyP): () => ref
+            .read(tacticalBoardProvider.notifier)
+            .setTool(BoardTool.passArrow),
+        const SingleActivator(LogicalKeyboardKey.keyR): () => ref
+            .read(tacticalBoardProvider.notifier)
+            .setTool(BoardTool.runArrow),
+        const SingleActivator(LogicalKeyboardKey.keyZ): () => ref
+            .read(tacticalBoardProvider.notifier)
+            .setTool(BoardTool.zone),
+        const SingleActivator(LogicalKeyboardKey.keyE): () => ref
+            .read(tacticalBoardProvider.notifier)
+            .setTool(BoardTool.eraser),
         const SingleActivator(LogicalKeyboardKey.keyZ, control: true):
             () => ref.read(tacticalBoardProvider.notifier).undo(),
         const SingleActivator(LogicalKeyboardKey.keyZ, meta: true):
@@ -232,7 +279,7 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
         autofocus: true,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Tactical Board'),
+            title: Text(compact ? 'Board' : 'Tactical Board'),
             actions: [
               IconButton(
                 tooltip: 'Undo',
@@ -249,67 +296,106 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
                 icon: const Icon(Icons.redo_outlined),
               ),
               IconButton(
-                tooltip: 'Export board',
-                onPressed: _openExportSheet,
-                icon: const Icon(Icons.ios_share_outlined),
+                tooltip: _show3D ? '2D board' : '3D view',
+                isSelected: _show3D,
+                onPressed: () => setState(() => _show3D = !_show3D),
+                icon: const Icon(Icons.view_in_ar_outlined),
+                selectedIcon: Icon(Icons.view_in_ar, color: AppColors.primary),
               ),
-          IconButton(
-            tooltip: 'Presentation mode',
-            onPressed: _enterPresentationMode,
-            icon: const Icon(Icons.slideshow_outlined),
-          ),
-          IconButton(
-            tooltip: 'Save board',
-            onPressed: _saveBoard,
-            icon: const Icon(Icons.save_outlined),
-          ),
-          PopupMenuButton<_BoardMenuAction>(
-            tooltip: 'Board settings',
-            onSelected: (action) {
-              switch (action) {
-                case _BoardMenuAction.snapToGrid:
-                  ref.read(tacticalBoardProvider.notifier).toggleSnapToGrid();
-              }
-            },
-            itemBuilder: (context) => [
-              CheckedPopupMenuItem(
-                value: _BoardMenuAction.snapToGrid,
-                checked: boardState.snapToGrid,
-                child: const Text('Snap to grid (5%)'),
+                  if (!compact) ...[
+                IconButton(
+                  tooltip: 'Export board',
+                  onPressed: _openExportSheet,
+                  icon: const Icon(Icons.ios_share_outlined),
+                ),
+                IconButton(
+                  tooltip: 'Save board',
+                  onPressed: _saveBoard,
+                  icon: const Icon(Icons.save_outlined),
+                ),
+              ],
+              IconButton(
+                tooltip: 'Presentation mode',
+                onPressed: _enterPresentationMode,
+                icon: const Icon(Icons.slideshow_outlined),
               ),
-            ],
-          ),
-          IconButton(
-            tooltip: boardState.pitchStyle.isStriped
-                ? 'Solid pitch'
-                : 'Striped pitch',
-            onPressed: () =>
-                ref.read(tacticalBoardProvider.notifier).togglePitchStyle(),
-            icon: Icon(
-              boardState.pitchStyle.isStriped
-                  ? Icons.texture_outlined
-                  : Icons.crop_square_outlined,
-            ),
-          ),
-          IconButton(
-            tooltip: boardState.orientation.isVertical
-                ? 'Horizontal pitch'
-                : 'Vertical pitch',
-            onPressed: () =>
-                ref.read(tacticalBoardProvider.notifier).toggleOrientation(),
-            icon: Icon(
-              boardState.orientation.isVertical
-                  ? Icons.stay_current_landscape
-                  : Icons.stay_current_portrait,
-            ),
-          ),
+              PopupMenuButton<_BoardMenuAction>(
+                tooltip: 'Board settings',
+                onSelected: (action) {
+                  final n = ref.read(tacticalBoardProvider.notifier);
+                  switch (action) {
+                    case _BoardMenuAction.snapToGrid:
+                      n.toggleSnapToGrid();
+                    case _BoardMenuAction.pitchStyle:
+                      n.togglePitchStyle();
+                    case _BoardMenuAction.orientation:
+                      n.toggleOrientation();
+                    case _BoardMenuAction.export:
+                      _openExportSheet();
+                    case _BoardMenuAction.save:
+                      _saveBoard();
+                  }
+                },
+                itemBuilder: (context) => [
+                  if (compact) ...[
+                    const PopupMenuItem(
+                      value: _BoardMenuAction.save,
+                      child: ListTile(
+                        leading: Icon(Icons.save_outlined),
+                        title: Text('Save board'),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: _BoardMenuAction.export,
+                      child: ListTile(
+                        leading: Icon(Icons.ios_share_outlined),
+                        title: Text('Export'),
+                      ),
+                    ),
+                  ],
+                  PopupMenuItem(
+                    value: _BoardMenuAction.orientation,
+                    child: ListTile(
+                      leading: Icon(
+                        boardState.orientation.isVertical
+                            ? Icons.stay_current_landscape
+                            : Icons.stay_current_portrait,
+                      ),
+                      title: Text(
+                        boardState.orientation.isVertical
+                            ? 'Horizontal pitch'
+                            : 'Vertical pitch',
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: _BoardMenuAction.pitchStyle,
+                    child: ListTile(
+                      leading: Icon(
+                        boardState.pitchStyle.isStriped
+                            ? Icons.crop_square_outlined
+                            : Icons.texture_outlined,
+                      ),
+                      title: Text(
+                        boardState.pitchStyle.isStriped
+                            ? 'Solid pitch'
+                            : 'Striped pitch',
+                      ),
+                    ),
+                  ),
+                  CheckedPopupMenuItem(
+                    value: _BoardMenuAction.snapToGrid,
+                    checked: boardState.snapToGrid,
+                    child: const Text('Snap to grid (5%)'),
+                  ),
+                ],
+              ),
             ],
           ),
           body: Column(
             children: [
               const CollaborationBar(),
               const TrainingModeBar(),
-              if (!training.isTrainingMode) const DrawingToolbar(),
               if (!training.isTrainingMode) const SimulationModePanel(),
               Expanded(
                 child: Row(
@@ -318,9 +404,51 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           _canvasSize = constraints.biggest;
-                          return PitchCanvas(
-                            boardState: boardState,
-                            constraints: constraints.biggest,
+                          return Stack(
+                            clipBehavior: Clip.hardEdge,
+                            children: [
+                              Positioned.fill(
+                                child: _show3D
+                                    ? Board3DView(
+                                        key: ValueKey(constraints.biggest),
+                                        size: constraints.biggest,
+                                      )
+                                    : PitchCanvas(
+                                        boardState: boardState,
+                                        constraints: constraints.biggest,
+                                      ),
+                              ),
+                              if (!training.isTrainingMode && !_show3D)
+                                BoardToolkit(area: constraints.biggest),
+                              if (_show3D)
+                                Positioned(
+                                  left: 12,
+                                  top: 12,
+                                  child: FloatingActionButton.small(
+                                    heroTag: 'play3d',
+                                    tooltip: 'Play tactic',
+                                    onPressed: () {
+                                      final n = ref.read(
+                                        tacticPlaybackProvider.notifier,
+                                      );
+                                      if (ref
+                                          .read(tacticPlaybackProvider)
+                                          .isActive) {
+                                        n.togglePlay();
+                                      } else {
+                                        n.play();
+                                      }
+                                    },
+                                    child: const Icon(Icons.play_arrow_rounded),
+                                  ),
+                                ),
+                              const Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: PlaybackBar(),
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -356,11 +484,11 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            _TeamLegendDot(color: AppColors.pitchGreenLight),
+                            _TeamLegendDot(color: AppColors.homeTeam),
                             const SizedBox(width: 6),
                             const Text('Home'),
                             const SizedBox(width: 12),
-                            _TeamLegendDot(color: AppColors.accentRed),
+                            _TeamLegendDot(color: AppColors.awayTeam),
                             const SizedBox(width: 6),
                             const Text('Away'),
                           ],
@@ -381,6 +509,10 @@ class _TacticalBoardScreenState extends ConsumerState<TacticalBoardScreen> {
 
 enum _BoardMenuAction {
   snapToGrid,
+  pitchStyle,
+  orientation,
+  export,
+  save,
 }
 
 class _TeamLegendDot extends StatelessWidget {

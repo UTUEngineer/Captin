@@ -9,6 +9,7 @@ import 'package:captain/features/formations/presentation/formation_library_scree
 
 import 'package:captain/features/home/presentation/home_screen.dart';
 
+import 'package:captain/features/home/presentation/intro_video_screen.dart';
 import 'package:captain/features/home/presentation/splash_screen.dart';
 
 import 'package:captain/features/scouting/presentation/scouting_report_screen.dart';
@@ -47,6 +48,8 @@ import 'package:go_router/go_router.dart';
 abstract final class AppRoutes {
 
   static const splash = '/';
+
+  static const intro = '/intro';
 
   static const home = '/home';
 
@@ -115,9 +118,14 @@ abstract final class AppRoutes {
 
 final GoRouter appRouter = GoRouter(
 
-  initialLocation: AppRoutes.splash,
+  initialLocation: AppRoutes.intro,
 
   routes: [
+
+    GoRoute(
+      path: AppRoutes.intro,
+      builder: (context, state) => const IntroVideoScreen(),
+    ),
 
     GoRoute(
 

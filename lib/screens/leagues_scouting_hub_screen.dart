@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:captain/features/scouting/player_profile_screen.dart';
 
@@ -14,11 +15,11 @@ class LeaguesScoutingHubScreen extends StatelessWidget {
           title: const Text('Section 3: Leagues, Teams & Players'),
           backgroundColor: const Color(0xFF1A2234),
           elevation: 0,
-          bottom: const TabBar(
-            indicatorColor: Color(0xFFFF9100),
+          bottom: TabBar(
+            indicatorColor: AppColors.accentOrange,
             indicatorWeight: 3,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white54,
+            labelColor: AppColors.textPrimary,
+            unselectedLabelColor: AppColors.textSecondary,
             tabs: [
               Tab(icon: Icon(Icons.emoji_events), text: 'Competitions'),
               Tab(icon: Icon(Icons.badge), text: 'Player Intel'),
@@ -91,9 +92,9 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const Text(
+        Text(
           'Select Competition & Squad Data',
-          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
@@ -111,10 +112,10 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF161B22),
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isSelected ? const Color(0xFFFF9100) : Colors.white12,
+          color: isSelected ? AppColors.accentOrange : AppColors.border,
           width: isSelected ? 2 : 1,
         ),
       ),
@@ -126,14 +127,14 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF9100).withValues(alpha: 0.15),
+            color: AppColors.accentOrange.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.sports_soccer, color: Color(0xFFFF9100)),
+          child: const Icon(Icons.sports_soccer, color: AppColors.accentOrange),
         ),
         title: Text(
           '${league['name']} (${league['arabicName']})',
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 15),
         ),
         subtitle: Text(
           '${league['country']} • ${league['teamsCount']} Clubs',
@@ -142,13 +143,13 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            color: const Color(0xFF0F172A),
+            color: AppColors.background,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Featured Clubs & Tactical Rosters:',
-                  style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
@@ -157,10 +158,10 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
                   children: (league['teams'] as List<String>)
                       .map(
                         (team) => Chip(
-                          backgroundColor: const Color(0xFF1E293B),
+                          backgroundColor: AppColors.surfaceElevated,
                           side: BorderSide.none,
-                          avatar: const Icon(Icons.shield, size: 16, color: Color(0xFFFF9100)),
-                          label: Text(team, style: const TextStyle(color: Colors.white, fontSize: 12)),
+                          avatar: const Icon(Icons.shield, size: 16, color: AppColors.accentOrange),
+                          label: Text(team, style: TextStyle(color: AppColors.textPrimary, fontSize: 12)),
                         ),
                       )
                       .toList(),
@@ -170,7 +171,7 @@ class _LeaguesListViewState extends State<_LeaguesListView> {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF9100),
+                      backgroundColor: AppColors.accentOrange,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
@@ -284,13 +285,13 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
                 child: TextField(
                   controller: _searchController,
                   onChanged: (_) => setState(() {}),
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Search player dossier...',
-                    hintStyle: const TextStyle(color: Colors.white38),
-                    prefixIcon: const Icon(Icons.search, color: Color(0xFFFF9100)),
+                    hintStyle: TextStyle(color: AppColors.textMuted),
+                    prefixIcon: const Icon(Icons.search, color: AppColors.accentOrange),
                     filled: true,
-                    fillColor: const Color(0xFF161B22),
+                    fillColor: AppColors.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -301,8 +302,8 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
               const SizedBox(width: 12),
               DropdownButton<String>(
                 value: _selectedPosition,
-                dropdownColor: const Color(0xFF161B22),
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                dropdownColor: AppColors.surface,
+                style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
                 items: ['ALL', 'GK', 'DEF', 'MID', 'FWD']
                     .map((pos) => DropdownMenuItem(value: pos, child: Text(pos)))
                     .toList(),
@@ -331,7 +332,7 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Material(
-        color: const Color(0xFF161B22),
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
@@ -353,10 +354,10 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundColor: const Color(0xFFFF9100).withValues(alpha: 0.2),
+                      backgroundColor: AppColors.accentOrange.withValues(alpha: 0.2),
                       child: Text(
                         '#${p['number']}',
-                        style: const TextStyle(color: Color(0xFFFF9100), fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: AppColors.accentOrange, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -366,7 +367,7 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
                         children: [
                           Text(
                             p['name'],
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                            style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text(
                             '${p['club']} • ${p['position']}',
@@ -378,18 +379,18 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00E676).withValues(alpha: 0.15),
+                        color: AppColors.primary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         p['position'],
-                        style: const TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 12),
+                        style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 12),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                const Divider(color: Colors.white12, height: 1),
+                Divider(color: AppColors.border, height: 1),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -414,7 +415,7 @@ class _PlayerProfilesDatabaseViewState extends State<_PlayerProfilesDatabaseView
       children: [
         Text(label, style: TextStyle(color: Colors.grey[400], fontSize: 11)),
         const SizedBox(height: 2),
-        Text(value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+        Text(value, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
       ],
     );
   }
@@ -431,23 +432,23 @@ class _AiScoutingReportsView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+            gradient: LinearGradient(
+              colors: [AppColors.surfaceElevated, AppColors.background],
             ),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFFF9100).withValues(alpha: 0.3)),
+            border: Border.all(color: AppColors.accentOrange.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.psychology, size: 36, color: Color(0xFFFF9100)),
+              const Icon(Icons.psychology, size: 36, color: AppColors.accentOrange),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Claude 3.5 Sonnet Scouting Engine',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
                       'UEFA-Pro Automated Opposition Analysis & Danger Zone Reports',
@@ -464,21 +465,21 @@ class _AiScoutingReportsView extends StatelessWidget {
           title: 'Opponent High-Press Vulnerability',
           category: 'Tactical Analysis',
           severity: 'HIGH RISK',
-          color: const Color(0xFFFF5252),
+          color: AppColors.danger,
           summary: 'Opposition triggers 4-3-3 high block at 65m line. Vulnerable to fast diagonal passes into right wing space.',
         ),
         _reportCard(
           title: 'Set Piece Defending Structure',
           category: 'Set Pieces',
           severity: 'MEDIUM',
-          color: const Color(0xFFFFD600),
+          color: AppColors.gold,
           summary: 'Zonal-man hybrid coverage on corner kicks. Near post area is vulnerable to late runs from central midfielders.',
         ),
         _reportCard(
           title: 'Counter-Attack Danger Zone',
           category: 'Transition Phase',
           severity: 'CRITICAL',
-          color: const Color(0xFFFF5252),
+          color: AppColors.danger,
           summary: '82% of opponent goals originate from turnover in central midfield half-space. Recommend double pivot protection.',
         ),
       ],
@@ -496,9 +497,9 @@ class _AiScoutingReportsView extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF161B22),
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +522,7 @@ class _AiScoutingReportsView extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(title, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 15)),
           const SizedBox(height: 6),
           Text(summary, style: TextStyle(color: Colors.grey[300], fontSize: 13, height: 1.4)),
         ],

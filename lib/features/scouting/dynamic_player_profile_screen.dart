@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'player_dossier_model.dart';
@@ -16,21 +17,21 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF0B0F17),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF131926),
+        backgroundColor: AppColors.surface,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'DYNAMIC SCOUTING DOSSIER',
           style: TextStyle(
             letterSpacing: 1.5,
             fontWeight: FontWeight.w900,
             fontSize: 15,
-            color: Colors.white,
+            color: AppColors.textPrimary,
           ),
         ),
       ),
       body: dossierAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(color: Color(0xFF00E676)),
+        loading: () => Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
         ),
         error: (err, stack) => Center(
           child: Padding(
@@ -43,12 +44,12 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                 Text(
                   'Scouting Load Failure: $err',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00E676),
+                    backgroundColor: AppColors.primary,
                     foregroundColor: Colors.black,
                   ),
                   icon: const Icon(Icons.refresh),
@@ -89,18 +90,18 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF131926),
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white10),
+              border: Border.all(color: AppColors.subtle),
             ),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 32,
-                  backgroundColor: const Color(0xFF00E676).withValues(alpha: 0.2),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.2),
                   child: Text(
                     '#${dossier.jerseyNumber}',
-                    style: const TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -110,23 +111,23 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                     children: [
                       Text(
                         dossier.fullName,
-                        style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         '${dossier.clubName} • ${dossier.tacticalArchetype}',
-                        style: const TextStyle(color: Colors.white60, fontSize: 12),
+                        style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${dossier.nationality} • ${dossier.age} y/o • ${dossier.height} • ${dossier.marketValue}',
-                        style: const TextStyle(color: Color(0xFF00E676), fontSize: 11, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
                 CircleAvatar(
-                  backgroundColor: const Color(0xFF00E676),
+                  backgroundColor: AppColors.primary,
                   radius: 20,
                   child: Text(
                     '${dossier.overallRating}',
@@ -142,22 +143,22 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFF131926),
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white10),
+              border: Border.all(color: AppColors.subtle),
             ),
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'DYNAMIC FIFA RADAR',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                      style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12),
                     ),
                     Text(
                       'SUPABASE PERSISTED',
-                      style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 11),
+                      style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 11),
                     ),
                   ],
                 ),
@@ -167,9 +168,9 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                   child: CustomPaint(
                     painter: RadarChartPainter(
                       attributes: radar,
-                      fillColor: const Color(0xFF00E676).withValues(alpha: 0.28),
-                      outlineColor: const Color(0xFF00E676),
-                      webColor: Colors.white12,
+                      fillColor: AppColors.primary.withValues(alpha: 0.28),
+                      outlineColor: AppColors.primary,
+                      webColor: AppColors.border,
                     ),
                   ),
                 ),
@@ -183,50 +184,50 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
               return Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF131926),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.bolt, color: Color(0xFF00E676), size: 18),
+                        Icon(Icons.bolt, color: AppColors.primary, size: 18),
                         SizedBox(width: 8),
                         Text(
                           'ON-DEVICE TACTICAL INTEL',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1.1),
+                          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1.1),
                         ),
                         Spacer(),
                         Text(
                           '0ms Latency',
-                          style: TextStyle(color: Color(0xFF00E676), fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Text(
                       report.summary,
-                      style: const TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 13),
+                      style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                     const SizedBox(height: 12),
-                    const Text('Tactical Strengths:', style: TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.bold)),
+                    Text('Tactical Strengths:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
                     for (final s in report.strengths)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
                         child: Row(
                           children: [
-                            const Icon(Icons.check_circle, color: Color(0xFF00E676), size: 14),
+                            Icon(Icons.check_circle, color: AppColors.primary, size: 14),
                             const SizedBox(width: 6),
-                            Expanded(child: Text(s, style: const TextStyle(color: Colors.white, fontSize: 12))),
+                            Expanded(child: Text(s, style: TextStyle(color: AppColors.textPrimary, fontSize: 12))),
                           ],
                         ),
                       ),
                     if (report.vulnerabilities.isNotEmpty) ...[
                       const SizedBox(height: 8),
-                      const Text('Pressing Triggers / Counter-measures:', style: TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.bold)),
+                      Text('Pressing Triggers / Counter-measures:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 4),
                       for (final trigger in report.pressingTriggers)
                         Padding(
@@ -235,7 +236,7 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                             children: [
                               const Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent, size: 14),
                               const SizedBox(width: 6),
-                              Expanded(child: Text(trigger, style: const TextStyle(color: Colors.white, fontSize: 12))),
+                              Expanded(child: Text(trigger, style: TextStyle(color: AppColors.textPrimary, fontSize: 12))),
                             ],
                           ),
                         ),
@@ -249,9 +250,9 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
 
           // Match Logs Section
           if (dossier.matchLogs.isNotEmpty) ...[
-            const Text(
+            Text(
               'LIVE MATCH LOGS',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
             ),
             const SizedBox(height: 8),
             for (final log in dossier.matchLogs)
@@ -259,9 +260,9 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF131926),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white10),
+                  border: Border.all(color: AppColors.subtle),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -269,14 +270,14 @@ class DynamicPlayerProfileScreen extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('vs ${log.opponent}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
-                        Text('${log.competition} • ${log.date}', style: const TextStyle(color: Colors.white38, fontSize: 11)),
+                        Text('vs ${log.opponent}', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+                        Text('${log.competition} • ${log.date}', style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
                       ],
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: log.rating >= 8.0 ? const Color(0xFF00E676) : const Color(0xFF2979FF),
+                        color: log.rating >= 8.0 ? AppColors.primary : AppColors.secondary,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text('${log.rating}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),

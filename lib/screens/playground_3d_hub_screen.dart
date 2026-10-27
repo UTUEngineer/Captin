@@ -1,3 +1,5 @@
+import 'package:captain/core/theme/app_colors.dart';
+import 'package:captain/features/tactical_board/presentation/board_3d_screen.dart';
 import 'package:captain/features/tactics/tactical_3d_pitch_board.dart';
 import 'package:captain/screens/play_sequence_screen.dart';
 import 'package:flutter/material.dart';
@@ -57,13 +59,21 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
         backgroundColor: const Color(0xFF111827),
         elevation: 0,
         actions: [
+          TextButton.icon(
+            onPressed: () => Board3DScreen.open(context),
+            icon: const Icon(Icons.directions_run_rounded, color: Color(0xFF10B981)),
+            label: const Text(
+              'Animated 3D players',
+              style: TextStyle(color: Color(0xFF10B981)),
+            ),
+          ),
           IconButton(
-            icon: const Icon(Icons.animation, color: Color(0xFF2979FF)),
+            icon: const Icon(Icons.animation, color: AppColors.secondary),
             tooltip: 'Launch Keyframe Sequence Engine',
             onPressed: () => setState(() => _useKeyframeEngine = true),
           ),
           IconButton(
-            icon: const Icon(Icons.threed_rotation, color: Color(0xFF00E676)),
+            icon: Icon(Icons.threed_rotation, color: AppColors.primary),
             tooltip: 'Launch 3D Matrix Engine',
             onPressed: () => setState(() => _useFullMatrix3DEngine = true),
           ),
@@ -79,7 +89,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
               child: DropdownButton<String>(
                 value: _activeFormation,
                 dropdownColor: const Color(0xFF1F2937),
-                icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF00E676)),
+                icon: Icon(Icons.arrow_drop_down, color: AppColors.primary),
                 items: ['4-3-3', '4-2-3-1', '3-5-2', '4-4-2', '5-3-2']
                     .map((f) => DropdownMenuItem(
                           value: f,
@@ -154,7 +164,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFF111827).withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.3)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -166,7 +176,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
                   IconButton(
                     icon: Icon(_isPlayingSequence ? Icons.pause_circle_filled : Icons.play_circle_filled),
                     iconSize: 32,
-                    color: const Color(0xFF00E676),
+                    color: AppColors.primary,
                     onPressed: () {
                       setState(() => _isPlayingSequence = !_isPlayingSequence);
                     },
@@ -180,8 +190,8 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
               ),
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xFF00E676),
-                  side: const BorderSide(color: Color(0xFF00E676)),
+                  foregroundColor: AppColors.primary,
+                  side: BorderSide(color: AppColors.primary),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 ),
                 icon: const Icon(Icons.add, size: 16),
@@ -197,14 +207,14 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
             children: [
               const Text('Duration: ', style: TextStyle(color: Colors.grey, fontSize: 12)),
               Text('${_transitionDuration.toStringAsFixed(1)}s',
-                  style: const TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 12)),
+                  style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 12)),
               Expanded(
                 child: Slider(
                   value: _transitionDuration,
                   min: 0.5,
                   max: 4.0,
                   divisions: 7,
-                  activeColor: const Color(0xFF00E676),
+                  activeColor: AppColors.primary,
                   inactiveColor: Colors.white12,
                   onChanged: (val) => setState(() => _transitionDuration = val),
                 ),
@@ -219,7 +229,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
                         color: _activeKeyframe == index + 1
-                            ? const Color(0xFF00E676)
+                            ? AppColors.primary
                             : const Color(0xFF1F2937),
                         borderRadius: BorderRadius.circular(6),
                       ),
@@ -255,7 +265,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
             child: ChoiceChip(
               label: Text(f),
               selected: isSelected,
-              selectedColor: const Color(0xFF00E676),
+              selectedColor: AppColors.primary,
               backgroundColor: const Color(0xFF1F2937),
               labelStyle: TextStyle(
                 color: isSelected ? Colors.black : Colors.white,
@@ -295,7 +305,7 @@ class _Playground3DHubScreenState extends State<Playground3DHubScreen> {
     final isSelected = _activePOV == mode;
     return TextButton.icon(
       style: TextButton.styleFrom(
-        foregroundColor: isSelected ? const Color(0xFF00E676) : Colors.white60,
+        foregroundColor: isSelected ? AppColors.primary : Colors.white60,
       ),
       icon: Icon(icon),
       label: Text(mode),
@@ -324,7 +334,7 @@ class _Pitch3DRendererPainter extends CustomPainter {
     final isPressView = povMode.contains('Press');
 
     final pitchPaint = Paint()
-      ..color = const Color(0xFF10B981).withValues(alpha: isEyeLevel ? 0.25 : 0.4)
+      ..color = AppColors.primary.withValues(alpha: isEyeLevel ? 0.25 : 0.4)
       ..style = PaintingStyle.fill;
 
     // Perspective pitch grid simulation
@@ -362,7 +372,7 @@ class _Pitch3DRendererPainter extends CustomPainter {
     final players = _getFormationPositions(formation, size);
     for (int i = 0; i < players.length; i++) {
       final p = players[i];
-      final color = i == 0 ? const Color(0xFFFFD600) : const Color(0xFF00E676);
+      final color = i == 0 ? AppColors.gold : AppColors.primary;
 
       // Height offset for 3D standing effect
       final head = Offset(p.dx, p.dy - 12);
@@ -386,7 +396,7 @@ class _Pitch3DRendererPainter extends CustomPainter {
           ..close();
         canvas.drawPath(
           eyeCone,
-          Paint()..color = const Color(0xFF00E676).withValues(alpha: 0.15),
+          Paint()..color = AppColors.primary.withValues(alpha: 0.15),
         );
       }
     }

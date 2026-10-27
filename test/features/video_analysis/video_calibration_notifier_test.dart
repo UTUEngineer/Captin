@@ -8,7 +8,6 @@ import 'package:captain/features/video_analysis/domain/calibration_point.dart';
 import 'package:captain/features/video_analysis/domain/video_analysis_repository.dart';
 import 'package:captain/features/video_analysis/domain/video_status_response.dart';
 import 'package:captain/features/video_analysis/domain/video_upload_response.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

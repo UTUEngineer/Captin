@@ -1,10 +1,13 @@
 /// Reference pitch coordinates and labels for the four penalty-box corners.
 abstract final class StandardPenaltyBoxCalibration {
+  /// Penalty-box corners in metres as [distance from goal line,
+  /// distance from the right touchline] on a 105 × 68 m pitch
+  /// (box: 16.5 m deep, 40.32 m wide, centred on the goal).
   static const pitchCorners = <List<double>>[
-    [0.0, 0.0],
-    [0.165, 0.0],
-    [0.165, 0.105],
-    [0.0, 0.105],
+    [0.0, 13.84],
+    [0.0, 54.16],
+    [16.5, 54.16],
+    [16.5, 13.84],
   ];
 
   static const cornerLabels = <String>[

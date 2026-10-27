@@ -27,12 +27,14 @@ _VideoTrack _$VideoTrackFromJson(Map<String, dynamic> json) => _VideoTrack(
   positions: (json['positions'] as List<dynamic>)
       .map((e) => TrackPosition.fromJson(e as Map<String, dynamic>))
       .toList(),
+  team: json['team'] as String?,
 );
 
 Map<String, dynamic> _$VideoTrackToJson(_VideoTrack instance) =>
     <String, dynamic>{
       'track_id': instance.trackId,
       'positions': instance.positions,
+      'team': instance.team,
     };
 
 _PlayerAnalytics _$PlayerAnalyticsFromJson(Map<String, dynamic> json) =>
@@ -47,6 +49,9 @@ _PlayerAnalytics _$PlayerAnalyticsFromJson(Map<String, dynamic> json) =>
                 (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
           )
           .toList(),
+      team: json['team'] as String?,
+      avgSpeedKmh: (json['avg_speed_kmh'] as num?)?.toDouble() ?? 0,
+      sprintDistanceM: (json['sprint_distance_m'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$PlayerAnalyticsToJson(_PlayerAnalytics instance) =>
@@ -56,6 +61,9 @@ Map<String, dynamic> _$PlayerAnalyticsToJson(_PlayerAnalytics instance) =>
       'sprint_count': instance.sprintCount,
       'max_speed_kmh': instance.maxSpeedKmh,
       'heatmap': instance.heatmap,
+      'team': instance.team,
+      'avg_speed_kmh': instance.avgSpeedKmh,
+      'sprint_distance_m': instance.sprintDistanceM,
     };
 
 _TeamPossessionZones _$TeamPossessionZonesFromJson(Map<String, dynamic> json) =>
@@ -104,6 +112,14 @@ _AnalysisResult _$AnalysisResultFromJson(Map<String, dynamic> json) =>
           : PossessionZones.fromJson(
               json['possession_zones'] as Map<String, dynamic>,
             ),
+      ball:
+          (json['ball'] as List<dynamic>?)
+              ?.map((e) => TrackPosition.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      calibrated: json['calibrated'] as bool? ?? true,
+      summary:
+          json['summary'] as Map<String, dynamic>? ?? const <String, dynamic>{},
     );
 
 Map<String, dynamic> _$AnalysisResultToJson(_AnalysisResult instance) =>
@@ -113,4 +129,7 @@ Map<String, dynamic> _$AnalysisResultToJson(_AnalysisResult instance) =>
       'tracks': instance.tracks,
       'players': instance.players,
       'possession_zones': instance.possessionZones,
+      'ball': instance.ball,
+      'calibrated': instance.calibrated,
+      'summary': instance.summary,
     };

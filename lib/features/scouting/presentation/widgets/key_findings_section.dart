@@ -10,8 +10,8 @@ class KeyFindingsSection extends StatelessWidget {
 
   final List<String> findings;
 
-  static const _indicatorColors = [
-    Color(0xFF00C853),
+  static final _indicatorColors = [
+    AppColors.primary,
     AppColors.accentOrange,
     AppColors.accentRed,
     Color(0xFF29B6F6),

@@ -16,6 +16,18 @@ _Zone _$ZoneFromJson(Map<String, dynamic> json) => _Zone(
   locked: json['locked'] as bool? ?? false,
   zIndex: (json['zIndex'] as num?)?.toInt() ?? 0,
   rotation: (json['rotation'] as num?)?.toDouble() ?? 0.0,
+  shape:
+      $enumDecodeNullable(_$ZoneShapeEnumMap, json['shape']) ??
+      ZoneShape.rectangle,
+  points:
+      (json['points'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList() ??
+      const <double>[],
+  pattern:
+      $enumDecodeNullable(_$ZonePatternEnumMap, json['pattern']) ??
+      ZonePattern.solid,
+  label: json['label'] as String?,
 );
 
 Map<String, dynamic> _$ZoneToJson(_Zone instance) => <String, dynamic>{
@@ -28,4 +40,18 @@ Map<String, dynamic> _$ZoneToJson(_Zone instance) => <String, dynamic>{
   'locked': instance.locked,
   'zIndex': instance.zIndex,
   'rotation': instance.rotation,
+  'shape': _$ZoneShapeEnumMap[instance.shape]!,
+  'points': instance.points,
+  'pattern': _$ZonePatternEnumMap[instance.pattern]!,
+  'label': instance.label,
+};
+
+const _$ZoneShapeEnumMap = {
+  ZoneShape.rectangle: 'rectangle',
+  ZoneShape.polygon: 'polygon',
+};
+
+const _$ZonePatternEnumMap = {
+  ZonePattern.solid: 'solid',
+  ZonePattern.hatched: 'hatched',
 };

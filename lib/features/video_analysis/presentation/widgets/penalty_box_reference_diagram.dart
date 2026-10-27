@@ -76,7 +76,7 @@ class _CornerBadge extends StatelessWidget {
       ),
       child: Text(
         '$number',
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.textPrimary,
           fontWeight: FontWeight.bold,
           fontSize: 12,
@@ -125,7 +125,7 @@ class _PenaltyBoxReferencePainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: '$number',
-        style: const TextStyle(
+        style: TextStyle(
           color: AppColors.textPrimary,
           fontSize: 9,
           fontWeight: FontWeight.bold,

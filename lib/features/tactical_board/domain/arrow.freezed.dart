@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Arrow {
 
- String get id; double get startX; double get startY; double get endX; double get endY; ArrowType get type; bool get curved; int? get colorValue; bool get locked; int get zIndex; double get rotation;
+ String get id; double get startX; double get startY; double get endX; double get endY; ArrowType get type; bool get curved; int? get colorValue; bool get locked; int get zIndex; double get rotation;/// Signed curvature for curved arrows (fraction of arrow length).
+ double get bend;/// Playback phase this arrow belongs to (1-based).
+ int get step;
 /// Create a copy of Arrow
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +30,16 @@ $ArrowCopyWith<Arrow> get copyWith => _$ArrowCopyWithImpl<Arrow>(this as Arrow, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Arrow&&(identical(other.id, id) || other.id == id)&&(identical(other.startX, startX) || other.startX == startX)&&(identical(other.startY, startY) || other.startY == startY)&&(identical(other.endX, endX) || other.endX == endX)&&(identical(other.endY, endY) || other.endY == endY)&&(identical(other.type, type) || other.type == type)&&(identical(other.curved, curved) || other.curved == curved)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Arrow&&(identical(other.id, id) || other.id == id)&&(identical(other.startX, startX) || other.startX == startX)&&(identical(other.startY, startY) || other.startY == startY)&&(identical(other.endX, endX) || other.endX == endX)&&(identical(other.endY, endY) || other.endY == endY)&&(identical(other.type, type) || other.type == type)&&(identical(other.curved, curved) || other.curved == curved)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation)&&(identical(other.bend, bend) || other.bend == bend)&&(identical(other.step, step) || other.step == step));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,startX,startY,endX,endY,type,curved,colorValue,locked,zIndex,rotation);
+int get hashCode => Object.hash(runtimeType,id,startX,startY,endX,endY,type,curved,colorValue,locked,zIndex,rotation,bend,step);
 
 @override
 String toString() {
-  return 'Arrow(id: $id, startX: $startX, startY: $startY, endX: $endX, endY: $endY, type: $type, curved: $curved, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation)';
+  return 'Arrow(id: $id, startX: $startX, startY: $startY, endX: $endX, endY: $endY, type: $type, curved: $curved, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation, bend: $bend, step: $step)';
 }
 
 
@@ -48,7 +50,7 @@ abstract mixin class $ArrowCopyWith<$Res>  {
   factory $ArrowCopyWith(Arrow value, $Res Function(Arrow) _then) = _$ArrowCopyWithImpl;
 @useResult
 $Res call({
- String id, double startX, double startY, double endX, double endY, ArrowType type, bool curved, int? colorValue, bool locked, int zIndex, double rotation
+ String id, double startX, double startY, double endX, double endY, ArrowType type, bool curved, int? colorValue, bool locked, int zIndex, double rotation, double bend, int step
 });
 
 
@@ -65,7 +67,7 @@ class _$ArrowCopyWithImpl<$Res>
 
 /// Create a copy of Arrow
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? startX = null,Object? startY = null,Object? endX = null,Object? endY = null,Object? type = null,Object? curved = null,Object? colorValue = freezed,Object? locked = null,Object? zIndex = null,Object? rotation = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? startX = null,Object? startY = null,Object? endX = null,Object? endY = null,Object? type = null,Object? curved = null,Object? colorValue = freezed,Object? locked = null,Object? zIndex = null,Object? rotation = null,Object? bend = null,Object? step = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,startX: null == startX ? _self.startX : startX // ignore: cast_nullable_to_non_nullable
@@ -78,7 +80,9 @@ as bool,colorValue: freezed == colorValue ? _self.colorValue : colorValue // ign
 as int?,locked: null == locked ? _self.locked : locked // ignore: cast_nullable_to_non_nullable
 as bool,zIndex: null == zIndex ? _self.zIndex : zIndex // ignore: cast_nullable_to_non_nullable
 as int,rotation: null == rotation ? _self.rotation : rotation // ignore: cast_nullable_to_non_nullable
-as double,
+as double,bend: null == bend ? _self.bend : bend // ignore: cast_nullable_to_non_nullable
+as double,step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -163,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation,  double bend,  int step)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Arrow() when $default != null:
-return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.bend,_that.step);case _:
   return orElse();
 
 }
@@ -184,10 +188,10 @@ return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation,  double bend,  int step)  $default,) {final _that = this;
 switch (_that) {
 case _Arrow():
-return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.bend,_that.step);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +208,10 @@ return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  double startX,  double startY,  double endX,  double endY,  ArrowType type,  bool curved,  int? colorValue,  bool locked,  int zIndex,  double rotation,  double bend,  int step)?  $default,) {final _that = this;
 switch (_that) {
 case _Arrow() when $default != null:
-return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.type,_that.curved,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.bend,_that.step);case _:
   return null;
 
 }
@@ -219,7 +223,7 @@ return $default(_that.id,_that.startX,_that.startY,_that.endX,_that.endY,_that.t
 @JsonSerializable()
 
 class _Arrow implements Arrow {
-  const _Arrow({required this.id, required this.startX, required this.startY, required this.endX, required this.endY, required this.type, this.curved = false, this.colorValue, this.locked = false, this.zIndex = 0, this.rotation = 0.0});
+  const _Arrow({required this.id, required this.startX, required this.startY, required this.endX, required this.endY, required this.type, this.curved = false, this.colorValue, this.locked = false, this.zIndex = 0, this.rotation = 0.0, this.bend = 0.35, this.step = 1});
   factory _Arrow.fromJson(Map<String, dynamic> json) => _$ArrowFromJson(json);
 
 @override final  String id;
@@ -233,6 +237,10 @@ class _Arrow implements Arrow {
 @override@JsonKey() final  bool locked;
 @override@JsonKey() final  int zIndex;
 @override@JsonKey() final  double rotation;
+/// Signed curvature for curved arrows (fraction of arrow length).
+@override@JsonKey() final  double bend;
+/// Playback phase this arrow belongs to (1-based).
+@override@JsonKey() final  int step;
 
 /// Create a copy of Arrow
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Arrow&&(identical(other.id, id) || other.id == id)&&(identical(other.startX, startX) || other.startX == startX)&&(identical(other.startY, startY) || other.startY == startY)&&(identical(other.endX, endX) || other.endX == endX)&&(identical(other.endY, endY) || other.endY == endY)&&(identical(other.type, type) || other.type == type)&&(identical(other.curved, curved) || other.curved == curved)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Arrow&&(identical(other.id, id) || other.id == id)&&(identical(other.startX, startX) || other.startX == startX)&&(identical(other.startY, startY) || other.startY == startY)&&(identical(other.endX, endX) || other.endX == endX)&&(identical(other.endY, endY) || other.endY == endY)&&(identical(other.type, type) || other.type == type)&&(identical(other.curved, curved) || other.curved == curved)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation)&&(identical(other.bend, bend) || other.bend == bend)&&(identical(other.step, step) || other.step == step));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,startX,startY,endX,endY,type,curved,colorValue,locked,zIndex,rotation);
+int get hashCode => Object.hash(runtimeType,id,startX,startY,endX,endY,type,curved,colorValue,locked,zIndex,rotation,bend,step);
 
 @override
 String toString() {
-  return 'Arrow(id: $id, startX: $startX, startY: $startY, endX: $endX, endY: $endY, type: $type, curved: $curved, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation)';
+  return 'Arrow(id: $id, startX: $startX, startY: $startY, endX: $endX, endY: $endY, type: $type, curved: $curved, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation, bend: $bend, step: $step)';
 }
 
 
@@ -267,7 +275,7 @@ abstract mixin class _$ArrowCopyWith<$Res> implements $ArrowCopyWith<$Res> {
   factory _$ArrowCopyWith(_Arrow value, $Res Function(_Arrow) _then) = __$ArrowCopyWithImpl;
 @override @useResult
 $Res call({
- String id, double startX, double startY, double endX, double endY, ArrowType type, bool curved, int? colorValue, bool locked, int zIndex, double rotation
+ String id, double startX, double startY, double endX, double endY, ArrowType type, bool curved, int? colorValue, bool locked, int zIndex, double rotation, double bend, int step
 });
 
 
@@ -284,7 +292,7 @@ class __$ArrowCopyWithImpl<$Res>
 
 /// Create a copy of Arrow
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? startX = null,Object? startY = null,Object? endX = null,Object? endY = null,Object? type = null,Object? curved = null,Object? colorValue = freezed,Object? locked = null,Object? zIndex = null,Object? rotation = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? startX = null,Object? startY = null,Object? endX = null,Object? endY = null,Object? type = null,Object? curved = null,Object? colorValue = freezed,Object? locked = null,Object? zIndex = null,Object? rotation = null,Object? bend = null,Object? step = null,}) {
   return _then(_Arrow(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,startX: null == startX ? _self.startX : startX // ignore: cast_nullable_to_non_nullable
@@ -297,7 +305,9 @@ as bool,colorValue: freezed == colorValue ? _self.colorValue : colorValue // ign
 as int?,locked: null == locked ? _self.locked : locked // ignore: cast_nullable_to_non_nullable
 as bool,zIndex: null == zIndex ? _self.zIndex : zIndex // ignore: cast_nullable_to_non_nullable
 as int,rotation: null == rotation ? _self.rotation : rotation // ignore: cast_nullable_to_non_nullable
-as double,
+as double,bend: null == bend ? _self.bend : bend // ignore: cast_nullable_to_non_nullable
+as double,step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

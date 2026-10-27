@@ -3,6 +3,7 @@ import 'package:captain/features/tactical_board/application/board_layout_helpers
 import 'package:captain/features/tactical_board/domain/pitch_orientation.dart';
 import 'package:captain/features/tactical_board/domain/pitch_style.dart';
 import 'package:captain/features/tactical_board/domain/player.dart';
+import 'package:captain/features/tactical_board/presentation/widgets/ball_token.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/pitch_painter.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/player_token.dart';
 import 'package:captain/features/video_analysis/domain/analysis_result.dart';
@@ -21,6 +22,7 @@ class AnalysisPitchView extends StatelessWidget {
     this.showPossessionZones = false,
     this.selectedTrackId,
     this.onTrackSelected,
+    this.timestampSeconds,
   });
 
   final List<Player> players;
@@ -31,6 +33,9 @@ class AnalysisPitchView extends StatelessWidget {
   final int? selectedTrackId;
   final ValueChanged<int>? onTrackSelected;
 
+  /// Playback time used to place the detected ball.
+  final double? timestampSeconds;
+
   @override
   Widget build(BuildContext context) {
     final layout = PitchLayout.compute(
@@ -38,6 +43,9 @@ class AnalysisPitchView extends StatelessWidget {
       orientation: PitchOrientation.vertical,
     );
 
+    final ball = result != null && timestampSeconds != null
+        ? result!.ballAt(timestampSeconds!)
+        : null;
     final heatmap = result == null
         ? const <List<double>>[]
         : result!.aggregateHeatmap(trackId: selectedTrackId);
@@ -95,6 +103,14 @@ class AnalysisPitchView extends StatelessWidget {
               ),
             );
           }),
+          if (ball != null)
+            Positioned(
+              left: layout.positionFor(ball.x, ball.y).dx - layout.tokenSize * 0.24,
+              top: layout.positionFor(ball.x, ball.y).dy - layout.tokenSize * 0.24,
+              child: IgnorePointer(
+                child: BallToken(size: layout.tokenSize * 0.48),
+              ),
+            ),
         ],
       ),
     );

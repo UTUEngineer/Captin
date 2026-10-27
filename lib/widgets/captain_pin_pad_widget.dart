@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,14 +101,14 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
               border: Border.all(
                 color: widget.pinError != null
                     ? Colors.redAccent
-                    : const Color(0xFF00E676).withValues(alpha: 0.4),
+                    : AppColors.primary.withValues(alpha: 0.4),
                 width: widget.pinError != null ? 1.5 : 1.0,
               ),
               boxShadow: [
                 BoxShadow(
                   color: widget.pinError != null
                       ? Colors.redAccent.withValues(alpha: 0.3)
-                      : const Color(0xFF00E676).withValues(alpha: 0.3),
+                      : AppColors.primary.withValues(alpha: 0.3),
                   blurRadius: 30,
                   spreadRadius: 2,
                 ),
@@ -116,10 +117,10 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'LOCKER ACCESS',
                   style: TextStyle(
-                    color: Color(0xFF00E676),
+                    color: AppColors.primary,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
@@ -129,7 +130,7 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
                 Text(
                   widget.pinError ?? 'Enter 4-Digit Captain PIN',
                   style: TextStyle(
-                    color: widget.pinError != null ? Colors.redAccent : Colors.white70,
+                    color: widget.pinError != null ? Colors.redAccent : AppColors.textSecondary,
                     fontSize: 12,
                     fontWeight: widget.pinError != null ? FontWeight.bold : FontWeight.w500,
                   ),
@@ -150,19 +151,19 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
                         color: isFilled
                             ? (widget.pinError != null
                                 ? Colors.redAccent.withValues(alpha: 0.2)
-                                : const Color(0xFF00E676).withValues(alpha: 0.2))
-                            : const Color(0xFF0F243E).withValues(alpha: 0.6),
+                                : AppColors.primary.withValues(alpha: 0.2))
+                            : AppColors.surface.withValues(alpha: 0.6),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isFilled
-                              ? (widget.pinError != null ? Colors.redAccent : const Color(0xFF00E676))
-                              : Colors.white12,
+                              ? (widget.pinError != null ? Colors.redAccent : AppColors.primary)
+                              : AppColors.border,
                           width: isFilled ? 1.5 : 1.0,
                         ),
                         boxShadow: isFilled
                             ? [
                                 BoxShadow(
-                                  color: (widget.pinError != null ? Colors.redAccent : const Color(0xFF00E676))
+                                  color: (widget.pinError != null ? Colors.redAccent : AppColors.primary)
                                       .withValues(alpha: 0.4),
                                   blurRadius: 10,
                                 )
@@ -171,15 +172,15 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
                       ),
                       child: Center(
                         child: widget.loading && index == _digits.length - 1
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 16,
                                 height: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF00E676)),
+                                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
                               )
                             : Text(
                                 isFilled ? '•' : '',
                                 style: TextStyle(
-                                  color: widget.pinError != null ? Colors.redAccent : const Color(0xFF00E676),
+                                  color: widget.pinError != null ? Colors.redAccent : AppColors.primary,
                                   fontSize: 24,
                                   fontWeight: FontWeight.w900,
                                 ),
@@ -257,18 +258,18 @@ class _CaptainPinPadWidgetState extends State<CaptainPinPadWidget> with SingleTi
         child: InkWell(
           onTap: () => _handlePress(digit),
           borderRadius: BorderRadius.circular(10),
-          splashColor: const Color(0xFF00E676).withValues(alpha: 0.3),
+          splashColor: AppColors.primary.withValues(alpha: 0.3),
           child: Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF0F243E).withValues(alpha: 0.8),
+              color: AppColors.surface.withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white12),
+              border: Border.all(color: AppColors.border),
             ),
             child: Center(
               child: Text(
                 digit,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

@@ -164,7 +164,7 @@ class _ToolButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = accent ?? AppColors.pitchGreenLight;
+    final color = accent ?? AppColors.primary;
 
     return Padding(
       padding: const EdgeInsets.only(right: 8),

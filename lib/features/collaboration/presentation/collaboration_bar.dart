@@ -33,7 +33,7 @@ class CollaborationBar extends ConsumerWidget {
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.surface,
           border: Border(bottom: BorderSide(color: AppColors.border)),
         ),
@@ -71,7 +71,7 @@ class CollaborationBar extends ConsumerWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
@@ -85,7 +85,7 @@ class CollaborationBar extends ConsumerWidget {
                 height: 8,
                 decoration: BoxDecoration(
                   color: collaboration.isConnected
-                      ? AppColors.pitchGreenLight
+                      ? AppColors.primary
                       : AppColors.accentRed,
                   shape: BoxShape.circle,
                 ),
@@ -124,8 +124,8 @@ class CollaborationBar extends ConsumerWidget {
                     backgroundColor: collaborator.color,
                     child: Text(
                       collaborator.name.characters.first.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../repositories/tactical_board_repository.dart';
 import '../services/tactical_session_service.dart';
@@ -50,8 +51,8 @@ class _SaveTacticDialogState extends State<SaveTacticDialog> {
       if (savedId != null) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Color(0xFF10B981),
+          SnackBar(
+            backgroundColor: AppColors.primary,
             content: Text('تم حفظ الخطة بنجاح في السحابة!'),
           ),
         );
@@ -69,13 +70,13 @@ class _SaveTacticDialogState extends State<SaveTacticDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: AppColors.background,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.cloud_upload_outlined, color: Color(0xFF10B981)),
+          Icon(Icons.cloud_upload_outlined, color: AppColors.primary),
           SizedBox(width: 8),
-          Text('حفظ الخطة التكتيكية', style: TextStyle(color: Colors.white, fontSize: 16)),
+          Text('حفظ الخطة التكتيكية', style: TextStyle(color: AppColors.textPrimary, fontSize: 16)),
         ],
       ),
       content: SingleChildScrollView(
@@ -84,20 +85,20 @@ class _SaveTacticDialogState extends State<SaveTacticDialog> {
           children: [
             TextField(
               controller: _titleController,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: AppColors.textPrimary),
               decoration: _inputDecoration('عنوان الخطة / المباراة'),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _opponentController,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: AppColors.textPrimary),
               decoration: _inputDecoration('اسم الفريق الخصم (اختياري)'),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _notesController,
               maxLines: 3,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: AppColors.textPrimary),
               decoration: _inputDecoration('ملاحظات المدرب وتوجيهات التبديل'),
             ),
           ],
@@ -106,14 +107,14 @@ class _SaveTacticDialogState extends State<SaveTacticDialog> {
       actions: [
         TextButton(
           onPressed: _isSaving ? null : () => Navigator.pop(context),
-          child: const Text('إلغاء', style: TextStyle(color: Colors.white54)),
+          child: Text('إلغاء', style: TextStyle(color: AppColors.textSecondary)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF10B981)),
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
           onPressed: _isSaving ? null : _handleSave,
           child: _isSaving
-              ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-              : const Text('حفظ في السحابة', style: TextStyle(color: Colors.white)),
+              ? SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.textPrimary))
+              : Text('حفظ في السحابة', style: TextStyle(color: AppColors.textPrimary)),
         ),
       ],
     );
@@ -122,9 +123,9 @@ class _SaveTacticDialogState extends State<SaveTacticDialog> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       labelText: hint,
-      labelStyle: const TextStyle(color: Colors.white54, fontSize: 12),
+      labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 12),
       filled: true,
-      fillColor: const Color(0xFF1E293B),
+      fillColor: AppColors.surfaceElevated,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LocalizedPitchCanvas extends StatelessWidget {
@@ -68,7 +69,7 @@ class FootballPitchPainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     final playerPaint = Paint()
-      ..color = const Color(0xFF3B82F6)
+      ..color = AppColors.secondary
       ..style = PaintingStyle.fill;
 
     // 1. Draw Pitch Surface & Markings (Standard LTR)

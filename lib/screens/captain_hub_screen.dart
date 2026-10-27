@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:captain/core/router/app_router.dart';
@@ -12,7 +13,7 @@ class CaptainHubScreen extends StatelessWidget {
     final isTablet = size.width > 700;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0D1117),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -21,36 +22,36 @@ class CaptainHubScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF00E676).withValues(alpha: 0.15),
+                color: AppColors.primary.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.sports_soccer, color: Color(0xFF00E676)),
+              child: Icon(Icons.sports_soccer, color: AppColors.primary),
             ),
             const SizedBox(width: 12),
-            const Text(
+            Text(
               'CAPTAIN TACTICAL SUITE',
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.5,
                 fontSize: 18,
-                color: Colors.white,
+                color: AppColors.textPrimary,
               ),
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.health_and_safety_rounded, color: Color(0xFF06B6D4)),
+            icon: const Icon(Icons.health_and_safety_rounded, color: AppColors.info),
             tooltip: 'System Health Diagnostics',
             onPressed: () => SystemHealthCheckDialog.show(context),
           ),
           IconButton(
-            icon: const Icon(Icons.stadium, color: Color(0xFF00E676)),
+            icon: Icon(Icons.stadium, color: AppColors.primary),
             tooltip: '3D Stadium Playground Login',
             onPressed: () => context.push(AppRoutes.stadiumLogin),
           ),
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white70),
+            icon: Icon(Icons.settings, color: AppColors.textSecondary),
             tooltip: 'Settings',
             onPressed: () => context.push(AppRoutes.settings),
           ),
@@ -63,12 +64,12 @@ class CaptainHubScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Tactical Command Center',
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
@@ -111,7 +112,7 @@ class CaptainHubScreen extends StatelessWidget {
       title: 'Tactics & Whiteboard',
       subtitle: '2D Board, Drills, Formations & Video Calibration Sync',
       icon: Icons.architecture_rounded,
-      accentColor: const Color(0xFF2979FF),
+      accentColor: AppColors.secondary,
       features: const [
         'Bezier Drill Curves & Training Props',
         'Frame-Synced Match Video to Pitch',
@@ -127,7 +128,7 @@ class CaptainHubScreen extends StatelessWidget {
       title: '3D Virtual Playground',
       subtitle: 'First-Person POV, 3D Pitch Orbit & Keyframe Sequences',
       icon: Icons.view_in_ar_rounded,
-      accentColor: const Color(0xFF00E676),
+      accentColor: AppColors.primary,
       features: const [
         'Be-The-Player (Eye-Level 1.75m POV)',
         'Free 360° Pitch Orbit, Pan & Tilt',
@@ -143,7 +144,7 @@ class CaptainHubScreen extends StatelessWidget {
       title: 'Leagues & Player Intel',
       subtitle: 'Global Competitions, Player Profiles & Claude AI Reports',
       icon: Icons.groups_rounded,
-      accentColor: const Color(0xFFFF9100),
+      accentColor: AppColors.accentOrange,
       features: const [
         'Iraq Stars & European Leagues Data',
         'Player Biometrics, Radar & Heatmaps',
@@ -185,7 +186,7 @@ class _HubLauncherCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color(0xFF161B22),
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
           ),
@@ -218,8 +219,8 @@ class _HubLauncherCard extends StatelessWidget {
               const SizedBox(height: 14),
               Text(
                 title,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
                 ),
@@ -230,7 +231,7 @@ class _HubLauncherCard extends StatelessWidget {
                 style: TextStyle(color: Colors.grey[400], fontSize: 13, height: 1.3),
               ),
               const SizedBox(height: 14),
-              const Divider(color: Color(0xFF30363D), height: 1),
+              Divider(color: AppColors.border, height: 1),
               const SizedBox(height: 12),
               Column(
                 children: features

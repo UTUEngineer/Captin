@@ -146,5 +146,34 @@ class FootballApiClient {
     final items = response.data?['response'] as List<dynamic>? ?? [];
     return {'raw_response': items};
   }
-}
 
+  /// Top scorers (`kind` = 'topscorers' | 'topassists').
+  Future<List<PlayerStats>> getLeaders({
+    required int leagueId,
+    required int season,
+    String kind = 'topscorers',
+  }) async {
+    final response = await _dio.get<Map<String, dynamic>>(
+      '/players/$kind',
+      queryParameters: {'league': leagueId, 'season': season},
+    );
+    final items = response.data?['response'] as List<dynamic>? ?? [];
+    return items
+        .map((item) => PlayerStats.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<SquadPlayer>> getSquad(int teamId) async {
+    final response = await _dio.get<Map<String, dynamic>>(
+      '/players/squads',
+      queryParameters: {'team': teamId},
+    );
+    final items = response.data?['response'] as List<dynamic>? ?? [];
+    if (items.isEmpty) return [];
+    final players =
+        (items.first as Map<String, dynamic>)['players'] as List<dynamic>? ?? [];
+    return players
+        .map((p) => SquadPlayer.fromJson(p as Map<String, dynamic>))
+        .toList();
+  }
+}

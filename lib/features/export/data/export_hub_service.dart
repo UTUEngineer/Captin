@@ -189,7 +189,7 @@ class ExportHubService {
           build: (context) => [
             pw.Text('Player statistics', style: pw.TextStyle(fontSize: 18)),
             pw.SizedBox(height: 12),
-            pw.Table.fromTextArray(
+            pw.TableHelper.fromTextArray(
               headers: const ['Track', 'Distance km', 'Sprints', 'Max km/h'],
               data: analysis.players
                   .map(
@@ -242,7 +242,7 @@ class ExportHubService {
           build: (context) => [
             pw.Text('Match timeline', style: pw.TextStyle(fontSize: 18)),
             pw.SizedBox(height: 12),
-            pw.Table.fromTextArray(
+            pw.TableHelper.fromTextArray(
               headers: const ['Time', 'Type', 'Description'],
               data: timeline.events
                   .map(

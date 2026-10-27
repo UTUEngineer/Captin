@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -64,7 +65,7 @@ class _Tactical3DPitchWidgetState extends State<Tactical3DPitchWidget> {
 
   // حالة الأدوات والألوان النشطة
   TacticalTool currentTool = TacticalTool.select;
-  Color currentColor = const Color(0xFFFACC15); // الأصفر للتمريرات
+  Color currentColor = AppColors.gold; // الأصفر للتمريرات
 
   // حقول لتسجيل نقاط أدوات الرسم
   three.Object3D? firstSelectedPlayerForPass;
@@ -870,13 +871,13 @@ class TacticalControlOverlay extends StatefulWidget {
 
 class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
   TacticalTool selectedTool = TacticalTool.select;
-  Color selectedColor = const Color(0xFFFACC15);
+  Color selectedColor = AppColors.gold;
 
   final List<Color> colorPalette = [
-    const Color(0xFFFACC15),
-    const Color(0xFFEF4444),
-    const Color(0xFF3B82F6),
-    const Color(0xFF22C55E),
+    AppColors.gold,
+    AppColors.danger,
+    AppColors.secondary,
+    AppColors.primary,
     const Color(0xFFFFFFFF),
   ];
 
@@ -894,7 +895,7 @@ class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
               children: [
                 Row(
                   children: const [
-                    Icon(Icons.sports_soccer, color: Color(0xFF38BDF8)),
+                    Icon(Icons.sports_soccer, color: AppColors.info),
                     SizedBox(width: 8),
                     Text(
                       "CAPTAIN 3D",
@@ -914,7 +915,7 @@ class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
                         icon: const Icon(Icons.cloud_upload, color: Colors.white, size: 18),
                         label: const Text("حفظ التكتيك في السحابة"),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0EA5E9),
+                          backgroundColor: AppColors.info,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -927,7 +928,7 @@ class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
                       icon: const Icon(Icons.picture_as_pdf, color: Colors.white, size: 18),
                       label: const Text("تصدير التقرير PDF"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0EA5E9),
+                        backgroundColor: AppColors.info,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -938,7 +939,7 @@ class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
                     IconButton(
                       icon: Icon(
                         widget.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
-                        color: const Color(0xFF38BDF8),
+                        color: AppColors.info,
                         size: 32,
                       ),
                       onPressed: widget.onToggleAnimation,
@@ -1057,16 +1058,16 @@ class _TacticalControlOverlayState extends State<TacticalControlOverlay> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF38BDF8).withValues(alpha: 0.2) : Colors.transparent,
+          color: isSelected ? AppColors.info.withValues(alpha: 0.2) : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
-          border: isSelected ? Border.all(color: const Color(0xFF38BDF8)) : null,
+          border: isSelected ? Border.all(color: AppColors.info) : null,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFF38BDF8) : Colors.white70,
+              color: isSelected ? AppColors.info : Colors.white70,
               size: 22,
             ),
             const SizedBox(height: 4),

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../widgets/interactive_3d_pitch.dart';
@@ -92,7 +93,7 @@ class _SyncedMatchAnalysisScreenState extends State<SyncedMatchAnalysisScreen> {
           IconButton(
             icon: Icon(
               _videoController.value.isPlaying ? Icons.pause_circle : Icons.play_circle,
-              color: const Color(0xFF38BDF8),
+              color: AppColors.info,
             ),
             onPressed: () {
               setState(() {
@@ -107,7 +108,7 @@ class _SyncedMatchAnalysisScreenState extends State<SyncedMatchAnalysisScreen> {
         ],
       ),
       body: !isVideoInitialized
-          ? const Center(child: CircularProgressIndicator(color: Color(0xFF38BDF8)))
+          ? const Center(child: CircularProgressIndicator(color: AppColors.info))
           : LayoutBuilder(
               builder: (context, constraints) {
                 // للتعامل مع الشاشات العريضة (Desktop/Tablet Split View)
@@ -217,7 +218,7 @@ class _SyncedMatchAnalysisScreenState extends State<SyncedMatchAnalysisScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF0EA5E9).withValues(alpha: 0.8),
+                color: AppColors.info.withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: const Text(

@@ -73,7 +73,7 @@ class _PitchSpinnerPainter extends CustomPainter {
       linePaint,
     );
 
-    final tokenPaint = Paint()..color = const Color(0xFF00C853);
+    final tokenPaint = Paint()..color = AppColors.primary;
     for (var index = 0; index < 5; index++) {
       final angle = (progress * math.pi * 2) + (index * 1.2566);
       final cx = size.width / 2 +

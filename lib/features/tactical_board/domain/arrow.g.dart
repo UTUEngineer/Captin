@@ -18,6 +18,8 @@ _Arrow _$ArrowFromJson(Map<String, dynamic> json) => _Arrow(
   locked: json['locked'] as bool? ?? false,
   zIndex: (json['zIndex'] as num?)?.toInt() ?? 0,
   rotation: (json['rotation'] as num?)?.toDouble() ?? 0.0,
+  bend: (json['bend'] as num?)?.toDouble() ?? 0.35,
+  step: (json['step'] as num?)?.toInt() ?? 1,
 );
 
 Map<String, dynamic> _$ArrowToJson(_Arrow instance) => <String, dynamic>{
@@ -32,6 +34,8 @@ Map<String, dynamic> _$ArrowToJson(_Arrow instance) => <String, dynamic>{
   'locked': instance.locked,
   'zIndex': instance.zIndex,
   'rotation': instance.rotation,
+  'bend': instance.bend,
+  'step': instance.step,
 };
 
 const _$ArrowTypeEnumMap = {
@@ -39,4 +43,7 @@ const _$ArrowTypeEnumMap = {
   ArrowType.run: 'run',
   ArrowType.press: 'press',
   ArrowType.curvedRun: 'curvedRun',
+  ArrowType.dribble: 'dribble',
+  ArrowType.shot: 'shot',
+  ArrowType.line: 'line',
 };

@@ -15,11 +15,10 @@ import 'package:pdf/widgets.dart' as pw;
 
 class ScoutingReportRepository {
   ScoutingReportRepository({
-    required ClaudeApiKeyStore apiKeyStore,
+    required this._apiKeyStore,
     http.Client? httpClient,
     ScoutingResponseParser? parser,
-  })  : _apiKeyStore = apiKeyStore,
-        _httpClient = httpClient ?? http.Client(),
+  })  : _httpClient = httpClient ?? http.Client(),
         _parser = parser ?? ScoutingResponseParser();
 
   static const _messagesUrl = 'https://api.anthropic.com/v1/messages';

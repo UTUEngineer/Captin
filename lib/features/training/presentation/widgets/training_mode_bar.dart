@@ -15,7 +15,7 @@ class TrainingModeBar extends ConsumerWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
@@ -25,7 +25,7 @@ class TrainingModeBar extends ConsumerWidget {
             Icons.fitness_center_outlined,
             size: 18,
             color: training.isTrainingMode
-                ? AppColors.pitchGreenLight
+                ? AppColors.primary
                 : AppColors.textSecondary,
           ),
           const SizedBox(width: 8),

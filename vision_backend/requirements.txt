@@ -1,5 +1,9 @@
-fastapi>=0.100.0
-uvicorn[standard]>=0.22.0
-PyJWT>=2.8.0
-cryptography>=41.0.0
-python-dotenv>=1.0.0
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+numpy>=1.26
+opencv-python-headless>=4.9
+ultralytics>=8.2          # YOLOv8 + ByteTrack (pulls torch)
+PyJWT[crypto]>=2.8        # only needed with REQUIRE_AUTH=1
+yt-dlp>=2024.4            # optional: /from-youtube
+lap>=0.5                  # ByteTrack association

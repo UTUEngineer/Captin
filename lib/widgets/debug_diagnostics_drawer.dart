@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +53,7 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
               Text('Simulated test exception sent to Sentry telemetry relay.'),
             ],
           ),
-          backgroundColor: const Color(0xFF0F172A),
+          backgroundColor: AppColors.background,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
@@ -89,10 +90,10 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
         decoration: BoxDecoration(
           color: const Color(0xFF091728).withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.4)),
+          border: Border.all(color: AppColors.info.withValues(alpha: 0.4)),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF06B6D4).withValues(alpha: 0.3),
+              color: AppColors.info.withValues(alpha: 0.3),
               blurRadius: 20,
             ),
           ],
@@ -103,8 +104,8 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
             Container(
               width: 8,
               height: 8,
-              decoration: const BoxDecoration(
-                color: Color(0xFF10B981),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
             ),
@@ -131,10 +132,10 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
       decoration: BoxDecoration(
         color: const Color(0xFF091728).withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.4)),
+        border: Border.all(color: AppColors.info.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF06B6D4).withValues(alpha: 0.35),
+            color: AppColors.info.withValues(alpha: 0.35),
             blurRadius: 30,
             spreadRadius: 2,
           ),
@@ -154,15 +155,15 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
                     width: 8,
                     height: 8,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF06B6D4),
+                      color: AppColors.info,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
+                  Text(
                     'SYSTEM DIAGNOSTICS',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
@@ -172,7 +173,7 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
               ),
               IconButton(
                 onPressed: () => setState(() => _isOpen = false),
-                icon: const Icon(Icons.close_rounded, color: Colors.white54, size: 18),
+                icon: Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 18),
                 constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
               ),
@@ -187,14 +188,14 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
             children: [
               Text(
                 'Subsystems (${_reports.length})',
-                style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.bold),
               ),
               ElevatedButton(
                 onPressed: _testing ? null : _runAllChecks,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF06B6D4).withValues(alpha: 0.2),
+                  backgroundColor: AppColors.info.withValues(alpha: 0.2),
                   foregroundColor: const Color(0xFF67E8F9),
-                  side: const BorderSide(color: Color(0xFF06B6D4)),
+                  side: const BorderSide(color: AppColors.info),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   elevation: 0,
@@ -213,7 +214,7 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
           if (_testing && _reports.isEmpty)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
-              child: Center(child: CircularProgressIndicator(color: Color(0xFF06B6D4))),
+              child: Center(child: CircularProgressIndicator(color: AppColors.info)),
             )
           else
             Column(
@@ -221,22 +222,22 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
             ),
 
           const SizedBox(height: 12),
-          const Divider(color: Colors.white12, height: 1),
+          Divider(color: AppColors.border, height: 1),
           const SizedBox(height: 10),
 
           // Sentry Crash Test Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Verify Sentry Logging:',
-                style: TextStyle(color: Colors.white54, fontSize: 10),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 10),
               ),
               OutlinedButton(
                 onPressed: _triggerTestSentryCrash,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFFFDA4AF),
-                  side: const BorderSide(color: Color(0xFFE11D48)),
+                  side: const BorderSide(color: AppColors.danger),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
@@ -257,19 +258,19 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
     final bool isDegraded = item.status == HealthStatus.degraded;
 
     final Color statusColor = isOnline
-        ? const Color(0xFF10B981)
+        ? AppColors.primary
         : isDegraded
-            ? const Color(0xFFFCD34D)
-            : const Color(0xFFE11D48);
+            ? AppColors.gold
+            : AppColors.danger;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withValues(alpha: 0.8),
+        color: AppColors.background.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isOnline ? Colors.white10 : statusColor.withValues(alpha: 0.4),
+          color: isOnline ? AppColors.subtle : statusColor.withValues(alpha: 0.4),
         ),
       ),
       child: Row(
@@ -283,12 +284,12 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
                   children: [
                     Text(
                       item.layer,
-                      style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       '(${item.method})',
-                      style: const TextStyle(color: Colors.white38, fontSize: 8, fontFamily: 'monospace'),
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 8, fontFamily: 'monospace'),
                     ),
                   ],
                 ),
@@ -296,7 +297,7 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
                   item.message,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white54, fontSize: 9),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 9),
                 ),
               ],
             ),
@@ -325,7 +326,7 @@ class _DebugDiagnosticsDrawerState extends ConsumerState<DebugDiagnosticsDrawer>
               if (item.latencyMs != null)
                 Text(
                   '${item.latencyMs}ms',
-                  style: const TextStyle(color: Colors.white38, fontSize: 8, fontFamily: 'monospace'),
+                  style: TextStyle(color: AppColors.textMuted, fontSize: 8, fontFamily: 'monospace'),
                 ),
             ],
           ),

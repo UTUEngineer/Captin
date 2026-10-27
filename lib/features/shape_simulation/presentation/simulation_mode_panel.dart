@@ -17,7 +17,7 @@ class SimulationModePanel extends ConsumerWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(
           bottom: BorderSide(color: AppColors.border),
@@ -32,7 +32,7 @@ class SimulationModePanel extends ConsumerWidget {
                 Icons.auto_awesome_motion_outlined,
                 size: 18,
                 color: simulation.isSimulationActive
-                    ? AppColors.pitchGreenLight
+                    ? AppColors.primary
                     : AppColors.textSecondary,
               ),
               const SizedBox(width: 8),
@@ -45,6 +45,50 @@ class SimulationModePanel extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
+              if (simulation.isSimulationActive) ...[
+                Tooltip(
+                  message: 'الخصم يتفاعل / Opponents react',
+                  child: FilterChip(
+                    avatar: Icon(
+                      Icons.compare_arrows_rounded,
+                      size: 16,
+                      color: simulation.opponentsReact
+                          ? AppColors.awayTeam
+                          : AppColors.textMuted,
+                    ),
+                    label: Text(
+                      'الخصم',
+                      style: GoogleFonts.cairo(fontSize: 12),
+                    ),
+                    selected: simulation.opponentsReact,
+                    showCheckmark: false,
+                    onSelected: (_) => ref
+                        .read(shapeSimulationProvider.notifier)
+                        .toggleOpponentsReact(),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                IconButton(
+                  tooltip: 'إعادة الشكل / Reset shape',
+                  visualDensity: VisualDensity.compact,
+                  icon: Icon(Icons.restart_alt_rounded,
+                      color: AppColors.textSecondary),
+                  onPressed: () {
+                    final base = ref
+                        .read(shapeSimulationProvider.notifier)
+                        .resetPositions;
+                    if (base.isEmpty) return;
+                    ref.read(tacticalBoardProvider.notifier).movePlayers(
+                          positions: {
+                            for (final e in base.entries)
+                              e.key: (x: e.value.dx, y: e.value.dy),
+                          },
+                        );
+                    ref.read(shapeSimulationProvider.notifier).clearGhosts();
+                  },
+                ),
+                const SizedBox(width: 4),
+              ],
               FilterChip(
                 label: Text(
                   simulation.isSimulationActive ? 'مفعّل' : 'إيقاف',
@@ -52,10 +96,10 @@ class SimulationModePanel extends ConsumerWidget {
                 ),
                 selected: simulation.isSimulationActive,
                 showCheckmark: false,
-                selectedColor: AppColors.pitchGreenLight.withValues(alpha: 0.25),
+                selectedColor: AppColors.primary.withValues(alpha: 0.25),
                 side: BorderSide(
                   color: simulation.isSimulationActive
-                      ? AppColors.pitchGreenLight
+                      ? AppColors.primary
                       : AppColors.border,
                 ),
                 onSelected: (_) {
@@ -96,11 +140,11 @@ class SimulationModePanel extends ConsumerWidget {
                     ),
                     selected: selected,
                     selectedColor:
-                        AppColors.pitchGreenLight.withValues(alpha: 0.35),
+                        AppColors.primary.withValues(alpha: 0.35),
                     backgroundColor: AppColors.surfaceElevated,
                     side: BorderSide(
                       color: selected
-                          ? AppColors.pitchGreenLight
+                          ? AppColors.primary
                           : AppColors.border,
                     ),
                     onSelected: (_) {

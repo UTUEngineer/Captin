@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../widgets/tactical_3d_pitch.dart';
 import '../services/tracking_player_engine.dart';
@@ -15,6 +16,8 @@ class Tactical3DPitchScreen extends StatefulWidget {
 class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
   bool _isSaving = false;
   String _selectedFormation = '4-3-3';
+  // ignore: unused_field
+  TrackingPlaybackEngine? _playbackEngine;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +28,11 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
         elevation: 4,
         title: Row(
           children: [
-            const Icon(Icons.view_in_ar, color: Color(0xFF00E5FF), size: 24),
+            const Icon(Icons.view_in_ar, color: AppColors.info, size: 24),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'الملعب التكتيكي 3D',
                   style: TextStyle(
@@ -42,7 +45,7 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
                   '3D Tactical Pitch Simulation Engine',
                   style: TextStyle(
                     fontSize: 11,
-                    color: Color(0xFF94A3B8),
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -57,10 +60,10 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Color(0xFF00E5FF),
+                      color: AppColors.info,
                     ),
                   )
-                : const Icon(Icons.cloud_upload_outlined, color: Color(0xFF00E5FF)),
+                : const Icon(Icons.cloud_upload_outlined, color: AppColors.info),
             tooltip: 'حفظ الخطة في Supabase',
             onPressed: _isSaving ? null : _saveBoardToCloud,
           ),
@@ -106,7 +109,7 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
                   Row(
                     children: [
                       const Icon(Icons.space_dashboard_outlined,
-                          color: Color(0xFF00E5FF), size: 20),
+                          color: AppColors.info, size: 20),
                       const SizedBox(width: 8),
                       const Text(
                         'التشكيلة:',
@@ -117,7 +120,7 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
                         value: _selectedFormation,
                         dropdownColor: const Color(0xFF0F172A),
                         style: const TextStyle(
-                            color: Color(0xFF00E5FF), fontWeight: FontWeight.bold),
+                            color: AppColors.info, fontWeight: FontWeight.bold),
                         underline: const SizedBox(),
                         items: const [
                           DropdownMenuItem(value: '4-3-3', child: Text('4-3-3')),
@@ -141,7 +144,7 @@ class _Tactical3DPitchScreenState extends State<Tactical3DPitchScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('تم تحديث التشكيلة على الملعب 3D'),
-                          backgroundColor: Color(0xFF00E5FF),
+                          backgroundColor: AppColors.info,
                         ),
                       );
                     },

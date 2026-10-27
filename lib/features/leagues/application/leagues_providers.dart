@@ -5,6 +5,7 @@ import 'package:captain/features/leagues/data/leagues_cache_store.dart';
 import 'package:captain/features/leagues/data/leagues_repository.dart';
 import 'package:captain/features/leagues/domain/league.dart';
 import 'package:captain/features/leagues/domain/match_fixture.dart';
+import 'package:captain/features/leagues/domain/player.dart';
 import 'package:captain/features/leagues/domain/standing.dart';
 import 'package:captain/features/leagues/domain/team.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,9 +32,8 @@ final leaguesCacheStoreProvider = FutureProvider<LeaguesCacheStore>((ref) async 
   return LeaguesCacheStore.create();
 });
 
-final leaguesRepositoryProvider = FutureProvider<LeaguesRepository?>((ref) async {
+final leaguesRepositoryProvider = FutureProvider<LeaguesRepository>((ref) async {
   final client = ref.watch(footballApiClientProvider);
-  if (client == null) return null;
   final cache = await ref.watch(leaguesCacheStoreProvider.future);
   return LeaguesRepository(client: client, cache: cache);
 });
@@ -41,9 +41,6 @@ final leaguesRepositoryProvider = FutureProvider<LeaguesRepository?>((ref) async
 final leaguesByRegionProvider =
     FutureProvider.family<List<League>, String>((ref, regionCode) async {
   final repository = await ref.watch(leaguesRepositoryProvider.future);
-  if (repository == null) {
-    throw StateError('Football API key is not configured.');
-  }
   return repository.getLeaguesByRegion(regionCode);
 });
 
@@ -52,9 +49,6 @@ typedef LeagueSeasonParams = ({int leagueId, int season});
 final standingsProvider =
     FutureProvider.family<List<Standing>, LeagueSeasonParams>((ref, params) async {
   final repository = await ref.watch(leaguesRepositoryProvider.future);
-  if (repository == null) {
-    throw StateError('Football API key is not configured.');
-  }
   return repository.getStandings(
     leagueId: params.leagueId,
     season: params.season,
@@ -64,9 +58,6 @@ final standingsProvider =
 final fixturesProvider =
     FutureProvider.family<List<MatchFixture>, LeagueSeasonParams>((ref, params) async {
   final repository = await ref.watch(leaguesRepositoryProvider.future);
-  if (repository == null) {
-    throw StateError('Football API key is not configured.');
-  }
   return repository.getFixtures(
     leagueId: params.leagueId,
     season: params.season,
@@ -76,9 +67,6 @@ final fixturesProvider =
 final teamsProvider =
     FutureProvider.family<List<Team>, LeagueSeasonParams>((ref, params) async {
   final repository = await ref.watch(leaguesRepositoryProvider.future);
-  if (repository == null) {
-    throw StateError('Football API key is not configured.');
-  }
   return repository.getTeams(
     leagueId: params.leagueId,
     season: params.season,
@@ -88,8 +76,29 @@ final teamsProvider =
 final leagueByIdProvider =
     FutureProvider.family<League?, int>((ref, leagueId) async {
   final repository = await ref.watch(leaguesRepositoryProvider.future);
-  if (repository == null) {
-    throw StateError('Football API key is not configured.');
-  }
   return repository.getLeagueById(leagueId);
+});
+
+/// Whether league screens show live API data or the offline sample season.
+final leaguesLiveDataProvider = FutureProvider<bool>((ref) async {
+  final repository = await ref.watch(leaguesRepositoryProvider.future);
+  return repository.isLive;
+});
+
+typedef LeaderParams = ({int leagueId, int season, String kind});
+
+final leagueLeadersProvider =
+    FutureProvider.family<List<PlayerStats>, LeaderParams>((ref, params) async {
+  final repository = await ref.watch(leaguesRepositoryProvider.future);
+  return repository.getLeaders(
+    leagueId: params.leagueId,
+    season: params.season,
+    kind: params.kind,
+  );
+});
+
+final teamSquadProvider =
+    FutureProvider.family<List<SquadPlayer>, int>((ref, teamId) async {
+  final repository = await ref.watch(leaguesRepositoryProvider.future);
+  return repository.getSquad(teamId);
 });

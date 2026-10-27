@@ -5,6 +5,7 @@ import 'package:captain/core/theme/app_colors.dart';
 import 'package:captain/features/collaboration/domain/collaboration_event.dart';
 import 'package:captain/features/formations/domain/tactic_board_template.dart';
 import 'package:captain/features/tactical_board/domain/arrow.dart';
+import 'package:captain/features/tactical_board/domain/board_ball.dart';
 import 'package:captain/features/tactical_board/domain/board_element.dart';
 import 'package:captain/features/tactical_board/domain/board_snapshot.dart';
 import 'package:captain/features/tactical_board/domain/board_tool.dart';
@@ -28,10 +29,16 @@ const maxBoardHistoryDepth = 50;
 
 const zoneColorPalette = <Color>[
   AppColors.accentRed,
-  AppColors.pitchGreenLight,
+  AppColors.brand,
   Color(0xFF42A5F5),
   Color(0xFFFFEE58),
+  AppColors.accentOrange,
+  Color(0xFFA855F7),
+  Color(0xFFFFFFFF),
 ];
+
+/// Max number of playback phases a board can hold.
+const maxBoardSteps = 6;
 
 class DraftDrawing {
   const DraftDrawing({
@@ -40,6 +47,7 @@ class DraftDrawing {
     required this.endX,
     required this.endY,
     required this.tool,
+    this.path = const [],
   });
 
   final double startX;
@@ -47,6 +55,9 @@ class DraftDrawing {
   final double endX;
   final double endY;
   final BoardTool tool;
+
+  /// Free-hand points (relative coords) for the lasso zone tool.
+  final List<Offset> path;
 }
 
 class TacticalBoardState {
@@ -69,6 +80,10 @@ class TacticalBoardState {
     this.canUndo = false,
     this.canRedo = false,
     this.skipNextAnimation = false,
+    this.ball,
+    this.activeStep = 1,
+    this.animateArrows = true,
+    this.arrowColorValue,
   });
 
   final FormationType? selectedFormation;
@@ -89,8 +104,24 @@ class TacticalBoardState {
   final bool canUndo;
   final bool canRedo;
   final bool skipNextAnimation;
+  final BoardBall? ball;
+
+  /// Phase that newly drawn arrows are assigned to.
+  final int activeStep;
+
+  /// Flowing "marching" animation on arrows.
+  final bool animateArrows;
+
+  /// Custom color for new arrows; null = default color per arrow type.
+  final int? arrowColorValue;
 
   bool isSelected(BoardElementKey key) => selectedElements.contains(key);
+
+  /// Highest phase used by any arrow (at least 1).
+  int get stepCount => arrows.fold<int>(
+        1,
+        (maxStep, arrow) => arrow.step > maxStep ? arrow.step : maxStep,
+      );
 
   TacticalBoardState copyWith({
     FormationType? selectedFormation,
@@ -114,6 +145,12 @@ class TacticalBoardState {
     bool? canRedo,
     bool? skipNextAnimation,
     bool clearSelection = false,
+    BoardBall? ball,
+    bool clearBall = false,
+    int? activeStep,
+    bool? animateArrows,
+    int? arrowColorValue,
+    bool clearArrowColor = false,
   }) {
     return TacticalBoardState(
       selectedFormation: selectedFormation ?? this.selectedFormation,
@@ -140,6 +177,12 @@ class TacticalBoardState {
       canUndo: canUndo ?? this.canUndo,
       canRedo: canRedo ?? this.canRedo,
       skipNextAnimation: skipNextAnimation ?? this.skipNextAnimation,
+      ball: clearBall ? null : (ball ?? this.ball),
+      activeStep: activeStep ?? this.activeStep,
+      animateArrows: animateArrows ?? this.animateArrows,
+      arrowColorValue: clearArrowColor
+          ? null
+          : (arrowColorValue ?? this.arrowColorValue),
     );
   }
 }
@@ -507,7 +550,8 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       zones: state.zones
           .map(
             (item) => item.id == zoneId
-                ? item.copyWith(
+                ? _resizedZone(
+                    item,
                     x: snapValue(x),
                     y: snapValue(y),
                     width: math.max(minDrawSize, snapValue(width)),
@@ -562,6 +606,264 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
     state = state.copyWith(snapToGrid: !state.snapToGrid);
   }
 
+  // ── Ball ────────────────────────────────────────────────────────────────
+
+  /// Places (or moves) the ball. [commit] records an undo step.
+  void setBall({required double x, required double y, bool commit = true}) {
+    if (commit) _pushHistory();
+    state = state.copyWith(
+      ball: BoardBall(x: _clamp(x), y: _clamp(y)),
+    );
+  }
+
+  void removeBall() {
+    if (state.ball == null) return;
+    _pushHistory();
+    state = state.copyWith(clearBall: true);
+  }
+
+  // ── Phases, arrow style ────────────────────────────────────────────────
+
+  void setActiveStep(int step) {
+    state = state.copyWith(activeStep: step.clamp(1, maxBoardSteps));
+  }
+
+  void toggleAnimateArrows() {
+    state = state.copyWith(animateArrows: !state.animateArrows);
+  }
+
+  void setArrowColor(int? colorValue) {
+    state = colorValue == null
+        ? state.copyWith(clearArrowColor: true)
+        : state.copyWith(arrowColorValue: colorValue);
+  }
+
+  /// Assigns the selected arrows to [step].
+  void setSelectedArrowsStep(int step) {
+    final ids = _idsFor(BoardElementKind.arrow);
+    if (ids.isEmpty) return;
+    _pushHistory();
+    state = state.copyWith(
+      arrows: [
+        for (final arrow in state.arrows)
+          ids.contains(arrow.id)
+              ? arrow.copyWith(step: step.clamp(1, maxBoardSteps))
+              : arrow,
+      ],
+    );
+  }
+
+  // ── Objects ─────────────────────────────────────────────────────────────
+
+  /// Adds an extra player token (e.g. for drills or overloads).
+  void addPlayer({required bool isHomeTeam, double? x, double? y}) {
+    _pushHistory();
+    final teammates = state.players.where((p) => p.isHomeTeam == isHomeTeam);
+    final used = teammates.map((p) => p.number).toSet();
+    var number = 12;
+    while (used.contains(number)) {
+      number++;
+    }
+    final player = Player(
+      id: _uuid.v4(),
+      number: number,
+      x: _clamp(x ?? 0.5),
+      y: _clamp(y ?? (isHomeTeam ? 0.62 : 0.38)),
+      isHomeTeam: isHomeTeam,
+      zIndex: _nextZIndex(BoardElementKind.player),
+    );
+    state = state.copyWith(
+      players: [...state.players, player],
+      selectedElements: {BoardElementKey(BoardElementKind.player, player.id)},
+      skipNextAnimation: true,
+    );
+  }
+
+  // ── Selection ───────────────────────────────────────────────────────────
+
+  void selectAll() {
+    state = state.copyWith(
+      activeTool: BoardTool.select,
+      selectedElements: {
+        for (final p in state.players)
+          BoardElementKey(BoardElementKind.player, p.id),
+        for (final a in state.arrows)
+          BoardElementKey(BoardElementKind.arrow, a.id),
+        for (final z in state.zones) BoardElementKey(BoardElementKind.zone, z.id),
+        for (final c in state.highlights)
+          BoardElementKey(BoardElementKind.highlight, c.id),
+        for (final n in state.textAnnotations)
+          BoardElementKey(BoardElementKind.text, n.id),
+      },
+      multiSelectActive: true,
+    );
+  }
+
+  /// Rubber-band selection: every element whose anchor lies inside [rect]
+  /// (relative coordinates).
+  void selectInRect(Rect rect, {bool additive = false}) {
+    if (!state.activeTool.isSelect) return;
+    bool inside(double x, double y) => rect.contains(Offset(x, y));
+
+    final hits = <BoardElementKey>{
+      for (final p in state.players)
+        if (inside(p.x, p.y)) BoardElementKey(BoardElementKind.player, p.id),
+      for (final a in state.arrows)
+        if (inside((a.startX + a.endX) / 2, (a.startY + a.endY) / 2) ||
+            (inside(a.startX, a.startY) && inside(a.endX, a.endY)))
+          BoardElementKey(BoardElementKind.arrow, a.id),
+      for (final z in state.zones)
+        if (inside(z.x + z.width / 2, z.y + z.height / 2))
+          BoardElementKey(BoardElementKind.zone, z.id),
+      for (final c in state.highlights)
+        if (inside(c.centerX, c.centerY))
+          BoardElementKey(BoardElementKind.highlight, c.id),
+      for (final n in state.textAnnotations)
+        if (inside(n.x, n.y)) BoardElementKey(BoardElementKind.text, n.id),
+    };
+
+    final next = additive ? {...state.selectedElements, ...hits} : hits;
+    state = state.copyWith(
+      selectedElements: next,
+      multiSelectActive: next.length > 1,
+    );
+  }
+
+  /// Starts a continuous edit (drag / transform). Records one undo step so
+  /// the following non-committing updates can be undone together.
+  void beginInteraction() => _pushHistory();
+
+  /// Moves every selected, unlocked element by ([dx], [dy]) in relative
+  /// coordinates. Call [beginInteraction] once before a drag.
+  void translateSelected({required double dx, required double dy}) {
+    if (state.selectedElements.isEmpty) return;
+    final players = _idsFor(BoardElementKind.player);
+    final arrows = _idsFor(BoardElementKind.arrow);
+    final zones = _idsFor(BoardElementKind.zone);
+    final circles = _idsFor(BoardElementKind.highlight);
+    final notes = _idsFor(BoardElementKind.text);
+
+    state = state.copyWith(
+      players: [
+        for (final p in state.players)
+          players.contains(p.id) && !p.locked
+              ? p.copyWith(x: _clamp(p.x + dx), y: _clamp(p.y + dy))
+              : p,
+      ],
+      arrows: [
+        for (final a in state.arrows)
+          arrows.contains(a.id) && !a.locked
+              ? a.copyWith(
+                  startX: _clamp(a.startX + dx),
+                  startY: _clamp(a.startY + dy),
+                  endX: _clamp(a.endX + dx),
+                  endY: _clamp(a.endY + dy),
+                )
+              : a,
+      ],
+      zones: [
+        for (final z in state.zones)
+          zones.contains(z.id) && !z.locked ? _translateZone(z, dx, dy) : z,
+      ],
+      highlights: [
+        for (final c in state.highlights)
+          circles.contains(c.id) && !c.locked
+              ? c.copyWith(
+                  centerX: _clamp(c.centerX + dx),
+                  centerY: _clamp(c.centerY + dy),
+                )
+              : c,
+      ],
+      textAnnotations: [
+        for (final n in state.textAnnotations)
+          notes.contains(n.id) && !n.locked
+              ? n.copyWith(x: _clamp(n.x + dx), y: _clamp(n.y + dy))
+              : n,
+      ],
+      skipNextAnimation: true,
+    );
+  }
+
+  Zone _resizedZone(
+    Zone zone, {
+    required double x,
+    required double y,
+    required double width,
+    required double height,
+  }) {
+    if (zone.points.isEmpty || zone.width == 0 || zone.height == 0) {
+      return zone.copyWith(x: x, y: y, width: width, height: height);
+    }
+    final sx = width / zone.width;
+    final sy = height / zone.height;
+    return zone.copyWith(
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      points: [
+        for (var i = 0; i < zone.points.length; i++)
+          i.isEven
+              ? x + (zone.points[i] - zone.x) * sx
+              : y + (zone.points[i] - zone.y) * sy,
+      ],
+    );
+  }
+
+  Zone _translateZone(Zone zone, double dx, double dy) {
+    final nx = (zone.x + dx).clamp(0.0, 1.0 - zone.width);
+    final ny = (zone.y + dy).clamp(0.0, 1.0 - zone.height);
+    final ddx = nx - zone.x;
+    final ddy = ny - zone.y;
+    return zone.copyWith(
+      x: nx,
+      y: ny,
+      points: [
+        for (var i = 0; i < zone.points.length; i++)
+          zone.points[i] + (i.isEven ? ddx : ddy),
+      ],
+    );
+  }
+
+  /// Applies the end state of a tactic playback (players + ball) as one
+  /// undoable step.
+  void applyPlaybackResult({
+    required Map<String, Offset> players,
+    Offset? ball,
+  }) {
+    if (players.isEmpty && ball == null) return;
+    _pushHistory();
+    state = state.copyWith(
+      players: [
+        for (final p in state.players)
+          if (players[p.id] case final pos?)
+            p.copyWith(x: _clamp(pos.dx), y: _clamp(pos.dy))
+          else
+            p,
+      ],
+      ball: ball == null ? null : BoardBall(x: _clamp(ball.dx), y: _clamp(ball.dy)),
+      skipNextAnimation: true,
+    );
+  }
+
+  /// Removes all drawings (arrows, zones, circles, notes) but keeps players.
+  void clearDrawings() {
+    if (state.arrows.isEmpty &&
+        state.zones.isEmpty &&
+        state.highlights.isEmpty &&
+        state.textAnnotations.isEmpty) {
+      return;
+    }
+    _pushHistory();
+    state = state.copyWith(
+      arrows: const [],
+      zones: const [],
+      highlights: const [],
+      textAnnotations: const [],
+      clearSelection: true,
+    );
+  }
+
   void undo() {
     if (_undoStack.isEmpty) return;
 
@@ -591,6 +893,7 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
         endX: x,
         endY: y,
         tool: tool,
+        path: tool == BoardTool.freeZone ? [Offset(x, y)] : const [],
       ),
     );
   }
@@ -606,6 +909,9 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
         endX: x,
         endY: y,
         tool: draft.tool,
+        path: draft.tool == BoardTool.freeZone
+            ? [...draft.path, Offset(x, y)]
+            : const [],
       ),
     );
   }
@@ -617,17 +923,14 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
     _pushHistory();
 
     switch (draft.tool) {
-      case BoardTool.passArrow:
-      case BoardTool.runArrow:
-      case BoardTool.pressArrow:
-      case BoardTool.curvedRun:
-        _commitArrow(draft);
       case BoardTool.zone:
         _commitZone(draft);
+      case BoardTool.freeZone:
+        _commitFreeZone(draft);
       case BoardTool.circle:
         _commitCircle(draft);
       default:
-        break;
+        if (draft.tool.isArrowTool) _commitArrow(draft);
     }
 
     state = state.copyWith(clearDraftDrawing: true);
@@ -853,13 +1156,7 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       return;
     }
 
-    final type = switch (draft.tool) {
-      BoardTool.passArrow => ArrowType.pass,
-      BoardTool.runArrow => ArrowType.run,
-      BoardTool.pressArrow => ArrowType.press,
-      BoardTool.curvedRun => ArrowType.curvedRun,
-      _ => ArrowType.pass,
-    };
+    final type = draft.tool.arrowType ?? ArrowType.pass;
 
     final arrow = Arrow(
       id: _uuid.v4(),
@@ -869,8 +1166,10 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       endY: draft.endY,
       type: type,
       curved: draft.tool == BoardTool.curvedRun,
-      colorValue: _defaultArrowColor(type).toARGB32(),
+      colorValue:
+          state.arrowColorValue ?? defaultArrowColor(type).toARGB32(),
       zIndex: _nextZIndex(BoardElementKind.arrow),
+      step: state.activeStep,
     );
 
     state = state.copyWith(arrows: [...state.arrows, arrow]);
@@ -893,6 +1192,33 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
     state = state.copyWith(zones: [...state.zones, zone]);
   }
 
+  void _commitFreeZone(DraftDrawing draft) {
+    final points = simplifyPath(draft.path, tolerance: 0.006);
+    if (points.length < 3) return;
+    var minX = 1.0, minY = 1.0, maxX = 0.0, maxY = 0.0;
+    for (final p in points) {
+      minX = math.min(minX, p.dx);
+      minY = math.min(minY, p.dy);
+      maxX = math.max(maxX, p.dx);
+      maxY = math.max(maxY, p.dy);
+    }
+    if (maxX - minX < minDrawSize && maxY - minY < minDrawSize) return;
+
+    final zone = Zone(
+      id: _uuid.v4(),
+      x: minX,
+      y: minY,
+      width: math.max(minDrawSize, maxX - minX),
+      height: math.max(minDrawSize, maxY - minY),
+      colorValue: state.selectedZoneColor,
+      zIndex: _nextZIndex(BoardElementKind.zone),
+      shape: ZoneShape.polygon,
+      points: [for (final p in points) ...[p.dx, p.dy]],
+    );
+
+    state = state.copyWith(zones: [...state.zones, zone]);
+  }
+
   void _commitCircle(DraftDrawing draft) {
     final bounds = _normalizedBounds(draft);
     if (bounds.width < minDrawSize || bounds.height < minDrawSize) return;
@@ -910,14 +1236,6 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
     state = state.copyWith(highlights: [...state.highlights, circle]);
   }
 
-  Color _defaultArrowColor(ArrowType type) {
-    return switch (type) {
-      ArrowType.pass => AppColors.textPrimary,
-      ArrowType.run => AppColors.textPrimary,
-      ArrowType.press => AppColors.accentRed,
-      ArrowType.curvedRun => AppColors.accentOrange,
-    };
-  }
 
   ({double left, double top, double width, double height}) _normalizedBounds(
     DraftDrawing draft,
@@ -945,12 +1263,16 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
   String? _findZoneAt(double x, double y) {
     final sorted = [...state.zones]..sort((a, b) => b.zIndex.compareTo(a.zIndex));
     for (final zone in sorted) {
-      if (x >= zone.x &&
+      final inBounds = x >= zone.x &&
           x <= zone.x + zone.width &&
           y >= zone.y &&
-          y <= zone.y + zone.height) {
-        return zone.id;
+          y <= zone.y + zone.height;
+      if (!inBounds) continue;
+      if (zone.shape == ZoneShape.polygon && zone.points.length >= 6) {
+        if (pointInPolygon(zone.points, x, y)) return zone.id;
+        continue;
       }
+      return zone.id;
     }
     return null;
   }
@@ -979,12 +1301,17 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
   }
 
   double _distanceToArrow(Arrow arrow, double x, double y) {
-    if (arrow.curved) {
+    if (arrow.curved || arrow.type == ArrowType.dribble) {
+      final control = arrowControlPoint(
+        Offset(arrow.startX, arrow.startY),
+        Offset(arrow.endX, arrow.endY),
+        arrow.curved ? arrow.bend : 0,
+      );
       return _distanceToQuadraticBezier(
         arrow.startX,
         arrow.startY,
-        (arrow.startX + arrow.endX) / 2,
-        arrow.startY - (arrow.endY - arrow.startY).abs() * 0.35,
+        control.dx,
+        control.dy,
         arrow.endX,
         arrow.endY,
         x,
@@ -1057,6 +1384,7 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
 
   BoardSnapshot _currentSnapshot() {
     return BoardSnapshot.fromState(
+      ball: state.ball,
       players: state.players,
       selectedFormation: state.selectedFormation,
       arrows: state.arrows,
@@ -1077,6 +1405,8 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       textAnnotations: snapshot.textAnnotations
           .map((note) => note.copyWith())
           .toList(),
+      ball: snapshot.ball,
+      clearBall: snapshot.ball == null,
       clearSelection: true,
       clearDraftDrawing: true,
       skipNextAnimation: true,
@@ -1098,12 +1428,22 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
 
   List<Player> _buildPlayersForFormation(FormationType type) {
     final slots = formationSlotsFor(type);
+    // Formation slots describe one team over the whole pitch; with both teams
+    // on the board, fit each side into its own half so tokens never overlap.
+    final ys = slots.map((s) => s.y);
+    final minY = ys.reduce(math.min);
+    final maxY = ys.reduce(math.max);
+    double ownHalf(double y) {
+      final span = (maxY - minY) == 0 ? 1 : (maxY - minY);
+      return 0.54 + (y - minY) / span * 0.41;
+    }
+
     final homePlayers = slots.map((slot) {
       return Player(
         id: _uuid.v4(),
         number: slot.number,
         x: slot.x,
-        y: slot.y,
+        y: ownHalf(slot.y),
         label: slot.label,
         isHomeTeam: true,
       );
@@ -1113,8 +1453,8 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       return Player(
         id: _uuid.v4(),
         number: slot.number,
-        x: slot.x,
-        y: 1 - slot.y,
+        x: 1 - slot.x,
+        y: 1 - ownHalf(slot.y),
         label: slot.label,
         isHomeTeam: false,
       );
@@ -1142,6 +1482,8 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       highlights: state.highlights.map((circle) => circle.copyWith()).toList(),
       textAnnotations:
           state.textAnnotations.map((note) => note.copyWith()).toList(),
+      ballX: state.ball?.x,
+      ballY: state.ball?.y,
     );
   }
 
@@ -1161,6 +1503,9 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
       orientation: template.orientation,
       pitchStyle: template.pitchStyle,
       activeTool: BoardTool.select,
+      ball: template.ballX != null && template.ballY != null
+          ? BoardBall(x: template.ballX!, y: template.ballY!)
+          : null,
     );
   }
 
@@ -1238,3 +1583,73 @@ final tacticalBoardProvider =
     StateNotifierProvider<TacticalBoardNotifier, TacticalBoardState>(
   (ref) => TacticalBoardNotifier(),
 );
+
+/// Default stroke color for each arrow type.
+Color defaultArrowColor(ArrowType type) {
+  return switch (type) {
+    ArrowType.pass => const Color(0xFFFFFFFF),
+    ArrowType.run => const Color(0xFFFFEE58),
+    ArrowType.press => AppColors.accentRed,
+    ArrowType.curvedRun => AppColors.accentOrange,
+    ArrowType.dribble => const Color(0xFF67E8F9),
+    ArrowType.shot => const Color(0xFFFF4D6D),
+    ArrowType.line => const Color(0xFFE2E8F0),
+  };
+}
+
+/// Control point for a quadratic arrow curve. [bend] is a signed fraction of
+/// the arrow length, applied perpendicular to the arrow direction.
+Offset arrowControlPoint(Offset start, Offset end, double bend) {
+  final mid = Offset((start.dx + end.dx) / 2, (start.dy + end.dy) / 2);
+  final d = end - start;
+  final length = d.distance;
+  if (length == 0 || bend == 0) return mid;
+  final normal = Offset(-d.dy / length, d.dx / length);
+  return mid + normal * (length * bend);
+}
+
+/// Ray-casting point-in-polygon on a flattened [x0, y0, x1, y1, ...] list.
+bool pointInPolygon(List<double> points, double x, double y) {
+  var inside = false;
+  final n = points.length ~/ 2;
+  for (var i = 0, j = n - 1; i < n; j = i++) {
+    final xi = points[i * 2], yi = points[i * 2 + 1];
+    final xj = points[j * 2], yj = points[j * 2 + 1];
+    final intersects = ((yi > y) != (yj > y)) &&
+        (x < (xj - xi) * (y - yi) / ((yj - yi) == 0 ? 1e-9 : (yj - yi)) + xi);
+    if (intersects) inside = !inside;
+  }
+  return inside;
+}
+
+/// Ramer–Douglas–Peucker simplification for free-hand zones.
+List<Offset> simplifyPath(List<Offset> points, {double tolerance = 0.005}) {
+  if (points.length < 3) return List.of(points);
+
+  double perpendicular(Offset p, Offset a, Offset b) {
+    final d = b - a;
+    final len = d.distance;
+    if (len == 0) return (p - a).distance;
+    return ((d.dx * (a.dy - p.dy)) - (a.dx - p.dx) * d.dy).abs() / len;
+  }
+
+  List<Offset> rdp(List<Offset> pts) {
+    var maxDist = 0.0;
+    var index = 0;
+    for (var i = 1; i < pts.length - 1; i++) {
+      final dist = perpendicular(pts[i], pts.first, pts.last);
+      if (dist > maxDist) {
+        maxDist = dist;
+        index = i;
+      }
+    }
+    if (maxDist > tolerance) {
+      final left = rdp(pts.sublist(0, index + 1));
+      final right = rdp(pts.sublist(index));
+      return [...left.sublist(0, left.length - 1), ...right];
+    }
+    return [pts.first, pts.last];
+  }
+
+  return rdp(points);
+}

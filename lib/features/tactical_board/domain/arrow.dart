@@ -8,6 +8,26 @@ enum ArrowType {
   run,
   press,
   curvedRun,
+  dribble,
+  shot,
+  line,
+}
+
+extension ArrowTypeX on ArrowType {
+  /// Arrows that move a player when the tactic is played back.
+  bool get movesPlayer =>
+      this == ArrowType.run ||
+      this == ArrowType.curvedRun ||
+      this == ArrowType.dribble ||
+      this == ArrowType.press;
+
+  /// Arrows that move the ball when the tactic is played back.
+  bool get movesBall =>
+      this == ArrowType.pass ||
+      this == ArrowType.shot ||
+      this == ArrowType.dribble;
+
+  bool get hasHead => this != ArrowType.line;
 }
 
 @freezed
@@ -24,6 +44,10 @@ abstract class Arrow with _$Arrow {
     @Default(false) bool locked,
     @Default(0) int zIndex,
     @Default(0.0) double rotation,
+    /// Signed curvature for curved arrows (fraction of arrow length).
+    @Default(0.35) double bend,
+    /// Playback phase this arrow belongs to (1-based).
+    @Default(1) int step,
   }) = _Arrow;
 
   factory Arrow.fromJson(Map<String, dynamic> json) => _$ArrowFromJson(json);

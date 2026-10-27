@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:captain/core/router/app_router.dart';
 import 'package:captain/features/onboarding/presentation/widgets/features_onboarding_page.dart';
 import 'package:captain/features/onboarding/presentation/widgets/setup_onboarding_page.dart';
@@ -79,47 +80,117 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                padding: const EdgeInsets.fromLTRB(20, 14, 20, 4),
                 child: Row(
                   children: [
                     if (_pageIndex > 0)
-                      IconButton(
-                        onPressed: () => _pageController.previousPage(
+                      InkWell(
+                        onTap: () => _pageController.previousPage(
                           duration: const Duration(milliseconds: 350),
                           curve: Curves.easeOutCubic,
                         ),
-                        icon: Icon(
-                          _isArabic
-                              ? Icons.arrow_forward_ios
-                              : Icons.arrow_back_ios_new,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.06),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.1),
+                            ),
+                          ),
+                          child: Icon(
+                            _isArabic
+                                ? Icons.arrow_forward_ios
+                                : Icons.arrow_back_ios_new,
+                            size: 16,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       )
                     else
-                      const SizedBox(width: 48),
+                      const SizedBox(width: 36),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
                           3,
                           (index) => AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOutCubic,
                             margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: _pageIndex == index ? 24 : 8,
-                            height: 8,
+                            width: _pageIndex == index ? 28 : 8,
+                            height: 6,
                             decoration: BoxDecoration(
+                              gradient: _pageIndex == index
+                                  ? LinearGradient(
+                                      colors: [
+                                        AppColors.primary,
+                                        Color(0xFF00B0FF),
+                                      ],
+                                    )
+                                  : null,
                               color: _pageIndex == index
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).dividerColor,
+                                  ? null
+                                  : Colors.white.withValues(alpha: 0.18),
                               borderRadius: BorderRadius.circular(999),
+                              boxShadow: _pageIndex == index
+                                  ? [
+                                      BoxShadow(
+                                        color: AppColors.primary
+                                            .withValues(alpha: 0.4),
+                                        blurRadius: 8,
+                                      ),
+                                    ]
+                                  : null,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: _pageIndex == 2 ? null : _nextPage,
-                      child: Text(_isArabic ? 'التالي' : 'Next'),
-                    ),
+                    if (_pageIndex < 2)
+                      InkWell(
+                        onTap: _nextPage,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary
+                                .withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColors.primary
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _isArabic ? 'التالي' : 'Next',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                _isArabic
+                                    ? Icons.arrow_back
+                                    : Icons.arrow_forward,
+                                size: 14,
+                                color: AppColors.primary,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(width: 36),
                   ],
                 ),
               ),

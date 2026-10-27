@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:captain/features/timeline/domain/tactical_timeline_engine.dart';
@@ -74,7 +75,7 @@ class _TacticalBoardPlayerState extends State<TacticalBoardPlayer>
                 decoration: BoxDecoration(
                   color: const Color(0xFF1E3A2F),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white24, width: 2),
+                  border: Border.all(color: AppColors.border, width: 2),
                 ),
                 child: AnimatedBuilder(
                   animation: _playbackController,
@@ -99,8 +100,8 @@ class _TacticalBoardPlayerState extends State<TacticalBoardPlayer>
         // 2. Timeline Controls & Keyframe Markers
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          decoration: const BoxDecoration(
-            color: Color(0xFF0F172A),
+          decoration: BoxDecoration(
+            color: AppColors.background,
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           ),
           child: Row(
@@ -108,7 +109,7 @@ class _TacticalBoardPlayerState extends State<TacticalBoardPlayer>
               IconButton(
                 icon: Icon(
                   _playbackController.isAnimating ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
                 onPressed: _togglePlayback,
               ),
@@ -120,8 +121,8 @@ class _TacticalBoardPlayerState extends State<TacticalBoardPlayer>
                       data: SliderTheme.of(context).copyWith(
                         trackHeight: 4,
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                        activeTrackColor: const Color(0xFF10B981),
-                        inactiveTrackColor: Colors.white12,
+                        activeTrackColor: AppColors.primary,
+                        inactiveTrackColor: AppColors.textMuted,
                       ),
                       child: Slider(
                         value: _playbackController.value.clamp(0.0, 1.0),
@@ -135,7 +136,7 @@ class _TacticalBoardPlayerState extends State<TacticalBoardPlayer>
               ),
               Text(
                 "${(_playbackController.value * _totalDuration.inSeconds).toStringAsFixed(1)}s / ${_totalDuration.inSeconds}s",
-                style: const TextStyle(color: Colors.white70, fontFamily: 'monospace'),
+                style: TextStyle(color: AppColors.textSecondary, fontFamily: 'monospace'),
               ),
             ],
           ),
@@ -157,11 +158,11 @@ class TacticalScenePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final playerPaint = Paint()
-      ..color = const Color(0xFF3B82F6)
+      ..color = AppColors.secondary
       ..style = PaintingStyle.fill;
 
     final ballPaint = Paint()
-      ..color = const Color(0xFFF59E0B)
+      ..color = AppColors.gold
       ..style = PaintingStyle.fill;
 
     final strokePaint = Paint()

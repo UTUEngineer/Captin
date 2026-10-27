@@ -12,10 +12,53 @@ extension AnalysisResultPlayers on AnalysisResult {
         x: position.x,
         y: position.y,
         label: 'T${track.trackId}',
-        isHomeTeam: track.trackId.isEven,
+        isHomeTeam: track.team == null ? track.trackId.isEven : track.team != 'B',
         zIndex: isSelected ? 999 : track.trackId,
       );
     }).toList();
+  }
+
+  /// Ball position at [timestampSeconds], or null when the ball was not seen
+  /// within half a second of that moment.
+  ({double x, double y})? ballAt(double timestampSeconds) {
+    if (ball.isEmpty) return null;
+    TrackPosition? before;
+    TrackPosition? after;
+    for (final p in ball) {
+      if (p.timestampSeconds <= timestampSeconds) before = p;
+      if (p.timestampSeconds >= timestampSeconds) {
+        after = p;
+        break;
+      }
+    }
+    if (before == null && after == null) return null;
+    final a = before ?? after!;
+    final b = after ?? before!;
+    final gap = (b.timestampSeconds - a.timestampSeconds).abs();
+    final nearest = (timestampSeconds - a.timestampSeconds).abs() <
+            (b.timestampSeconds - timestampSeconds).abs()
+        ? a
+        : b;
+    if ((nearest.timestampSeconds - timestampSeconds).abs() > 0.5) return null;
+    if (gap == 0) return (x: a.x, y: a.y);
+    final w = ((timestampSeconds - a.timestampSeconds) / gap).clamp(0.0, 1.0);
+    return (x: a.x + (b.x - a.x) * w, y: a.y + (b.y - a.y) * w);
+  }
+
+  /// Team totals for the summary card.
+  ({double distanceKm, int sprints, double topSpeed}) teamTotals(String team) {
+    var distance = 0.0;
+    var sprints = 0;
+    var top = 0.0;
+    for (final p in players) {
+      final t = p.team ??
+          (tracks.where((tr) => tr.trackId == p.trackId).firstOrNull?.team);
+      if (t != team) continue;
+      distance += p.distanceKm;
+      sprints += p.sprintCount;
+      if (p.maxSpeedKmh > top) top = p.maxSpeedKmh;
+    }
+    return (distanceKm: distance, sprints: sprints, topSpeed: top);
   }
 
   PlayerAnalytics? analyticsFor(int trackId) {

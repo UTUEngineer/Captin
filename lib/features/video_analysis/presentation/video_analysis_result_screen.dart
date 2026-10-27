@@ -122,8 +122,52 @@ class _ResultBody extends StatelessWidget {
         ? null
         : result.analyticsFor(state.selectedTrackId!);
 
+    final teamA = result.teamTotals('A');
+    final teamB = result.teamTotals('B');
+    final ballSeen = (result.summary['ball_detected_ratio'] as num?)?.toDouble();
+
     return Column(
       children: [
+        if (result.tracks.any((t) => t.team != null))
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _TeamTotalsCard(
+                    label: 'Team A',
+                    color: AppColors.homeTeam,
+                    distanceKm: teamA.distanceKm,
+                    sprints: teamA.sprints,
+                    topSpeed: teamA.topSpeed,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _TeamTotalsCard(
+                    label: 'Team B',
+                    color: AppColors.awayTeam,
+                    distanceKm: teamB.distanceKm,
+                    sprints: teamB.sprints,
+                    topSpeed: teamB.topSpeed,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        if (!result.calibrated || ballSeen != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+            child: Text(
+              [
+                if (!result.calibrated)
+                  'Not calibrated — distances are approximate.',
+                if (ballSeen != null)
+                  'Ball detected in ${(ballSeen * 100).round()}% of frames.',
+              ].join('  '),
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
           child: Wrap(
@@ -161,6 +205,7 @@ class _ResultBody extends StatelessWidget {
                     showPossessionZones: state.showPossessionZones,
                     selectedTrackId: state.selectedTrackId,
                     onTrackSelected: onSelectTrack,
+                    timestampSeconds: state.currentTimeSeconds,
                   ),
                   if (state.showStatsPanel &&
                       selectedAnalytics != null &&
@@ -284,6 +329,57 @@ class _ErrorBody extends StatelessWidget {
             ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _TeamTotalsCard extends StatelessWidget {
+  const _TeamTotalsCard({
+    required this.label,
+    required this.color,
+    required this.distanceKm,
+    required this.sprints,
+    required this.topSpeed,
+  });
+
+  final String label;
+  final Color color;
+  final double distanceKm;
+  final int sprints;
+  final double topSpeed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceElevated,
+        borderRadius: BorderRadius.circular(12),
+        border: Border(
+          left: BorderSide(color: color, width: 4),
+          top: BorderSide(color: AppColors.border),
+          right: BorderSide(color: AppColors.border),
+          bottom: BorderSide(color: AppColors.border),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${distanceKm.toStringAsFixed(2)} km · $sprints sprints · '
+            'top ${topSpeed.toStringAsFixed(1)} km/h',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+          ),
+        ],
       ),
     );
   }

@@ -45,6 +45,8 @@ _TacticBoardTemplate _$TacticBoardTemplateFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TextAnnotation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      ballX: (json['ballX'] as num?)?.toDouble(),
+      ballY: (json['ballY'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$TacticBoardTemplateToJson(
@@ -63,6 +65,8 @@ Map<String, dynamic> _$TacticBoardTemplateToJson(
   'zones': instance.zones,
   'highlights': instance.highlights,
   'textAnnotations': instance.textAnnotations,
+  'ballX': instance.ballX,
+  'ballY': instance.ballY,
 };
 
 const _$FormationTypeEnumMap = {

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Zone {
 
- String get id; double get x; double get y; double get width; double get height; int get colorValue; bool get locked; int get zIndex; double get rotation;
+ String get id; double get x; double get y; double get width; double get height; int get colorValue; bool get locked; int get zIndex; double get rotation; ZoneShape get shape; List<double> get points; ZonePattern get pattern; String? get label;
 /// Create a copy of Zone
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ZoneCopyWith<Zone> get copyWith => _$ZoneCopyWithImpl<Zone>(this as Zone, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zone&&(identical(other.id, id) || other.id == id)&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zone&&(identical(other.id, id) || other.id == id)&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation)&&(identical(other.shape, shape) || other.shape == shape)&&const DeepCollectionEquality().equals(other.points, points)&&(identical(other.pattern, pattern) || other.pattern == pattern)&&(identical(other.label, label) || other.label == label));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,x,y,width,height,colorValue,locked,zIndex,rotation);
+int get hashCode => Object.hash(runtimeType,id,x,y,width,height,colorValue,locked,zIndex,rotation,shape,const DeepCollectionEquality().hash(points),pattern,label);
 
 @override
 String toString() {
-  return 'Zone(id: $id, x: $x, y: $y, width: $width, height: $height, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation)';
+  return 'Zone(id: $id, x: $x, y: $y, width: $width, height: $height, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation, shape: $shape, points: $points, pattern: $pattern, label: $label)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ZoneCopyWith<$Res>  {
   factory $ZoneCopyWith(Zone value, $Res Function(Zone) _then) = _$ZoneCopyWithImpl;
 @useResult
 $Res call({
- String id, double x, double y, double width, double height, int colorValue, bool locked, int zIndex, double rotation
+ String id, double x, double y, double width, double height, int colorValue, bool locked, int zIndex, double rotation, ZoneShape shape, List<double> points, ZonePattern pattern, String? label
 });
 
 
@@ -65,7 +65,7 @@ class _$ZoneCopyWithImpl<$Res>
 
 /// Create a copy of Zone
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? x = null,Object? y = null,Object? width = null,Object? height = null,Object? colorValue = null,Object? locked = null,Object? zIndex = null,Object? rotation = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? x = null,Object? y = null,Object? width = null,Object? height = null,Object? colorValue = null,Object? locked = null,Object? zIndex = null,Object? rotation = null,Object? shape = null,Object? points = null,Object? pattern = null,Object? label = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
@@ -76,7 +76,11 @@ as double,colorValue: null == colorValue ? _self.colorValue : colorValue // igno
 as int,locked: null == locked ? _self.locked : locked // ignore: cast_nullable_to_non_nullable
 as bool,zIndex: null == zIndex ? _self.zIndex : zIndex // ignore: cast_nullable_to_non_nullable
 as int,rotation: null == rotation ? _self.rotation : rotation // ignore: cast_nullable_to_non_nullable
-as double,
+as double,shape: null == shape ? _self.shape : shape // ignore: cast_nullable_to_non_nullable
+as ZoneShape,points: null == points ? _self.points : points // ignore: cast_nullable_to_non_nullable
+as List<double>,pattern: null == pattern ? _self.pattern : pattern // ignore: cast_nullable_to_non_nullable
+as ZonePattern,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -161,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation,  ZoneShape shape,  List<double> points,  ZonePattern pattern,  String? label)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Zone() when $default != null:
-return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.shape,_that.points,_that.pattern,_that.label);case _:
   return orElse();
 
 }
@@ -182,10 +186,10 @@ return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorVal
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation,  ZoneShape shape,  List<double> points,  ZonePattern pattern,  String? label)  $default,) {final _that = this;
 switch (_that) {
 case _Zone():
-return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.shape,_that.points,_that.pattern,_that.label);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +206,10 @@ return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorVal
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  double x,  double y,  double width,  double height,  int colorValue,  bool locked,  int zIndex,  double rotation,  ZoneShape shape,  List<double> points,  ZonePattern pattern,  String? label)?  $default,) {final _that = this;
 switch (_that) {
 case _Zone() when $default != null:
-return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation);case _:
+return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorValue,_that.locked,_that.zIndex,_that.rotation,_that.shape,_that.points,_that.pattern,_that.label);case _:
   return null;
 
 }
@@ -217,7 +221,7 @@ return $default(_that.id,_that.x,_that.y,_that.width,_that.height,_that.colorVal
 @JsonSerializable()
 
 class _Zone implements Zone {
-  const _Zone({required this.id, required this.x, required this.y, required this.width, required this.height, required this.colorValue, this.locked = false, this.zIndex = 0, this.rotation = 0.0});
+  const _Zone({required this.id, required this.x, required this.y, required this.width, required this.height, required this.colorValue, this.locked = false, this.zIndex = 0, this.rotation = 0.0, this.shape = ZoneShape.rectangle, final  List<double> points = const <double>[], this.pattern = ZonePattern.solid, this.label}): _points = points;
   factory _Zone.fromJson(Map<String, dynamic> json) => _$ZoneFromJson(json);
 
 @override final  String id;
@@ -229,6 +233,16 @@ class _Zone implements Zone {
 @override@JsonKey() final  bool locked;
 @override@JsonKey() final  int zIndex;
 @override@JsonKey() final  double rotation;
+@override@JsonKey() final  ZoneShape shape;
+ final  List<double> _points;
+@override@JsonKey() List<double> get points {
+  if (_points is EqualUnmodifiableListView) return _points;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_points);
+}
+
+@override@JsonKey() final  ZonePattern pattern;
+@override final  String? label;
 
 /// Create a copy of Zone
 /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +257,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Zone&&(identical(other.id, id) || other.id == id)&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Zone&&(identical(other.id, id) || other.id == id)&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.locked, locked) || other.locked == locked)&&(identical(other.zIndex, zIndex) || other.zIndex == zIndex)&&(identical(other.rotation, rotation) || other.rotation == rotation)&&(identical(other.shape, shape) || other.shape == shape)&&const DeepCollectionEquality().equals(other._points, _points)&&(identical(other.pattern, pattern) || other.pattern == pattern)&&(identical(other.label, label) || other.label == label));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,x,y,width,height,colorValue,locked,zIndex,rotation);
+int get hashCode => Object.hash(runtimeType,id,x,y,width,height,colorValue,locked,zIndex,rotation,shape,const DeepCollectionEquality().hash(_points),pattern,label);
 
 @override
 String toString() {
-  return 'Zone(id: $id, x: $x, y: $y, width: $width, height: $height, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation)';
+  return 'Zone(id: $id, x: $x, y: $y, width: $width, height: $height, colorValue: $colorValue, locked: $locked, zIndex: $zIndex, rotation: $rotation, shape: $shape, points: $points, pattern: $pattern, label: $label)';
 }
 
 
@@ -263,7 +277,7 @@ abstract mixin class _$ZoneCopyWith<$Res> implements $ZoneCopyWith<$Res> {
   factory _$ZoneCopyWith(_Zone value, $Res Function(_Zone) _then) = __$ZoneCopyWithImpl;
 @override @useResult
 $Res call({
- String id, double x, double y, double width, double height, int colorValue, bool locked, int zIndex, double rotation
+ String id, double x, double y, double width, double height, int colorValue, bool locked, int zIndex, double rotation, ZoneShape shape, List<double> points, ZonePattern pattern, String? label
 });
 
 
@@ -280,7 +294,7 @@ class __$ZoneCopyWithImpl<$Res>
 
 /// Create a copy of Zone
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? x = null,Object? y = null,Object? width = null,Object? height = null,Object? colorValue = null,Object? locked = null,Object? zIndex = null,Object? rotation = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? x = null,Object? y = null,Object? width = null,Object? height = null,Object? colorValue = null,Object? locked = null,Object? zIndex = null,Object? rotation = null,Object? shape = null,Object? points = null,Object? pattern = null,Object? label = freezed,}) {
   return _then(_Zone(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
@@ -291,7 +305,11 @@ as double,colorValue: null == colorValue ? _self.colorValue : colorValue // igno
 as int,locked: null == locked ? _self.locked : locked // ignore: cast_nullable_to_non_nullable
 as bool,zIndex: null == zIndex ? _self.zIndex : zIndex // ignore: cast_nullable_to_non_nullable
 as int,rotation: null == rotation ? _self.rotation : rotation // ignore: cast_nullable_to_non_nullable
-as double,
+as double,shape: null == shape ? _self.shape : shape // ignore: cast_nullable_to_non_nullable
+as ZoneShape,points: null == points ? _self._points : points // ignore: cast_nullable_to_non_nullable
+as List<double>,pattern: null == pattern ? _self.pattern : pattern // ignore: cast_nullable_to_non_nullable
+as ZonePattern,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

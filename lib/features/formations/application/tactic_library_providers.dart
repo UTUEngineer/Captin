@@ -70,5 +70,5 @@ extension TacticBoardTemplateUi on TacticBoardTemplate {
   String get badgeLabel => isPreset ? 'Preset' : 'Saved';
 
   Color get badgeColor =>
-      isPreset ? AppColors.pitchGreenLight : AppColors.accentOrange;
+      isPreset ? AppColors.primary : AppColors.accentOrange;
 }

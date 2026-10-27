@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../services/tactical_keyframe_engine.dart';
 
@@ -20,9 +21,9 @@ class TacticalKeyframeBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.95),
+        color: AppColors.surfaceElevated.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
         boxShadow: const [
           BoxShadow(
             color: Colors.black45,
@@ -37,7 +38,7 @@ class TacticalKeyframeBar extends StatelessWidget {
           // Record Step Button
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF10B981),
+              backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -50,9 +51,9 @@ class TacticalKeyframeBar extends StatelessWidget {
 
           // Keyframe thumbnails / steps count
           if (engine.keyframes.isEmpty)
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text("لا توجد خطوات مسجلة", style: TextStyle(color: Colors.white54, fontSize: 12)),
+              child: Text("لا توجد خطوات مسجلة", style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
             )
           else
             Row(
@@ -62,14 +63,14 @@ class TacticalKeyframeBar extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: isCurrent ? const Color(0xFF38BDF8) : const Color(0xFF334155),
+                    color: isCurrent ? AppColors.info : AppColors.border,
                     borderRadius: BorderRadius.circular(8),
                     border: isCurrent ? Border.all(color: Colors.white, width: 1.5) : null,
                   ),
                   child: Text(
                     "F${kf.stepIndex}",
                     style: TextStyle(
-                      color: isCurrent ? Colors.black : Colors.white,
+                      color: isCurrent ? Colors.black : AppColors.textPrimary,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -84,7 +85,7 @@ class TacticalKeyframeBar extends StatelessWidget {
             onPressed: onPlaySequence,
             icon: Icon(
               engine.isPlayingSequence ? Icons.pause_circle_filled : Icons.play_circle_fill,
-              color: const Color(0xFF38BDF8),
+              color: AppColors.info,
               size: 28,
             ),
             tooltip: "تشغيل التسلسل التكتيكي",

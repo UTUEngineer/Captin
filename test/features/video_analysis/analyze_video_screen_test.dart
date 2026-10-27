@@ -1,5 +1,4 @@
 import 'package:captain/core/network/result.dart';
-import 'package:captain/features/video_analysis/application/backend_availability_provider.dart';
 import 'package:captain/features/video_analysis/application/video_analysis_providers.dart';
 import 'package:captain/features/video_analysis/domain/video_analysis_repository.dart';
 import 'package:captain/features/video_analysis/presentation/analyze_video_screen.dart';

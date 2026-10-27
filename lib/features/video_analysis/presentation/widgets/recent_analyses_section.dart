@@ -36,7 +36,7 @@ class RecentAnalysesSection extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }
@@ -70,9 +70,9 @@ class _RecentAnalysisCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.play_circle_outline,
-                color: AppColors.pitchGreenLight,
+                color: AppColors.primary,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -93,13 +93,13 @@ class _RecentAnalysisCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              Icon(Icons.chevron_right, color: AppColors.textSecondary),
               IconButton(
                 tooltip: 'Scouting report',
                 onPressed: () => context.push(
                   AppRoutes.scoutingReportForVideo(entry.videoId),
                 ),
-                icon: const Icon(
+                icon: Icon(
                   Icons.analytics_outlined,
                   color: AppColors.textSecondary,
                 ),

@@ -50,6 +50,14 @@ class PlayerStatsPanel extends StatelessWidget {
               value: '${analytics.sprintCount}',
             ),
             _StatRow(
+              label: 'Avg speed',
+              value: '${analytics.avgSpeedKmh.toStringAsFixed(1)} km/h',
+            ),
+            _StatRow(
+              label: 'Sprint distance',
+              value: '${analytics.sprintDistanceM.toStringAsFixed(0)} m',
+            ),
+            _StatRow(
               label: 'Max speed',
               value: '${analytics.maxSpeedKmh.toStringAsFixed(1)} km/h',
             ),

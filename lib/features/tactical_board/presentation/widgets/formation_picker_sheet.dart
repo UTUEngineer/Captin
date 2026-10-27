@@ -64,7 +64,7 @@ class FormationPickerSheet extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
                       color: isSelected
-                          ? AppColors.pitchGreenLight
+                          ? AppColors.primary
                           : AppColors.border,
                     ),
                   ),
@@ -74,12 +74,12 @@ class FormationPickerSheet extends ConsumerWidget {
                   leading: Icon(
                     Icons.sports_soccer,
                     color: isSelected
-                        ? AppColors.pitchGreenLight
+                        ? AppColors.primary
                         : AppColors.textSecondary,
                   ),
                   title: Text(formation.label),
                   trailing: isSelected
-                      ? const Icon(Icons.check_circle, color: AppColors.pitchGreenLight)
+                      ? Icon(Icons.check_circle, color: AppColors.primary)
                       : null,
                   onTap: () {
                     ref

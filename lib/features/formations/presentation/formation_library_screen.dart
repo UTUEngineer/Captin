@@ -229,7 +229,7 @@ class _TemplateCard extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         color: AppColors.accentRed,
-        child: const Icon(Icons.delete_outline, color: AppColors.textPrimary),
+        child: Icon(Icons.delete_outline, color: AppColors.textPrimary),
       ),
       confirmDismiss: (_) async {
         await onSwipeDelete!();

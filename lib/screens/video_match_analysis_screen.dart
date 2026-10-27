@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../widgets/interactive_3d_pitch.dart';
@@ -90,7 +91,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
             tooltip: 'Toggle 3D Heatmap',
             icon: Icon(
               Icons.local_fire_department_outlined,
-              color: _showHeatmap ? const Color(0xFFF59E0B) : Colors.white60,
+              color: _showHeatmap ? AppColors.gold : Colors.white60,
             ),
             onPressed: () {
               setState(() => _showHeatmap = !_showHeatmap);
@@ -100,7 +101,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
             tooltip: 'Toggle Passing Risk Corridors',
             icon: Icon(
               Icons.alt_route_outlined,
-              color: _showRiskCorridor ? const Color(0xFFEF4444) : Colors.white60,
+              color: _showRiskCorridor ? AppColors.danger : Colors.white60,
             ),
             onPressed: () {
               setState(() => _showRiskCorridor = !_showRiskCorridor);
@@ -108,7 +109,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
           ),
           IconButton(
             tooltip: '4-Point Homography Calibration',
-            icon: const Icon(Icons.crop_free, color: Color(0xFF38BDF8)),
+            icon: const Icon(Icons.crop_free, color: AppColors.info),
             onPressed: _showHomographyDialog,
           ),
         ],
@@ -122,9 +123,9 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildMetricPill('CV Engine', 'YOLOv8 + ByteTrack', Icons.memory, const Color(0xFF38BDF8)),
-                _buildMetricPill('Tracked', '$_trackedPlayersCount Players', Icons.people_alt, const Color(0xFF10B981)),
-                _buildMetricPill('Confidence', '${(_avgConfidence * 100).toStringAsFixed(1)}%', Icons.check_circle_outline, const Color(0xFFFACC15)),
+                _buildMetricPill('CV Engine', 'YOLOv8 + ByteTrack', Icons.memory, AppColors.info),
+                _buildMetricPill('Tracked', '$_trackedPlayersCount Players', Icons.people_alt, AppColors.primary),
+                _buildMetricPill('Confidence', '${(_avgConfidence * 100).toStringAsFixed(1)}%', Icons.check_circle_outline, AppColors.gold),
                 _buildMetricPill('Frame', '#$_lastSyncedFrameIndex @ ${_matchFps.toInt()} FPS', Icons.timer_outlined, const Color(0xFFA855F7)),
               ],
             ),
@@ -184,7 +185,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(color: Color(0xFF38BDF8)),
+                      CircularProgressIndicator(color: AppColors.info),
                       SizedBox(height: 12),
                       Text('Raw Match Footage (Calibrated)', style: TextStyle(color: Colors.white60, fontSize: 13)),
                     ],
@@ -217,7 +218,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
             bottom: 12,
             right: 12,
             child: FloatingActionButton.small(
-              backgroundColor: const Color(0xFF38BDF8),
+              backgroundColor: AppColors.info,
               onPressed: () {
                 setState(() {
                   if (_videoController.value.isPlaying) {
@@ -265,11 +266,11 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFF0A0F1D).withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.5)),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.view_in_ar, color: Color(0xFF10B981), size: 12),
+                  Icon(Icons.view_in_ar, color: AppColors.primary, size: 12),
                   SizedBox(width: 6),
                   Text('Synchronized 3D Simulation & Passing Corridors', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
                 ],
@@ -324,7 +325,7 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
         backgroundColor: const Color(0xFF1E293B),
         title: const Row(
           children: [
-            Icon(Icons.crop_free, color: Color(0xFF38BDF8)),
+            Icon(Icons.crop_free, color: AppColors.info),
             SizedBox(width: 8),
             Text('4-Point Homography Calibration', style: TextStyle(color: Colors.white, fontSize: 16)),
           ],
@@ -350,13 +351,13 @@ class _VideoMatchAnalysisScreenState extends State<VideoMatchAnalysisScreen> {
             child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF38BDF8)),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.info),
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text('Homography Matrix Re-Calibrated Successfully!'),
-                  backgroundColor: Color(0xFF10B981),
+                  backgroundColor: AppColors.primary,
                 ),
               );
             },

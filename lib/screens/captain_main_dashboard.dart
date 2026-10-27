@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../services/tactical_session_service.dart';
 import 'virtual_playground_screen.dart';
@@ -29,35 +30,35 @@ class _CaptainMainDashboardState extends State<CaptainMainDashboard> {
         ];
 
         return Scaffold(
-          backgroundColor: const Color(0xFF070B14),
+          backgroundColor: AppColors.background,
           body: IndexedStack(
             index: currentSectionIndex,
             children: sections,
           ),
           bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF0F172A),
-              border: Border(top: BorderSide(color: Colors.white10, width: 1)),
+            decoration: BoxDecoration(
+              color: AppColors.background,
+              border: Border(top: BorderSide(color: AppColors.subtle, width: 1)),
             ),
             child: NavigationBar(
               backgroundColor: Colors.transparent,
-              indicatorColor: const Color(0xFF10B981).withValues(alpha: 0.2),
+              indicatorColor: AppColors.primary.withValues(alpha: 0.2),
               selectedIndex: currentSectionIndex,
               onDestinationSelected: (index) => _sessionService.switchTab(index),
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.sports_soccer_outlined, color: Colors.white60),
-                  selectedIcon: Icon(Icons.sports_soccer, color: Color(0xFF10B981)),
+                  icon: Icon(Icons.sports_soccer_outlined, color: AppColors.textSecondary),
+                  selectedIcon: Icon(Icons.sports_soccer, color: AppColors.primary),
                   label: '3D Playground',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.sync_alt_outlined, color: Colors.white60),
-                  selectedIcon: Icon(Icons.sync_alt, color: Color(0xFF10B981)),
+                  icon: Icon(Icons.sync_alt_outlined, color: AppColors.textSecondary),
+                  selectedIcon: Icon(Icons.sync_alt, color: AppColors.primary),
                   label: 'Video vs 3D Sync',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.analytics_outlined, color: Colors.white60),
-                  selectedIcon: Icon(Icons.analytics, color: Color(0xFF10B981)),
+                  icon: Icon(Icons.analytics_outlined, color: AppColors.textSecondary),
+                  selectedIcon: Icon(Icons.analytics, color: AppColors.primary),
                   label: 'Scouting & Leagues',
                 ),
               ],

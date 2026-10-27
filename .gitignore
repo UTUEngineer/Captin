@@ -6,6 +6,8 @@
 .DS_Store
 .env
 supabase/.env
+config/prod.env
+config/*.env
 node_modules/
 supabase/functions/node_modules/
 supabase/.branches/
@@ -17,6 +19,10 @@ supabase/.temp/
 .svn/
 .swiftpm/
 migrate_working_dir/
+_claude_backup/
+_to_delete/
+_antigravity_backup.zip
+*.tar.gz
 
 # IntelliJ related
 *.iml

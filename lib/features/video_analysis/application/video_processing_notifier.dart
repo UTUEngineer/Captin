@@ -72,11 +72,9 @@ class VideoProcessingState {
 
 class VideoProcessingNotifier extends StateNotifier<VideoProcessingState> {
   VideoProcessingNotifier({
-    required VideoAnalysisRepository repository,
-    required LocalVideoJobStore jobStore,
-  })  : _repository = repository,
-        _jobStore = jobStore,
-        super(const VideoProcessingState());
+    required this._repository,
+    required this._jobStore,
+  })  : super(const VideoProcessingState());
 
   final VideoAnalysisRepository _repository;
   final LocalVideoJobStore _jobStore;

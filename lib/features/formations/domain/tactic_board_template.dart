@@ -27,6 +27,8 @@ abstract class TacticBoardTemplate with _$TacticBoardTemplate {
     @Default([]) List<Zone> zones,
     @Default([]) List<HighlightCircle> highlights,
     @Default([]) List<TextAnnotation> textAnnotations,
+    double? ballX,
+    double? ballY,
   }) = _TacticBoardTemplate;
 
   factory TacticBoardTemplate.fromJson(Map<String, dynamic> json) =>

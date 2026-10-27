@@ -1,7 +1,6 @@
 import 'package:captain/features/leagues/domain/league.dart';
 import 'package:captain/features/leagues/domain/league_regions.dart';
 import 'package:captain/features/leagues/domain/standing.dart';
-import 'package:captain/features/leagues/domain/team.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:captain/l10n/app_localizations.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/localized_pitch_canvas.dart';
@@ -27,7 +28,7 @@ class _TacticalScreenState extends State<TacticalScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: AppColors.background,
         title: Text(l10n.appTitle),
         actions: [
           // Directional button spacing
@@ -35,7 +36,7 @@ class _TacticalScreenState extends State<TacticalScreen> {
             padding: const EdgeInsetsDirectional.only(end: 16.0),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF10B981),
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
@@ -52,17 +53,17 @@ class _TacticalScreenState extends State<TacticalScreen> {
           // 1. DIRECTIONAL SIDEBAR: Mirrors to the right in Arabic, left in English
           Container(
             width: 240,
-            color: const Color(0xFF0F172A),
+            color: AppColors.background,
             padding: const EdgeInsetsDirectional.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   l10n.toolsHeader,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white70,
+                    color: AppColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -86,12 +87,12 @@ class _TacticalScreenState extends State<TacticalScreen> {
                 Container(
                   padding: const EdgeInsetsDirectional.all(12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B),
+                    color: AppColors.surfaceElevated,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     l10n.distanceCovered(10450),
-                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                    style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -114,7 +115,7 @@ class _TacticalScreenState extends State<TacticalScreen> {
           // 2. ISOLATED PITCH CANVAS: Strictly LTR Cartesian plane
           Expanded(
             child: Container(
-              color: const Color(0xFF020617),
+              color: AppColors.background,
               padding: const EdgeInsetsDirectional.all(24.0),
               child: Center(
                 child: AspectRatio(
@@ -152,10 +153,10 @@ class _TacticalScreenState extends State<TacticalScreen> {
         margin: const EdgeInsetsDirectional.only(bottom: 8.0),
         padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF10B981).withValues(alpha: 0.15) : Colors.transparent,
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.15) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? const Color(0xFF10B981) : Colors.transparent,
+            color: isSelected ? AppColors.primary : Colors.transparent,
           ),
         ),
         child: Row(
@@ -163,7 +164,7 @@ class _TacticalScreenState extends State<TacticalScreen> {
             Icon(
               icon,
               size: 20,
-              color: isSelected ? const Color(0xFF10B981) : Colors.white60,
+              color: isSelected ? AppColors.primary : AppColors.textSecondary,
             ),
             const SizedBox(width: 12),
             Text(
@@ -171,7 +172,7 @@ class _TacticalScreenState extends State<TacticalScreen> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected ? Colors.white : Colors.white70,
+                color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
               ),
             ),
           ],

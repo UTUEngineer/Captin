@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -44,12 +45,12 @@ class TacticalArrowsPainter extends CustomPainter {
       bool isDashed = false;
 
       if (arrow.type == 'pass') {
-        color = const Color(0xFF3B82F6); // Blue for Pass
+        color = AppColors.secondary; // Blue for Pass
       } else if (arrow.type == 'press') {
-        color = const Color(0xFFEF4444); // Red for Press
+        color = AppColors.danger; // Red for Press
         isDashed = true;
       } else {
-        color = const Color(0xFFF59E0B); // Yellow for Run
+        color = AppColors.gold; // Yellow for Run
       }
 
       final paint = Paint()

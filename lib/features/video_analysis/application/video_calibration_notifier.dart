@@ -5,7 +5,6 @@ import 'package:captain/features/video_analysis/application/video_processing_fai
 import 'package:captain/features/video_analysis/domain/calibration_point.dart';
 import 'package:captain/features/video_analysis/domain/standard_penalty_box_calibration.dart';
 import 'package:captain/features/video_analysis/domain/video_analysis_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlacedCalibrationPin {
@@ -106,9 +105,8 @@ class VideoCalibrationState {
 class VideoCalibrationNotifier extends StateNotifier<VideoCalibrationState> {
   VideoCalibrationNotifier({
     required this.videoId,
-    required VideoAnalysisRepository repository,
-  })  : _repository = repository,
-        super(const VideoCalibrationState()) {
+    required this._repository,
+  })  : super(const VideoCalibrationState()) {
     loadFrame();
   }
 

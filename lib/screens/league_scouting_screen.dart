@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../models/league_config.dart';
 import '../services/claude_scouting_service.dart';
@@ -86,8 +87,8 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const Center(
-        child: CircularProgressIndicator(color: Color(0xFF10B981)),
+      builder: (_) => Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
       ),
     );
 
@@ -108,19 +109,19 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (_) => const Center(
+        builder: (_) => Center(
           child: Card(
-            color: Color(0xFF0F172A),
+            color: AppColors.background,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircularProgressIndicator(color: Color(0xFF10B981)),
+                  CircularProgressIndicator(color: AppColors.primary),
                   SizedBox(height: 14),
                   Text(
                     'جاري تحليل خطة الخصم عبر Claude AI...',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColors.textPrimary),
                   ),
                 ],
               ),
@@ -191,9 +192,9 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF070B14),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: AppColors.background,
         title: const Text('مركز الدوريات والسكاوتينغ 📊'),
       ),
       body: Column(
@@ -218,7 +219,7 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF10B981) : const Color(0xFF1E293B),
+                      color: isSelected ? AppColors.primary : AppColors.surfaceElevated,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -228,7 +229,7 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                         Text(
                           league.name,
                           style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.white70,
+                            color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             fontSize: 13,
                           ),
@@ -244,12 +245,12 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
           // قائمة المباريات
           Expanded(
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator(color: Color(0xFF10B981)))
+                ? Center(child: CircularProgressIndicator(color: AppColors.primary))
                 : _fixtures.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
                           'لا توجد مباريات قادمة حالياً لهذا الدوري',
-                          style: TextStyle(color: Colors.white54),
+                          style: TextStyle(color: AppColors.textSecondary),
                         ),
                       )
                     : ListView.builder(
@@ -263,11 +264,11 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                           final matchTitle = '${home['name']} ضد ${away['name']}';
 
                           return Card(
-                            color: const Color(0xFF0F172A),
+                            color: AppColors.background,
                             margin: const EdgeInsets.only(bottom: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
-                              side: const BorderSide(color: Colors.white10),
+                              side: BorderSide(color: AppColors.subtle),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(14.0),
@@ -282,8 +283,8 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                                           children: [
                                             Text(
                                               '${home['name']} 🆚 ${away['name']}',
-                                              style: const TextStyle(
-                                                color: Colors.white,
+                                              style: TextStyle(
+                                                color: AppColors.textPrimary,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                               ),
@@ -291,7 +292,7 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                                             const SizedBox(height: 4),
                                             Text(
                                               f['fixture']['date']?.toString().substring(0, 10) ?? '',
-                                              style: const TextStyle(color: Colors.white54, fontSize: 11),
+                                              style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                                             ),
                                           ],
                                         ),
@@ -305,8 +306,8 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                                       Expanded(
                                         child: OutlinedButton.icon(
                                           style: OutlinedButton.styleFrom(
-                                            foregroundColor: const Color(0xFF10B981),
-                                            side: const BorderSide(color: Color(0xFF10B981)),
+                                            foregroundColor: AppColors.primary,
+                                            side: BorderSide(color: AppColors.primary),
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(8),
                                             ),
@@ -324,7 +325,7 @@ class _LeagueScoutingScreenState extends State<LeagueScoutingScreen> {
                                       Expanded(
                                         child: ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFF10B981),
+                                            backgroundColor: AppColors.primary,
                                             foregroundColor: Colors.white,
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(8),

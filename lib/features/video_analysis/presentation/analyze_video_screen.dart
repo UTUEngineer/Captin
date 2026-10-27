@@ -132,7 +132,7 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: LinearProgressIndicator(minHeight: 2),
               ),
-              error: (_, __) => Padding(
+              error: (_, _) => Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: BackendUnavailableBanner(
                   backendUrl: backendUrl,
@@ -346,13 +346,13 @@ class _SelectedVideoCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.pitchLine),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.movie_outlined,
                     size: 56,
-                    color: AppColors.pitchGreenLight,
+                    color: AppColors.primary,
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -427,7 +427,7 @@ class _YoutubeLinkPanel extends StatelessWidget {
             fillColor: AppColors.surfaceElevated,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -440,7 +440,7 @@ class _YoutubeLinkPanel extends StatelessWidget {
               borderSide: BorderSide(
                 color: showError
                     ? AppColors.accentRed
-                    : AppColors.pitchGreenLight,
+                    : AppColors.primary,
               ),
             ),
             errorText: showError ? 'Enter a valid YouTube URL' : null,
@@ -462,9 +462,9 @@ class _YoutubeLinkPanel extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.pitchLine),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.check_circle_outline, color: AppColors.pitchGreenLight),
+                Icon(Icons.check_circle_outline, color: AppColors.primary),
                 SizedBox(width: 8),
                 Expanded(
                   child: Text('Link looks valid and ready to analyze.'),

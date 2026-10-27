@@ -301,7 +301,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<CoachRole>(
-                      value: prefs.coachRole,
+                      initialValue: prefs.coachRole,
                       decoration: InputDecoration(
                         labelText: isArabic ? 'الدور' : 'Role',
                         border: const OutlineInputBorder(),
@@ -351,6 +351,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           .map(
                             (variant) => ButtonSegment(
                               value: variant,
+                              icon: Icon(variant.icon, size: 18),
                               label: Text(
                                 isArabic ? variant.arabicLabel : variant.englishLabel,
                               ),
@@ -384,7 +385,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         leading: Icon(
                           configured ? Icons.check_circle : Icons.key_off_outlined,
                           color: configured
-                              ? AppColors.pitchGreenLight
+                              ? AppColors.primary
                               : AppColors.accentOrange,
                         ),
                         title: Text(isArabic ? 'مفتاح Claude API' : 'Claude API key'),
@@ -397,7 +398,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         onTap: () => ClaudeApiKeyDialog.show(context),
                       ),
                       loading: () => const LinearProgressIndicator(),
-                      error: (_, __) => const SizedBox.shrink(),
+                      error: (_, _) => const SizedBox.shrink(),
                     ),
                     Text(
                       isArabic
@@ -419,7 +420,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         leading: Icon(
                           configured ? Icons.check_circle : Icons.key_off_outlined,
                           color: configured
-                              ? AppColors.pitchGreenLight
+                              ? AppColors.primary
                               : AppColors.accentOrange,
                         ),
                         title: Text(
@@ -434,7 +435,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         onTap: () => FootballApiKeyDialog.show(context),
                       ),
                       loading: () => const LinearProgressIndicator(),
-                      error: (_, __) => const SizedBox.shrink(),
+                      error: (_, _) => const SizedBox.shrink(),
                     ),
                     Text(
                       isArabic
@@ -483,7 +484,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 _SettingsCard(
                   children: [
                     DropdownButtonFormField<ExportFileFormat>(
-                      value: prefs.defaultExportFormat,
+                      initialValue: prefs.defaultExportFormat,
                       decoration: InputDecoration(
                         labelText: isArabic ? 'صيغة التصدير الافتراضية' : 'Default export format',
                         border: const OutlineInputBorder(),
@@ -509,7 +510,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<ExportQuality>(
-                      value: prefs.defaultExportQuality,
+                      initialValue: prefs.defaultExportQuality,
                       decoration: InputDecoration(
                         labelText: isArabic ? 'جودة PDF' : 'PDF quality',
                         border: const OutlineInputBorder(),
@@ -579,7 +580,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                 isArabic ? 'جاري الفحص…' : 'Checking…',
                             },
                             loading: () => isArabic ? 'جاري الفحص…' : 'Checking…',
-                            error: (_, __) => isArabic ? 'خطأ' : 'Error',
+                            error: (_, _) => isArabic ? 'خطأ' : 'Error',
                           ),
                         ),
                         const Spacer(),
@@ -742,7 +743,7 @@ class _StatusDot extends StatelessWidget {
     final color = isLoading
         ? AppColors.accentOrange
         : isOnline
-            ? AppColors.pitchGreenLight
+            ? AppColors.primary
             : AppColors.accentRed;
     return Container(
       width: 10,

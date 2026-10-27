@@ -9,6 +9,10 @@ class MatchFixture {
     required this.awayTeam,
     this.homeGoals,
     this.awayGoals,
+    this.round,
+    this.venue,
+    this.referee,
+    this.elapsed,
   });
 
   final int id;
@@ -18,10 +22,23 @@ class MatchFixture {
   final Team awayTeam;
   final int? homeGoals;
   final int? awayGoals;
+  final String? round;
+  final String? venue;
+  final String? referee;
+  final int? elapsed;
+
+  bool get isUpcoming => !isFinished && !isLive && statusShort != 'HT';
+
+  /// 1 = home win, 0 = draw, -1 = away win; null if not played.
+  int? get outcome {
+    if (homeGoals == null || awayGoals == null || !isFinished) return null;
+    return (homeGoals! - awayGoals!).sign;
+  }
 
   bool get isLive => statusShort == 'LIVE' || statusShort == '1H' || statusShort == '2H';
 
-  bool get isFinished => statusShort == 'FT';
+  bool get isFinished =>
+      statusShort == 'FT' || statusShort == 'AET' || statusShort == 'PEN';
 
   String get statusLabelAr {
     const map = {
@@ -42,6 +59,8 @@ class MatchFixture {
     final status = fixture['status'] as Map<String, dynamic>;
     final teams = json['teams'] as Map<String, dynamic>;
     final goals = json['goals'] as Map<String, dynamic>? ?? {};
+    final league = json['league'] as Map<String, dynamic>? ?? {};
+    final venue = fixture['venue'] as Map<String, dynamic>?;
 
     return MatchFixture(
       id: fixture['id'] as int,
@@ -51,6 +70,10 @@ class MatchFixture {
       awayTeam: Team.fromJson(teams['away'] as Map<String, dynamic>),
       homeGoals: goals['home'] as int?,
       awayGoals: goals['away'] as int?,
+      round: league['round'] as String?,
+      venue: venue?['name'] as String?,
+      referee: fixture['referee'] as String?,
+      elapsed: status['elapsed'] as int?,
     );
   }
 }

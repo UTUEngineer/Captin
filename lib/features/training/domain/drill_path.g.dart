@@ -17,9 +17,9 @@ _DrillPath _$DrillPathFromJson(Map<String, dynamic> json) => _DrillPath(
           ?.map((e) => PathControlPoint.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
-  style:
-      $enumDecodeNullable(_$DrillPathStyleEnumMap, json['style']) ??
-      DrillPathStyle.run,
+  style: json['style'] == null
+      ? DrillPathStyle.run
+      : const DrillPathStyleConverter().fromJson(json['style'] as String),
   colorValue: (json['colorValue'] as num?)?.toInt() ?? 0xFF2E7D32,
 );
 
@@ -31,12 +31,6 @@ Map<String, dynamic> _$DrillPathToJson(_DrillPath instance) =>
       'endX': instance.endX,
       'endY': instance.endY,
       'controlPoints': instance.controlPoints,
-      'style': _$DrillPathStyleEnumMap[instance.style]!,
+      'style': const DrillPathStyleConverter().toJson(instance.style),
       'colorValue': instance.colorValue,
     };
-
-const _$DrillPathStyleEnumMap = {
-  DrillPathStyle.run: 'run',
-  DrillPathStyle.pass: 'pass',
-  DrillPathStyle.shot: 'shot',
-};

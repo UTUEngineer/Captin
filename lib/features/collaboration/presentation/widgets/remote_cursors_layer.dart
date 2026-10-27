@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:captain/features/collaboration/application/collaboration_notifier.dart';
 import 'package:captain/features/tactical_board/presentation/widgets/pitch_painter.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +72,8 @@ class _RemoteCursorMarker extends StatelessWidget {
             ),
             child: Text(
               cursor.name,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColors.textPrimary,
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
               ),

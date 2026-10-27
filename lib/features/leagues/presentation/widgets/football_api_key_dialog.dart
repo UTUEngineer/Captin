@@ -1,5 +1,4 @@
 import 'package:captain/features/leagues/application/leagues_providers.dart';
-import 'package:captain/features/leagues/presentation/widgets/football_api_key_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

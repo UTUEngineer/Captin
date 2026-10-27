@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,12 +57,12 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
         width: 420,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF0F172A).withValues(alpha: 0.95),
+          color: AppColors.background.withValues(alpha: 0.95),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.4)),
+          border: Border.all(color: AppColors.info.withValues(alpha: 0.4)),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF06B6D4).withValues(alpha: 0.2),
+              color: AppColors.info.withValues(alpha: 0.2),
               blurRadius: 30,
               spreadRadius: 2,
             ),
@@ -77,12 +78,12 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
               children: [
                 Row(
                   children: const [
-                    Icon(Icons.health_and_safety_rounded, color: Color(0xFF06B6D4), size: 20),
+                    Icon(Icons.health_and_safety_rounded, color: AppColors.info, size: 20),
                     SizedBox(width: 8),
                     Text(
                       'SYSTEM DIAGNOSTICS',
                       style: TextStyle(
-                        color: Color(0xFF06B6D4),
+                        color: AppColors.info,
                         fontSize: 12,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.2,
@@ -96,9 +97,9 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
                     _runDiagnostics();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF06B6D4).withValues(alpha: 0.2),
+                    backgroundColor: AppColors.info.withValues(alpha: 0.2),
                     foregroundColor: const Color(0xFF67E8F9),
-                    side: const BorderSide(color: Color(0xFF06B6D4)),
+                    side: const BorderSide(color: AppColors.info),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     elevation: 0,
@@ -118,7 +119,7 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Center(
-                  child: CircularProgressIndicator(color: Color(0xFF06B6D4)),
+                  child: CircularProgressIndicator(color: AppColors.info),
                 ),
               )
             else
@@ -134,7 +135,7 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
               decoration: BoxDecoration(
                 color: Colors.black38,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.white12),
+                border: Border.all(color: AppColors.border),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,17 +144,17 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
                     totalCount > 0 ? '$onlineCount / $totalCount Services Operational' : 'Running Health Checks...',
                     style: TextStyle(
                       color: onlineCount == totalCount
-                          ? const Color(0xFF10B981)
+                          ? AppColors.primary
                           : onlineCount > 0
-                              ? const Color(0xFFFCD34D)
-                              : const Color(0xFFE11D48),
+                              ? AppColors.gold
+                              : AppColors.danger,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close_rounded, color: Colors.white54, size: 16),
+                    icon: Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 16),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                   ),
@@ -171,16 +172,16 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
     final bool isDegraded = r.status == HealthStatus.degraded;
 
     final Color statusColor = isOnline
-        ? const Color(0xFF10B981)
+        ? AppColors.primary
         : isDegraded
-            ? const Color(0xFFFCD34D)
-            : const Color(0xFFE11D48);
+            ? AppColors.gold
+            : AppColors.danger;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFF061120),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: isOnline
@@ -199,8 +200,8 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
                   children: [
                     Text(
                       r.layer,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
                         fontSize: 11,
                         fontWeight: FontWeight.w900,
                       ),
@@ -208,8 +209,8 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
                     const SizedBox(width: 6),
                     Text(
                       '(${r.method})',
-                      style: const TextStyle(
-                        color: Colors.white38,
+                      style: TextStyle(
+                        color: AppColors.textMuted,
                         fontSize: 9,
                         fontFamily: 'monospace',
                       ),
@@ -221,7 +222,7 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
                   r.message,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white54, fontSize: 9),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 9),
                 ),
               ],
             ),
@@ -242,7 +243,7 @@ class _SystemHealthCheckDialogState extends ConsumerState<SystemHealthCheckDialo
               if (r.latencyMs != null)
                 Text(
                   '${r.latencyMs}ms',
-                  style: const TextStyle(color: Colors.white38, fontSize: 8, fontFamily: 'monospace'),
+                  style: TextStyle(color: AppColors.textMuted, fontSize: 8, fontFamily: 'monospace'),
                 ),
             ],
           ),

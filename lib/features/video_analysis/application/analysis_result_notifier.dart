@@ -68,11 +68,9 @@ class AnalysisResultState {
 class AnalysisResultNotifier extends StateNotifier<AnalysisResultState> {
   AnalysisResultNotifier({
     required this.videoId,
-    required VideoAnalysisRepository repository,
-    required Future<LocalAnalysisResultCache> Function() getCache,
-  })  : _repository = repository,
-        _getCache = getCache,
-        super(const AnalysisResultState()) {
+    required this._repository,
+    required this._getCache,
+  })  : super(const AnalysisResultState()) {
     load();
   }
 

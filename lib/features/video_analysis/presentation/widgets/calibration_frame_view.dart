@@ -131,7 +131,7 @@ class _DraggableCalibrationPin extends StatelessWidget {
           ),
           child: Text(
             '${pin.index + 1}',
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.bold,
             ),

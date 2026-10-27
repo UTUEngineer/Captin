@@ -52,6 +52,51 @@ class ShapeSimulationController {
     return result;
   }
 
+  /// How the opposing team reacts to a movement of [displacement]: the block
+  /// slides laterally towards the ball side and steps up/drops off a little.
+  /// Returns new positions for the opponents only.
+  Map<String, Offset> opponentsReact({
+    required Offset displacement,
+    required Offset anchor,
+    required Map<String, Offset> opponentPositions,
+    required Map<String, PlayerRole> roles,
+    required SimulationMode mode,
+  }) {
+    final result = <String, Offset>{};
+    final lateral = switch (mode) {
+      SimulationMode.highPress => 0.55,
+      SimulationMode.defensiveBlock => 0.45,
+      SimulationMode.counterAttack => 0.3,
+      SimulationMode.setPiece => 0.2,
+      SimulationMode.possessionBuild => 0.4,
+    };
+    const vertical = 0.3;
+    for (final entry in opponentPositions.entries) {
+      final role = roles[entry.key] ?? PlayerRole.cm;
+      // Defenders track the ball more than forwards do.
+      final weight = switch (role) {
+        PlayerRole.gk => 0.15,
+        PlayerRole.cb => 0.75,
+        PlayerRole.fb => 0.85,
+        PlayerRole.cdm => 0.8,
+        PlayerRole.cm => 0.7,
+        PlayerRole.cam => 0.5,
+        PlayerRole.winger => 0.55,
+        PlayerRole.st => 0.35,
+      };
+      // Players close to the action react more strongly.
+      final distance = (entry.value - anchor).distance;
+      final proximity = (1.2 - distance).clamp(0.4, 1.0);
+      final shift = Offset(
+        displacement.dx * lateral * weight * proximity,
+        displacement.dy * vertical * weight * proximity,
+      );
+      result[entry.key] = _clamp(entry.value + shift);
+    }
+    _separateOverlappingPlayers(result);
+    return result;
+  }
+
   Offset _applyMode(SimulationMode mode, Offset displacement) {
     return switch (mode) {
       SimulationMode.defensiveBlock => Offset(

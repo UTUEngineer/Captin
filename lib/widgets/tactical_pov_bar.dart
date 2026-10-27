@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'tactical_pov_camera_controller.dart';
 
@@ -30,7 +31,7 @@ Widget buildPovControlBar({
           Icon(
             isPov ? Icons.visibility : Icons.videocam,
             size: 18,
-            color: isPov ? const Color(0xFF10B981) : Colors.white70,
+            color: isPov ? AppColors.primary : Colors.white70,
           ),
           const SizedBox(width: 8),
           Text(

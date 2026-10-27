@@ -1,4 +1,5 @@
 import 'package:captain/features/tactical_board/domain/arrow.dart';
+import 'package:captain/features/tactical_board/domain/board_ball.dart';
 import 'package:captain/features/tactical_board/domain/formation.dart';
 import 'package:captain/features/tactical_board/domain/highlight_circle.dart';
 import 'package:captain/features/tactical_board/domain/player.dart';
@@ -14,6 +15,7 @@ class BoardSnapshot {
     this.zones = const [],
     this.highlights = const [],
     this.textAnnotations = const [],
+    this.ball,
   });
 
   factory BoardSnapshot.fromState({
@@ -23,8 +25,10 @@ class BoardSnapshot {
     List<Zone> zones = const [],
     List<HighlightCircle> highlights = const [],
     List<TextAnnotation> textAnnotations = const [],
+    BoardBall? ball,
   }) {
     return BoardSnapshot(
+      ball: ball,
       players: players.map((player) => player.copyWith()).toList(growable: false),
       selectedFormation: selectedFormation,
       arrows: arrows.map((arrow) => arrow.copyWith()).toList(growable: false),
@@ -43,4 +47,5 @@ class BoardSnapshot {
   final List<Zone> zones;
   final List<HighlightCircle> highlights;
   final List<TextAnnotation> textAnnotations;
+  final BoardBall? ball;
 }

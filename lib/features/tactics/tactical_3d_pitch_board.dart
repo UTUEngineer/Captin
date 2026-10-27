@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as v64;
@@ -341,7 +342,7 @@ class _Tactical3DBoardScreenState extends State<Tactical3DBoardScreen> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.threed_rotation, color: Color(0xFF00E676), size: 18),
+              Icon(Icons.threed_rotation, color: AppColors.primary, size: 18),
               const SizedBox(width: 8),
               Text(
                 _cameraMode == CameraMode.beThePlayerPOV
@@ -398,11 +399,11 @@ class _Tactical3DBoardScreenState extends State<Tactical3DBoardScreen> {
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: active ? const Color(0xFF2979FF).withValues(alpha: 0.2) : const Color(0xFF161B26).withValues(alpha: 0.9),
+            color: active ? AppColors.secondary.withValues(alpha: 0.2) : const Color(0xFF161B26).withValues(alpha: 0.9),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: active ? const Color(0xFF2979FF) : Colors.white12),
+            border: Border.all(color: active ? AppColors.secondary : Colors.white12),
           ),
-          child: Icon(icon, color: active ? const Color(0xFF2979FF) : Colors.white70, size: 18),
+          child: Icon(icon, color: active ? AppColors.secondary : Colors.white70, size: 18),
         ),
       ),
     );
@@ -465,13 +466,13 @@ class _Tactical3DBoardScreenState extends State<Tactical3DBoardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? const Color(0xFF00E676).withValues(alpha: 0.18) : Colors.transparent,
+          color: active ? AppColors.primary.withValues(alpha: 0.18) : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: active ? const Color(0xFF00E676) : Colors.transparent),
+          border: Border.all(color: active ? AppColors.primary : Colors.transparent),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 16, color: active ? const Color(0xFF00E676) : Colors.white60),
+            Icon(icon, size: 16, color: active ? AppColors.primary : Colors.white60),
             const SizedBox(width: 6),
             Text(
               label,
@@ -504,13 +505,13 @@ class _Tactical3DBoardScreenState extends State<Tactical3DBoardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? const Color(0xFF2979FF).withValues(alpha: 0.25) : Colors.white.withValues(alpha: 0.04),
+          color: active ? AppColors.secondary.withValues(alpha: 0.25) : Colors.white.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: active ? const Color(0xFF2979FF) : Colors.white10),
+          border: Border.all(color: active ? AppColors.secondary : Colors.white10),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 16, color: active ? const Color(0xFF2979FF) : Colors.white60),
+            Icon(icon, size: 16, color: active ? AppColors.secondary : Colors.white60),
             const SizedBox(width: 4),
             Text(
               label,
@@ -632,7 +633,7 @@ class Pitch3DPainter extends CustomPainter {
     // 5 Corridors: Left Flank, Half-space, Center, Half-space, Right Flank
     final corridorsZ = [-34.0, -20.4, -6.8, 6.8, 20.4, 34.0];
     final linePaint = Paint()
-      ..color = const Color(0xFFFFD700).withValues(alpha: 0.35)
+      ..color = AppColors.gold.withValues(alpha: 0.35)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
 
@@ -737,7 +738,7 @@ class Pitch3DPainter extends CustomPainter {
       if (topPt == null) continue;
 
       final isSelected = p.id == selectedPlayerId;
-      final playerColor = p.side == TeamSide.home ? const Color(0xFF2979FF) : const Color(0xFFFF1744);
+      final playerColor = p.side == TeamSide.home ? AppColors.secondary : AppColors.danger;
 
       // Body Cylinder Stroke
       final bodyWidth = (shadowRadius * 1.1).clamp(6.0, 24.0);
@@ -750,7 +751,7 @@ class Pitch3DPainter extends CustomPainter {
       // Selection Halo
       if (isSelected) {
         final haloPaint = Paint()
-          ..color = const Color(0xFF00E676)
+          ..color = AppColors.primary
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.5;
         canvas.drawCircle(topPt, bodyWidth * 0.8, haloPaint);
@@ -818,10 +819,10 @@ class Pitch3DPainter extends CustomPainter {
     double apex,
   ) {
     final arrowColor = switch (type) {
-      TacticalArrowType.groundPass => const Color(0xFF00E676),
-      TacticalArrowType.loftedPass => const Color(0xFFFFD700),
-      TacticalArrowType.playerRun => const Color(0xFF2979FF),
-      TacticalArrowType.highPress => const Color(0xFFFF5252),
+      TacticalArrowType.groundPass => AppColors.primary,
+      TacticalArrowType.loftedPass => AppColors.gold,
+      TacticalArrowType.playerRun => AppColors.secondary,
+      TacticalArrowType.highPress => AppColors.danger,
     };
 
     final paint = Paint()

@@ -19,10 +19,21 @@ class PitchPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-
+    if (orientation.isVertical) {
+      final rect = Offset.zero & size;
+      _drawSurface(canvas, rect);
+      _drawMarkings(canvas, rect);
+      return;
+    }
+    // Horizontal: paint the vertical pitch rotated -90° so goals sit left
+    // and right, matching PitchLayout.positionFor.
+    canvas.save();
+    canvas.translate(0, size.height);
+    canvas.rotate(-math.pi / 2);
+    final rect = Offset.zero & Size(size.height, size.width);
     _drawSurface(canvas, rect);
     _drawMarkings(canvas, rect);
+    canvas.restore();
   }
 
   void _drawSurface(Canvas canvas, Rect rect) {

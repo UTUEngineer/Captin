@@ -21,7 +21,7 @@ class TrainingToolbar extends ConsumerWidget {
 
     return Container(
       width: 72,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(left: BorderSide(color: AppColors.border)),
       ),
@@ -155,11 +155,11 @@ class _PropButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             color: selected
-                ? AppColors.pitchGreenLight.withValues(alpha: 0.22)
+                ? AppColors.primary.withValues(alpha: 0.22)
                 : AppColors.surfaceElevated,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: selected ? AppColors.pitchGreenLight : AppColors.border,
+              color: selected ? AppColors.primary : AppColors.border,
             ),
           ),
           child: Column(
@@ -168,7 +168,7 @@ class _PropButton extends StatelessWidget {
                 icon,
                 size: 18,
                 color: selected
-                    ? AppColors.pitchGreenLight
+                    ? AppColors.primary
                     : AppColors.textSecondary,
               ),
               const SizedBox(height: 2),

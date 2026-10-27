@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
@@ -467,10 +468,10 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                   decoration: BoxDecoration(
                     color: const Color(0xFF0B1E36).withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.4)),
+                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF00E676).withValues(alpha: 0.2),
+                        color: AppColors.primary.withValues(alpha: 0.2),
                         blurRadius: 20,
                         spreadRadius: 2,
                       ),
@@ -487,14 +488,14 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                             height: 8,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: _isBallUnlocked ? const Color(0xFF00E676) : Colors.amberAccent,
+                              color: _isBallUnlocked ? AppColors.primary : Colors.amberAccent,
                             ),
                           ),
                           const SizedBox(width: 6),
                           Text(
                             _isBallUnlocked ? 'BALL UNLOCKED' : 'TERMINAL LOCKED',
                             style: TextStyle(
-                              color: _isBallUnlocked ? const Color(0xFF00E676) : Colors.amberAccent,
+                              color: _isBallUnlocked ? AppColors.primary : Colors.amberAccent,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2.0,
@@ -504,13 +505,13 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: Colors.white10,
+                              color: AppColors.subtle,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               'ATTEMPTS: $_attempts',
-                              style: const TextStyle(
-                                color: Colors.white70,
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
                                 fontSize: 9,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -519,10 +520,10 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                         ],
                       ),
                       const SizedBox(height: 2),
-                      const Text(
+                      Text(
                         'CAPTAIN PITCH',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.0,
@@ -560,11 +561,11 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? const Color(0xFF00E676).withValues(alpha: 0.25)
-                                  : const Color(0xFF0F243E).withValues(alpha: 0.6),
+                                  ? AppColors.primary.withValues(alpha: 0.25)
+                                  : AppColors.surface.withValues(alpha: 0.6),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: isSelected ? const Color(0xFF00E676) : Colors.white12,
+                                color: isSelected ? AppColors.primary : AppColors.border,
                               ),
                             ),
                             child: Row(
@@ -573,7 +574,7 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                                 Text(
                                   tier,
                                   style: TextStyle(
-                                    color: isSelected ? Colors.white : Colors.white70,
+                                    color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
                                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                                     fontSize: 12,
                                   ),
@@ -583,13 +584,13 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                                   height: 18,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: isSelected ? const Color(0xFF00E676) : Colors.white10,
+                                    color: isSelected ? AppColors.primary : AppColors.subtle,
                                   ),
                                   child: Center(
                                     child: Text(
                                       'C',
                                       style: TextStyle(
-                                        color: isSelected ? Colors.black : Colors.white54,
+                                        color: isSelected ? Colors.black : AppColors.textSecondary,
                                         fontWeight: FontWeight.w900,
                                         fontSize: 9,
                                       ),
@@ -627,10 +628,10 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                           onPinComplete: _handlePinSubmit,
                         ),
                         const SizedBox(height: 12),
-                        const Text(
+                        Text(
                           'Enter 4-Digit Captain PIN to unlock match ball',
                           style: TextStyle(
-                            color: Colors.white54,
+                            color: AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -663,26 +664,26 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF00E676).withValues(alpha: 0.2),
+                              color: AppColors.primary.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: const Color(0xFF00E676), width: 1.5),
+                              border: Border.all(color: AppColors.primary, width: 1.5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF00E676).withValues(alpha: 0.4),
+                                  color: AppColors.primary.withValues(alpha: 0.4),
                                   blurRadius: 25,
                                   spreadRadius: 2,
                                 ),
                               ],
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.bolt, color: Color(0xFF00E676), size: 20),
+                                Icon(Icons.bolt, color: AppColors.primary, size: 20),
                                 SizedBox(width: 8),
                                 Text(
                                   'BALL UNLOCKED! PULL BACK TO SHOOT',
                                   style: TextStyle(
-                                    color: Color(0xFF00E676),
+                                    color: AppColors.primary,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
@@ -709,10 +710,10 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'SHOT POWER',
                       style: TextStyle(
-                        color: Color(0xFF00E676),
+                        color: AppColors.primary,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
@@ -726,15 +727,15 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.6)),
+                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.6)),
                       ),
                       child: FractionallySizedBox(
                         alignment: Alignment.centerLeft,
                         widthFactor: (_powerPercent / 100).clamp(0.02, 1.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF00E676), Colors.amberAccent, Colors.redAccent],
+                            gradient: LinearGradient(
+                              colors: [AppColors.primary, Colors.amberAccent, Colors.redAccent],
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -764,7 +765,7 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.redAccent),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.gpp_bad_rounded, color: Colors.redAccent, size: 18),
@@ -772,7 +773,7 @@ class _CaptainStadiumLoginScreenState extends ConsumerState<CaptainStadiumLoginS
                           Text(
                             'SHOT SAVED OR MISSED! RESETTING...',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.textPrimary,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.0,
@@ -850,7 +851,7 @@ class Stadium3DPainter extends CustomPainter {
 
     // Volumetric Floodlight Beams
     final lightPaint = Paint()
-      ..color = const Color(0xFF00E676).withValues(alpha: (0.05 + flashIntensity * 0.35).clamp(0.05, 0.45))
+      ..color = AppColors.primary.withValues(alpha: (0.05 + flashIntensity * 0.35).clamp(0.05, 0.45))
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 30);
 
     final leftBeam = Path()
@@ -890,8 +891,8 @@ class Stadium3DPainter extends CustomPainter {
     // Holographic Pitch Lines
     final pitchLinePaint = Paint()
       ..color = isUnlocked
-          ? const Color(0xFF00E676).withValues(alpha: 0.7)
-          : Colors.white24
+          ? AppColors.primary.withValues(alpha: 0.7)
+          : AppColors.border
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
 
@@ -918,12 +919,12 @@ class Stadium3DPainter extends CustomPainter {
     const goalHeight = 70.0;
 
     final goalPaint = Paint()
-      ..color = isUnlocked ? const Color(0xFF38BDF8) : const Color(0xFF64748B);
+      ..color = isUnlocked ? AppColors.info : AppColors.textMuted;
     goalPaint.style = PaintingStyle.stroke;
     goalPaint.strokeWidth = 3.0;
 
     final netPaint = Paint()
-      ..color = (isUnlocked ? const Color(0xFF38BDF8) : Colors.white24).withValues(alpha: 0.3)
+      ..color = (isUnlocked ? AppColors.info : AppColors.border).withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
@@ -958,8 +959,8 @@ class Stadium3DPainter extends CustomPainter {
 
     // 5. Stylized Captain 3D Avatar (Pitch Edge)
     final avatarCenter = center + Offset(-turfRadiusX * 0.6, 10);
-    final avatarPaint = Paint()..color = const Color(0xFF0F243E);
-    final jerseyPaint = Paint()..color = isUnlocked ? const Color(0xFF00E676) : Colors.grey;
+    final avatarPaint = Paint()..color = AppColors.surface;
+    final jerseyPaint = Paint()..color = isUnlocked ? AppColors.primary : Colors.grey;
     final armbandPaint = Paint()..color = Colors.amberAccent;
 
     canvas.drawRRect(
@@ -996,19 +997,19 @@ class Stadium3DPainter extends CustomPainter {
         isUnlocked
             ? [
                 const Color(0xFFFFFFFF),
-                const Color(0xFF00E676),
+                AppColors.primary,
                 const Color(0xFF0284C7),
               ]
             : [
-                const Color(0xFF94A3B8),
-                const Color(0xFF64748B),
-                const Color(0xFF334155),
+                AppColors.textSecondary,
+                AppColors.textMuted,
+                AppColors.border,
               ],
       );
     canvas.drawCircle(Offset(ballScreenX, ballScreenY), ballRadius, ballPaint);
 
     final hexPaint = Paint()
-      ..color = isUnlocked ? const Color(0xFF00E676) : Colors.black54
+      ..color = isUnlocked ? AppColors.primary : Colors.black54
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     canvas.drawCircle(Offset(ballScreenX, ballScreenY), ballRadius * 0.4, hexPaint);
@@ -1016,12 +1017,12 @@ class Stadium3DPainter extends CustomPainter {
     // 7. Rotating Holographic Lock Cage around match ball when locked
     if (!isUnlocked) {
       final cagePaint = Paint()
-        ..color = const Color(0xFFF43F5E).withValues(alpha: 0.85)
+        ..color = AppColors.danger.withValues(alpha: 0.85)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.8;
 
       final cageGlowPaint = Paint()
-        ..color = const Color(0xFFF43F5E).withValues(alpha: 0.35)
+        ..color = AppColors.danger.withValues(alpha: 0.35)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 4.0
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
@@ -1070,7 +1071,7 @@ class Stadium3DPainter extends CustomPainter {
         final pSize = (p.scale * 140.0) * (0.6 + pDepth * 0.4) * p.alpha;
 
         final particlePaint = Paint()
-          ..color = const Color(0xFFF43F5E).withValues(alpha: p.alpha)
+          ..color = AppColors.danger.withValues(alpha: p.alpha)
           ..style = PaintingStyle.fill;
 
         final particleGlow = Paint()
@@ -1099,7 +1100,7 @@ class Stadium3DPainter extends CustomPainter {
 
       // Aim Line
       final arrowPaint = Paint()
-        ..color = const Color(0xFF00E676)
+        ..color = AppColors.primary
         ..style = PaintingStyle.stroke
         ..strokeWidth = 4.0
         ..strokeCap = StrokeCap.round;
@@ -1120,11 +1121,11 @@ class Stadium3DPainter extends CustomPainter {
       );
       arrowPath.close();
 
-      final headPaint = Paint()..color = const Color(0xFF00E676);
+      final headPaint = Paint()..color = AppColors.primary;
       canvas.drawPath(arrowPath, headPaint);
 
       // Projected Parabolic Dotted Trajectory Arc
-      final dotPaint = Paint()..color = const Color(0xFF38BDF8).withValues(alpha: 0.85);
+      final dotPaint = Paint()..color = AppColors.info.withValues(alpha: 0.85);
       for (int i = 1; i <= 8; i++) {
         final t = i / 8.0;
         final arcPt = Offset(

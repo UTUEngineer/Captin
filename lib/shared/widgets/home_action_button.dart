@@ -38,7 +38,7 @@ class HomeActionButton extends StatelessWidget {
                   color: AppColors.pitchGreen.withValues(alpha: 0.35),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: AppColors.pitchGreenLight),
+                child: Icon(icon, color: AppColors.primary),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -57,7 +57,7 @@ class HomeActionButton extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
                 color: AppColors.textSecondary,
               ),

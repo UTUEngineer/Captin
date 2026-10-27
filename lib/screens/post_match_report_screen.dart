@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -167,7 +168,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
     final outcome = _matchOutcome;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF061120),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -181,13 +182,13 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: const [
-                          CircleAvatar(radius: 4, backgroundColor: Color(0xFF00E676)),
+                        children: [
+                          CircleAvatar(radius: 4, backgroundColor: AppColors.primary),
                           SizedBox(width: 8),
                           Text(
                             'FULL TIME REVIEW',
                             style: TextStyle(
-                              color: Color(0xFF00E676),
+                              color: AppColors.primary,
                               fontSize: 11,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.5,
@@ -196,10 +197,10 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                         ],
                       ),
                       const SizedBox(height: 2),
-                      const Text(
+                      Text(
                         'MATCH PERFORMANCE REPORT',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -213,35 +214,35 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF0A1B32),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.4)),
+                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF00E676).withValues(alpha: 0.2),
+                          color: AppColors.primary.withValues(alpha: 0.2),
                           blurRadius: 20,
                         ),
                       ],
                     ),
                     child: Row(
                       children: [
-                        const Text('AZ-ZAWR\'A SC', style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text('AZ-ZAWR\'A SC', style: TextStyle(color: AppColors.textSecondary, fontSize: 12, fontWeight: FontWeight.bold)),
                         const SizedBox(width: 12),
                         Text(
                           '${widget.scoreHome} - ${widget.scoreAway}',
-                          style: const TextStyle(color: Color(0xFF00E676), fontSize: 22, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
+                          style: TextStyle(color: AppColors.primary, fontSize: 22, fontWeight: FontWeight.w900, fontFamily: 'monospace'),
                         ),
                         const SizedBox(width: 12),
-                        const Text('AL-QUWA AL-JAWIYA', style: TextStyle(color: Colors.white38, fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text('AL-QUWA AL-JAWIYA', style: TextStyle(color: AppColors.textMuted, fontSize: 12, fontWeight: FontWeight.bold)),
                         const SizedBox(width: 14),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
                             color: outcome == 'win'
-                                ? const Color(0xFF10B981).withValues(alpha: 0.2)
+                                ? AppColors.primary.withValues(alpha: 0.2)
                                 : (outcome == 'loss' ? Colors.red.withValues(alpha: 0.2) : Colors.amber.withValues(alpha: 0.2)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: outcome == 'win'
-                                  ? const Color(0xFF10B981)
+                                  ? AppColors.primary
                                   : (outcome == 'loss' ? Colors.redAccent : Colors.amber),
                             ),
                           ),
@@ -249,7 +250,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                             outcome.toUpperCase(),
                             style: TextStyle(
                               color: outcome == 'win'
-                                  ? const Color(0xFF10B981)
+                                  ? AppColors.primary
                                   : (outcome == 'loss' ? Colors.redAccent : Colors.amber),
                               fontSize: 11,
                               fontWeight: FontWeight.w900,
@@ -332,15 +333,15 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                         ),
                                         Text(
                                           mvp.name,
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color: AppColors.textPrimary,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w900,
                                           ),
                                         ),
                                         Text(
                                           '${mvp.role} • ${mvp.notes}',
-                                          style: const TextStyle(color: Colors.white70, fontSize: 11),
+                                          style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                                         ),
                                       ],
                                     ),
@@ -374,18 +375,18 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF0B1C33).withValues(alpha: 0.8),
+                              color: AppColors.background.withValues(alpha: 0.8),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.white12),
+                              border: Border.all(color: AppColors.border),
                             ),
                             child: Column(
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Home ${_stats.possessionHome}%', style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
-                                    const Text('BALL POSSESSION', style: TextStyle(color: Color(0xFF00E676), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
-                                    Text('Away ${_stats.possessionAway}%', style: const TextStyle(color: Colors.white60, fontSize: 11, fontWeight: FontWeight.bold)),
+                                    Text('Home ${_stats.possessionHome}%', style: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.bold)),
+                                    Text('BALL POSSESSION', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
+                                    Text('Away ${_stats.possessionAway}%', style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -397,7 +398,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                       children: [
                                         Expanded(
                                           flex: _stats.possessionHome,
-                                          child: Container(color: const Color(0xFF00E676)),
+                                          child: Container(color: AppColors.primary),
                                         ),
                                         Expanded(
                                           flex: _stats.possessionAway,
@@ -417,16 +418,16 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF0B1C33).withValues(alpha: 0.8),
+                              color: AppColors.background.withValues(alpha: 0.8),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.white12),
+                              border: Border.all(color: AppColors.border),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'TACTICAL MATCH STATS',
-                                  style: TextStyle(color: Color(0xFF00E676), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+                                  style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2),
                                 ),
                                 const SizedBox(height: 12),
                                 _buildStatRow('Total Shots', _stats.shotsHome, _stats.shotsAway),
@@ -446,7 +447,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                             height: 52,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _exportSuccess ? const Color(0xFF10B981) : const Color(0xFF00E676),
+                                backgroundColor: _exportSuccess ? AppColors.primary : AppColors.primary,
                                 foregroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                                 elevation: 8,
@@ -476,9 +477,9 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0B1C33).withValues(alpha: 0.8),
+                          color: AppColors.background.withValues(alpha: 0.8),
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.white12),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [
@@ -487,12 +488,12 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('CAPTAIN PLAYER EVALUATIONS', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w900)),
-                                    Text('Adjust ratings & captain remarks before cloud export', style: TextStyle(color: Colors.white54, fontSize: 11)),
+                                  children: [
+                                    Text('CAPTAIN PLAYER EVALUATIONS', style: TextStyle(color: AppColors.textPrimary, fontSize: 15, fontWeight: FontWeight.w900)),
+                                    Text('Adjust ratings & captain remarks before cloud export', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                                   ],
                                 ),
-                                Text('${_evaluations.length} Evaluated', style: const TextStyle(color: Color(0xFF00E676), fontSize: 11, fontWeight: FontWeight.bold)),
+                                Text('${_evaluations.length} Evaluated', style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold)),
                               ],
                             ),
                             const SizedBox(height: 12),
@@ -511,10 +512,10 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                     decoration: BoxDecoration(
                                       color: isMvp
                                           ? Colors.amber.withValues(alpha: 0.12)
-                                          : const Color(0xFF0F243E),
+                                          : AppColors.surface,
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
-                                        color: isMvp ? Colors.amber : Colors.white12,
+                                        color: isMvp ? Colors.amber : AppColors.border,
                                       ),
                                     ),
                                     child: Row(
@@ -529,13 +530,13 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                 height: 30,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: const Color(0xFF06101E),
-                                                  border: Border.all(color: const Color(0xFF38BDF8)),
+                                                  color: AppColors.background,
+                                                  border: Border.all(color: AppColors.info),
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     '${p.number}',
-                                                    style: const TextStyle(color: Color(0xFF38BDF8), fontSize: 11, fontWeight: FontWeight.w900),
+                                                    style: const TextStyle(color: AppColors.info, fontSize: 11, fontWeight: FontWeight.w900),
                                                   ),
                                                 ),
                                               ),
@@ -545,7 +546,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Text(p.name, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                                                      Text(p.name, style: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.bold)),
                                                       if (isMvp) ...[
                                                         const SizedBox(width: 4),
                                                         Container(
@@ -556,7 +557,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                       ],
                                                     ],
                                                   ),
-                                                  Text(p.role, style: const TextStyle(color: Colors.white54, fontSize: 9, fontWeight: FontWeight.bold)),
+                                                  Text(p.role, style: TextStyle(color: AppColors.textSecondary, fontSize: 9, fontWeight: FontWeight.bold)),
                                                 ],
                                               ),
                                             ],
@@ -569,10 +570,10 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                             onChanged: (val) => _updateNotes(p.id, val),
                                             controller: TextEditingController(text: p.notes)
                                               ..selection = TextSelection.fromPosition(TextPosition(offset: p.notes.length)),
-                                            style: const TextStyle(color: Colors.white, fontSize: 11),
+                                            style: TextStyle(color: AppColors.textPrimary, fontSize: 11),
                                             decoration: InputDecoration(
                                               hintText: 'Add captain remarks...',
-                                              hintStyle: const TextStyle(color: Colors.white24, fontSize: 11),
+                                              hintStyle: TextStyle(color: AppColors.textMuted, fontSize: 11),
                                               filled: true,
                                               fillColor: Colors.black.withValues(alpha: 0.3),
                                               contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -594,7 +595,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                 width: 28,
                                                 height: 28,
                                                 decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(8)),
-                                                child: const Center(child: Text('-', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                                                child: Center(child: Text('-', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold))),
                                               ),
                                             ),
                                             SizedBox(
@@ -604,8 +605,8 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                   p.rating.toStringAsFixed(1),
                                                   style: TextStyle(
                                                     color: p.rating >= 8.5
-                                                        ? const Color(0xFF10B981)
-                                                        : (p.rating >= 7.0 ? const Color(0xFF38BDF8) : Colors.amber),
+                                                        ? AppColors.primary
+                                                        : (p.rating >= 7.0 ? AppColors.info : Colors.amber),
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w900,
                                                     fontFamily: 'monospace',
@@ -619,7 +620,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
                                                 width: 28,
                                                 height: 28,
                                                 decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(8)),
-                                                child: const Center(child: Text('+', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                                                child: Center(child: Text('+', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold))),
                                               ),
                                             ),
                                           ],
@@ -653,9 +654,9 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('$home', style: const TextStyle(color: Color(0xFF00E676), fontSize: 12, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
-            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold)),
-            Text('$away', style: const TextStyle(color: Colors.white60, fontSize: 12, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+            Text('$home', style: TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
+            Text(label, style: TextStyle(color: AppColors.textSecondary, fontSize: 10, fontWeight: FontWeight.bold)),
+            Text('$away', style: TextStyle(color: AppColors.textSecondary, fontSize: 12, fontWeight: FontWeight.w900, fontFamily: 'monospace')),
           ],
         ),
         const SizedBox(height: 4),
@@ -667,7 +668,7 @@ class _PostMatchReportScreenState extends ConsumerState<PostMatchReportScreen> {
               children: [
                 Expanded(
                   flex: homePercent,
-                  child: Container(color: const Color(0xFF00E676)),
+                  child: Container(color: AppColors.primary),
                 ),
                 Expanded(
                   flex: 100 - homePercent,

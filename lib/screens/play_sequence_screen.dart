@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -109,16 +110,16 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
           '3D TACTICAL KEYFRAME PLAYGROUND',
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 1.2),
         ),
-        backgroundColor: const Color(0xFF161B26),
+        backgroundColor: AppColors.surface,
         actions: [
           IconButton(
             tooltip: 'Record Keyframe Snapshot',
-            icon: const Icon(Icons.add_photo_alternate, color: Color(0xFF00E676)),
+            icon: Icon(Icons.add_photo_alternate, color: AppColors.primary),
             onPressed: _recordCurrentAsNewKeyframe,
           ),
           IconButton(
             tooltip: 'Delete Current Keyframe',
-            icon: const Icon(Icons.delete_sweep, color: Colors.white70),
+            icon: Icon(Icons.delete_sweep, color: AppColors.textSecondary),
             onPressed: () => _controller.removeKeyframe(_controller.activeKeyframeIndex),
           ),
           const SizedBox(width: 8),
@@ -168,7 +169,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
       decoration: BoxDecoration(
         color: const Color(0xFF131822).withValues(alpha: 0.96),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white12),
+        border: Border.all(color: AppColors.border),
         boxShadow: const [BoxShadow(color: Colors.black54, blurRadius: 16, offset: Offset(0, 4))],
       ),
       child: Column(
@@ -185,9 +186,9 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                 final kf = _controller.keyframes[idx];
                 final isSelected = _controller.activeKeyframeIndex == idx;
                 return ChoiceChip(
-                  label: Text(kf.name, style: TextStyle(color: isSelected ? Colors.black : Colors.white, fontSize: 11)),
+                  label: Text(kf.name, style: TextStyle(color: isSelected ? Colors.black : AppColors.textPrimary, fontSize: 11)),
                   selected: isSelected,
-                  selectedColor: const Color(0xFF00E676),
+                  selectedColor: AppColors.primary,
                   backgroundColor: const Color(0xFF1E2638),
                   onSelected: (_) => _controller.selectKeyframe(idx),
                 );
@@ -201,14 +202,14 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
             children: [
               Text(
                 '${_controller.currentTime.toStringAsFixed(1)}s',
-                style: const TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 12),
+                style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 12),
               ),
               Expanded(
                 child: SliderTheme(
                   data: SliderTheme.of(context).copyWith(
-                    activeTrackColor: const Color(0xFF00E676),
-                    inactiveTrackColor: Colors.white12,
-                    thumbColor: const Color(0xFF00E676),
+                    activeTrackColor: AppColors.primary,
+                    inactiveTrackColor: AppColors.textMuted,
+                    thumbColor: AppColors.primary,
                     trackHeight: 3.0,
                     thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
                   ),
@@ -222,7 +223,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
               ),
               Text(
                 '${_controller.totalDuration.toStringAsFixed(1)}s',
-                style: const TextStyle(color: Colors.white54, fontSize: 12),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
               ),
             ],
           ),
@@ -241,13 +242,13 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                       margin: const EdgeInsets.only(right: 4),
                       decoration: BoxDecoration(
-                        color: active ? const Color(0xFF2979FF) : Colors.transparent,
+                        color: active ? AppColors.secondary : Colors.transparent,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
                         '${speed}x',
                         style: TextStyle(
-                          color: active ? Colors.white : Colors.white60,
+                          color: active ? AppColors.textPrimary : AppColors.textSecondary,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -262,7 +263,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                 children: [
                   IconButton(
                     iconSize: 20,
-                    icon: const Icon(Icons.skip_previous, color: Colors.white70),
+                    icon: Icon(Icons.skip_previous, color: AppColors.textSecondary),
                     onPressed: () {
                       if (_controller.activeKeyframeIndex > 0) {
                         _controller.selectKeyframe(_controller.activeKeyframeIndex - 1);
@@ -274,7 +275,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(color: Color(0xFF00E676), shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
                       child: Icon(
                         _controller.isPlaying ? Icons.pause : Icons.play_arrow,
                         color: Colors.black,
@@ -284,7 +285,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                   ),
                   IconButton(
                     iconSize: 20,
-                    icon: const Icon(Icons.skip_next, color: Colors.white70),
+                    icon: Icon(Icons.skip_next, color: AppColors.textSecondary),
                     onPressed: () {
                       if (_controller.activeKeyframeIndex < _controller.keyframes.length - 1) {
                         _controller.selectKeyframe(_controller.activeKeyframeIndex + 1);
@@ -300,7 +301,7 @@ class _KeyframeSequencePlaygroundScreenState extends State<KeyframeSequencePlayg
                 tooltip: 'Loop Playback',
                 icon: Icon(
                   Icons.loop,
-                  color: _controller.isLooping ? const Color(0xFF00E676) : Colors.white30,
+                  color: _controller.isLooping ? AppColors.primary : AppColors.textMuted,
                 ),
                 onPressed: _controller.toggleLooping,
               ),
@@ -376,7 +377,7 @@ class KeyframeScene3DPainter extends CustomPainter {
 
     // Pitch Outline
     final linePaint = Paint()
-      ..color = Colors.white54
+      ..color = AppColors.textSecondary
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
     canvas.drawPath(turfPath, linePaint);
@@ -395,7 +396,7 @@ class KeyframeScene3DPainter extends CustomPainter {
     for (final entityId in firstKf.snapshots.keys) {
       final isBall = entityId == 'ball';
       final pathPaint = Paint()
-        ..color = isBall ? const Color(0xFFFFD700).withValues(alpha: 0.4) : const Color(0xFF2979FF).withValues(alpha: 0.35)
+        ..color = isBall ? AppColors.gold.withValues(alpha: 0.4) : AppColors.secondary.withValues(alpha: 0.35)
         ..strokeWidth = isBall ? 1.5 : 2.0
         ..style = PaintingStyle.stroke;
 
@@ -445,7 +446,7 @@ class KeyframeScene3DPainter extends CustomPainter {
         if (ballPt != null) {
           if (groundPt != null && state.elevation > 0.3) {
             canvas.drawCircle(groundPt, 4.0, Paint()..color = Colors.black45);
-            canvas.drawLine(groundPt, ballPt, Paint()..color = Colors.white24..strokeWidth = 1.0);
+            canvas.drawLine(groundPt, ballPt, Paint()..color = AppColors.border..strokeWidth = 1.0);
           }
           canvas.drawCircle(ballPt, 6.0, Paint()..color = Colors.white);
           canvas.drawCircle(ballPt, 4.0, Paint()..color = Colors.black87..style = PaintingStyle.stroke..strokeWidth = 1.2);
@@ -465,7 +466,7 @@ class KeyframeScene3DPainter extends CustomPainter {
       );
 
       final isHome = entityId.startsWith('h_');
-      final playerColor = isHome ? const Color(0xFF2979FF) : const Color(0xFFFF1744);
+      final playerColor = isHome ? AppColors.secondary : AppColors.danger;
 
       // Player 3D Extrusion
       canvas.drawLine(
@@ -489,7 +490,7 @@ class KeyframeScene3DPainter extends CustomPainter {
           basePt,
           forwardPt,
           Paint()
-            ..color = const Color(0xFF00E676)
+            ..color = AppColors.primary
             ..strokeWidth = 2.5,
         );
       }

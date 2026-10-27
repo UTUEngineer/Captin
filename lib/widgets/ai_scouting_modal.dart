@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../services/pdf_tactical_report_service.dart';
 import '../services/tactical_session_service.dart';
@@ -20,8 +21,8 @@ class AiScoutingModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Color(0xFF0F172A),
+      decoration: BoxDecoration(
+        color: AppColors.background,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -34,10 +35,10 @@ class AiScoutingModal extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.psychology, color: Color(0xFF10B981), size: 24),
+                child: Icon(Icons.psychology, color: AppColors.primary, size: 24),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -46,11 +47,11 @@ class AiScoutingModal extends StatelessWidget {
                   children: [
                     Text(
                       'تقرير السكاوتنج الذكي: $teamName',
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
                       'تشكيلة الخصم: $formation | الخطة المقترحة: ${report["counter_formation"] ?? "4-2-3-1"}',
-                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                      style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     ),
                   ],
                 ),
@@ -64,8 +65,8 @@ class AiScoutingModal extends StatelessWidget {
             title: 'أبرز نقاط القوة',
             desc: report['team_strength'] ?? '',
             icon: Icons.flash_on,
-            iconColor: const Color(0xFF10B981),
-            bgColor: const Color(0xFF10B981).withValues(alpha: 0.1),
+            iconColor: AppColors.primary,
+            bgColor: AppColors.primary.withValues(alpha: 0.1),
           ),
           const SizedBox(height: 10),
 
@@ -88,8 +89,8 @@ class AiScoutingModal extends StatelessWidget {
                 title: 'الخطة المقترحة تكتيكياً',
                 desc: report['recommended_counter_strategy'] ?? '',
                 icon: Icons.auto_graph,
-                iconColor: const Color(0xFF38BDF8),
-                bgColor: const Color(0xFF38BDF8).withValues(alpha: 0.1),
+                iconColor: AppColors.info,
+                bgColor: AppColors.info.withValues(alpha: 0.1),
               ),
             ),
 
@@ -111,9 +112,9 @@ class AiScoutingModal extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1E293B),
+                    backgroundColor: AppColors.surfaceElevated,
                     foregroundColor: Colors.white,
-                    side: const BorderSide(color: Color(0xFF10B981)),
+                    side: BorderSide(color: AppColors.primary),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -130,7 +131,7 @@ class AiScoutingModal extends StatelessWidget {
                       aiReport: report,
                     );
                   },
-                  icon: const Icon(Icons.picture_as_pdf, color: Color(0xFF10B981), size: 18),
+                  icon: Icon(Icons.picture_as_pdf, color: AppColors.primary, size: 18),
                   label: const Text('تصدير PDF 📄', style: TextStyle(fontSize: 12)),
                 ),
               ),
@@ -138,7 +139,7 @@ class AiScoutingModal extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF10B981),
+                    backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -146,10 +147,10 @@ class AiScoutingModal extends StatelessWidget {
                     Navigator.pop(context);
                     onApplyTo3D();
                   },
-                  icon: const Icon(Icons.sports_soccer, color: Colors.white, size: 18),
-                  label: const Text(
+                  icon: Icon(Icons.sports_soccer, color: AppColors.textPrimary, size: 18),
+                  label: Text(
                     'تطبيق 3D ⚽',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                    style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                 ),
               ),
@@ -185,7 +186,7 @@ class AiScoutingModal extends StatelessWidget {
               children: [
                 Text(title, style: TextStyle(color: iconColor, fontWeight: FontWeight.bold, fontSize: 13)),
                 const SizedBox(height: 4),
-                Text(desc, style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.4)),
+                Text(desc, style: TextStyle(color: AppColors.textSecondary, fontSize: 12, height: 1.4)),
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../widgets/interactive_3d_pitch.dart';
 
@@ -89,23 +90,23 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A), // Dark Slate Background
+      backgroundColor: AppColors.background, // Dark Slate Background
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E293B),
+        backgroundColor: AppColors.surfaceElevated,
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.analytics_outlined, color: Color(0xFF38BDF8)),
+            Icon(Icons.analytics_outlined, color: AppColors.info),
             SizedBox(width: 10),
             Text(
               "داشبورد التحليل والكشافة",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.video_call, color: Color(0xFF38BDF8)),
+            icon: const Icon(Icons.video_call, color: AppColors.info),
             tooltip: "رفع فيديو جديد",
             onPressed: () {
               // فتح شاشة رفع فيديو جديد للباك إند
@@ -121,11 +122,11 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
             // A. كروت الإحصائيات السريعة (Quick Stats Row)
             Row(
               children: [
-                _buildStatCard("المباريات المحللة", "${matches.where((m) => m.status == 'completed').length}", Icons.movie_outlined, const Color(0xFF38BDF8)),
+                _buildStatCard("المباريات المحللة", "${matches.where((m) => m.status == 'completed').length}", Icons.movie_outlined, AppColors.info),
                 const SizedBox(width: 12),
-                _buildStatCard("قيد المعالجة (YOLO)", "${matches.where((m) => m.status == 'processing').length}", Icons.memory, const Color(0xFFFACC15)),
+                _buildStatCard("قيد المعالجة (YOLO)", "${matches.where((m) => m.status == 'processing').length}", Icons.memory, AppColors.gold),
                 const SizedBox(width: 12),
-                _buildStatCard("إجمالي التتبع", "60 لاعب", Icons.people_outline, const Color(0xFF22C55E)),
+                _buildStatCard("إجمالي التتبع", "60 لاعب", Icons.people_outline, AppColors.primary),
               ],
             ),
 
@@ -138,11 +139,11 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
                 return Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: ChoiceChip(
-                    label: Text(filter, style: TextStyle(color: isSelected ? Colors.white : Colors.white60, fontSize: 12)),
+                    label: Text(filter, style: TextStyle(color: isSelected ? AppColors.textPrimary : AppColors.textSecondary, fontSize: 12)),
                     selected: isSelected,
-                    selectedColor: const Color(0xFF38BDF8).withValues(alpha: 0.3),
-                    backgroundColor: const Color(0xFF1E293B),
-                    side: BorderSide(color: isSelected ? const Color(0xFF38BDF8) : Colors.transparent),
+                    selectedColor: AppColors.info.withValues(alpha: 0.3),
+                    backgroundColor: AppColors.surfaceElevated,
+                    side: BorderSide(color: isSelected ? AppColors.info : Colors.transparent),
                     onSelected: (val) {
                       setState(() => selectedFilter = filter);
                     },
@@ -183,7 +184,7 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
+          color: AppColors.surfaceElevated,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
         ),
@@ -201,8 +202,8 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(value, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(title, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+                Text(value, style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(title, style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
               ],
             ),
           ],
@@ -219,7 +220,7 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
+        color: AppColors.surfaceElevated,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
@@ -232,13 +233,13 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(match.title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                  Text(match.title, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 15)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(match.competition, style: const TextStyle(color: Color(0xFF38BDF8), fontSize: 11)),
-                      const Text(" • ", style: TextStyle(color: Colors.white38)),
-                      Text(match.date, style: const TextStyle(color: Colors.white38, fontSize: 11)),
+                      Text(match.competition, style: const TextStyle(color: AppColors.info, fontSize: 11)),
+                      Text(" • ", style: TextStyle(color: AppColors.textMuted)),
+                      Text(match.date, style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
                     ],
                   ),
                 ],
@@ -270,7 +271,7 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF0F172A).withValues(alpha: 0.5),
+              color: AppColors.background.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -280,13 +281,13 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
                   children: [
                     Text(match.homeLogo, style: const TextStyle(fontSize: 18)),
                     const SizedBox(width: 8),
-                    Text(match.homeTeam, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+                    Text(match.homeTeam, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
                   ],
                 ),
-                const Text("VS", style: TextStyle(color: Colors.white38, fontWeight: FontWeight.bold, fontSize: 12)),
+                Text("VS", style: TextStyle(color: AppColors.textMuted, fontWeight: FontWeight.bold, fontSize: 12)),
                 Row(
                   children: [
-                    Text(match.awayTeam, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+                    Text(match.awayTeam, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 13)),
                     const SizedBox(width: 8),
                     Text(match.awayLogo, style: const TextStyle(fontSize: 18)),
                   ],
@@ -300,8 +301,8 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
             const SizedBox(height: 12),
             LinearProgressIndicator(
               value: match.progress,
-              backgroundColor: Colors.white10,
-              color: const Color(0xFFFACC15),
+              backgroundColor: AppColors.textMuted,
+              color: AppColors.gold,
               minHeight: 4,
             ),
           ],
@@ -314,20 +315,20 @@ class _MatchScoutingDashboardState extends State<MatchScoutingDashboard> {
             children: [
               Text(
                 "المدة: ${match.duration}  |  اللاعبين: ${match.totalPlayersTracked}",
-                style: const TextStyle(color: Colors.white38, fontSize: 11),
+                style: TextStyle(color: AppColors.textMuted, fontSize: 11),
               ),
               ElevatedButton.icon(
                 icon: Icon(
                   isCompleted ? Icons.view_in_ar : Icons.hourglass_top,
                   size: 16,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
                 label: Text(
                   isCompleted ? "فتح التكتيك 3D" : "انتظار التجهيز",
                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isCompleted ? const Color(0xFF0EA5E9) : Colors.grey[800],
+                  backgroundColor: isCompleted ? AppColors.info : Colors.grey[800],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -30,14 +31,14 @@ class _TacticsHubScreenState extends State<TacticsHubScreen>
       backgroundColor: const Color(0xFF0A0C10),
       appBar: AppBar(
         title: const Text('Section 1: Tactics & Analysis'),
-        backgroundColor: const Color(0xFF161B22),
+        backgroundColor: AppColors.surface,
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: const Color(0xFF2979FF),
+          indicatorColor: AppColors.secondary,
           indicatorWeight: 3,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white54,
+          labelColor: AppColors.textPrimary,
+          unselectedLabelColor: AppColors.textSecondary,
           tabs: const [
             Tab(icon: Icon(Icons.draw), text: 'Tactical Board & Drills'),
             Tab(icon: Icon(Icons.video_library), text: 'Match Video Sync'),
@@ -102,7 +103,7 @@ class _InteractiveBoardView extends StatefulWidget {
 
 class _InteractiveBoardViewState extends State<_InteractiveBoardView> {
   TacticalTool _selectedTool = TacticalTool.select;
-  Color _currentColor = const Color(0xFF2979FF);
+  Color _currentColor = AppColors.secondary;
 
   late List<TacticalNode> _nodes;
   final List<TacticalPath> _paths = [];
@@ -225,7 +226,7 @@ class _InteractiveBoardViewState extends State<_InteractiveBoardView> {
 
   Widget _buildToolPalette() {
     return Container(
-      color: const Color(0xFF161B22),
+      color: AppColors.surface,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -235,24 +236,24 @@ class _InteractiveBoardViewState extends State<_InteractiveBoardView> {
             _toolBtn(TacticalTool.passVector, Icons.arrow_right_alt, 'Pass Line'),
             _toolBtn(TacticalTool.playerRun, Icons.gesture, 'Run Curve'),
             _toolBtn(TacticalTool.pressingZone, Icons.blur_on, 'Press Zone'),
-            const VerticalDivider(color: Colors.white24, width: 16),
+            VerticalDivider(color: AppColors.border, width: 16),
             _toolBtn(TacticalTool.cone, Icons.change_history, 'Cone'),
             _toolBtn(TacticalTool.hurdle, Icons.power_input, 'Hurdle'),
             _toolBtn(TacticalTool.miniGoal, Icons.crop_square, 'Mini Goal'),
             _toolBtn(TacticalTool.eraser, Icons.cleaning_services, 'Eraser'),
             const SizedBox(width: 12),
-            _colorPickerBtn(const Color(0xFF2979FF)),
-            _colorPickerBtn(const Color(0xFFFF5252)),
-            _colorPickerBtn(const Color(0xFF00E676)),
-            _colorPickerBtn(const Color(0xFFFFD600)),
+            _colorPickerBtn(AppColors.secondary),
+            _colorPickerBtn(AppColors.danger),
+            _colorPickerBtn(AppColors.primary),
+            _colorPickerBtn(AppColors.gold),
             const SizedBox(width: 12),
             IconButton(
-              icon: const Icon(Icons.refresh, color: Colors.white70),
+              icon: Icon(Icons.refresh, color: AppColors.textSecondary),
               tooltip: 'Reset Pitch',
               onPressed: _resetPositions,
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.white70),
+              icon: Icon(Icons.delete_outline, color: AppColors.textSecondary),
               tooltip: 'Clear Drawings',
               onPressed: _clearCanvas,
             ),
@@ -270,10 +271,10 @@ class _InteractiveBoardViewState extends State<_InteractiveBoardView> {
         margin: const EdgeInsets.only(right: 6),
         child: IconButton(
           icon: Icon(icon),
-          color: isSelected ? const Color(0xFF00E676) : Colors.white70,
+          color: isSelected ? AppColors.primary : AppColors.textSecondary,
           style: IconButton.styleFrom(
             backgroundColor: isSelected
-                ? const Color(0xFF00E676).withValues(alpha: 0.2)
+                ? AppColors.primary.withValues(alpha: 0.2)
                 : Colors.transparent,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
@@ -388,7 +389,7 @@ class PitchCanvasPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final bgPaint = Paint()..color = const Color(0xFF0F172A);
+    final bgPaint = Paint()..color = AppColors.background;
     canvas.drawRect(rect, bgPaint);
 
     final linePaint = Paint()
@@ -414,7 +415,7 @@ class PitchCanvasPainter extends CustomPainter {
       linePaint,
     );
     canvas.drawCircle(Offset(midX, size.height / 2), 45, linePaint);
-    canvas.drawCircle(Offset(midX, size.height / 2), 4, Paint()..color = Colors.white30);
+    canvas.drawCircle(Offset(midX, size.height / 2), 4, Paint()..color = AppColors.border);
 
     // Penalty Boxes
     final boxHeight = size.height * 0.45;
@@ -486,7 +487,7 @@ class PitchCanvasPainter extends CustomPainter {
     // Render Equipment (Cones, Hurdles, Mini Goals)
     for (final eq in equipment) {
       final pos = Offset(eq.position.dx * size.width, eq.position.dy * size.height);
-      final eqPaint = Paint()..color = const Color(0xFFFFD600);
+      final eqPaint = Paint()..color = AppColors.gold;
 
       if (eq.tool == TacticalTool.cone) {
         final conePath = Path()
@@ -516,7 +517,7 @@ class PitchCanvasPainter extends CustomPainter {
     for (final node in nodes) {
       final pos = Offset(node.position.dx * size.width, node.position.dy * size.height);
       final isHome = node.team == 'home';
-      final baseColor = isHome ? const Color(0xFF2979FF) : const Color(0xFFFF5252);
+      final baseColor = isHome ? AppColors.secondary : AppColors.danger;
 
       // Node shadow
       canvas.drawCircle(
@@ -544,8 +545,8 @@ class PitchCanvasPainter extends CustomPainter {
       final textPainter = TextPainter(
         text: TextSpan(
           text: node.label,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: AppColors.textPrimary,
             fontWeight: FontWeight.bold,
             fontSize: 10,
           ),
@@ -598,9 +599,9 @@ class _VideoSyncViewState extends State<_VideoSyncView> {
           child: Container(
             margin: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFF161B22),
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white12),
+              border: Border.all(color: AppColors.border),
             ),
             child: Stack(
               children: [
@@ -611,12 +612,12 @@ class _VideoSyncViewState extends State<_VideoSyncView> {
                       Icon(
                         Icons.smart_display_rounded,
                         size: 64,
-                        color: const Color(0xFF2979FF).withValues(alpha: 0.8),
+                        color: AppColors.secondary.withValues(alpha: 0.8),
                       ),
                       const SizedBox(height: 12),
-                      const Text(
+                      Text(
                         'Match Video Feed (Calibration Synced)',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -634,16 +635,16 @@ class _VideoSyncViewState extends State<_VideoSyncView> {
                     decoration: BoxDecoration(
                       color: Colors.black54,
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: const Color(0xFF00E676)),
+                      border: Border.all(color: AppColors.primary),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.circle, size: 8, color: Color(0xFF00E676)),
+                        Icon(Icons.circle, size: 8, color: AppColors.primary),
                         const SizedBox(width: 6),
                         Text(
                           'SYNCED: $_currentTimestamp',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),
@@ -660,23 +661,23 @@ class _VideoSyncViewState extends State<_VideoSyncView> {
         // Timeline Scrubber & Player Controls
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          color: const Color(0xFF161B22),
+          color: AppColors.surface,
           child: Row(
             children: [
               IconButton(
                 icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-                color: const Color(0xFF2979FF),
+                color: AppColors.secondary,
                 onPressed: () => setState(() => _isPlaying = !_isPlaying),
               ),
               Expanded(
                 child: Slider(
                   value: _playbackPosition,
-                  activeColor: const Color(0xFF2979FF),
-                  inactiveColor: Colors.white12,
+                  activeColor: AppColors.secondary,
+                  inactiveColor: AppColors.border,
                   onChanged: (val) => setState(() => _playbackPosition = val),
                 ),
               ),
-              const Text('00:34:12 / 00:90:00', style: TextStyle(color: Colors.white70, fontSize: 12)),
+              Text('00:34:12 / 00:90:00', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
             ],
           ),
         ),
@@ -688,21 +689,21 @@ class _VideoSyncViewState extends State<_VideoSyncView> {
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFF0F172A),
+              color: AppColors.background,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF2979FF).withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.secondary.withValues(alpha: 0.3)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Live 2D Pitch Coordinate Tracking',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                      style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
                     ),
-                    Icon(Icons.radar, color: Color(0xFF2979FF), size: 18),
+                    Icon(Icons.radar, color: AppColors.secondary, size: 18),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -732,12 +733,12 @@ class SyncedPitchMiniPainter extends CustomPainter {
     final pitchRect = Offset.zero & size;
     canvas.drawRect(
       pitchRect,
-      Paint()..color = const Color(0xFF1E293B),
+      Paint()..color = AppColors.surfaceElevated,
     );
     canvas.drawRect(
       pitchRect,
       Paint()
-        ..color = Colors.white24
+        ..color = AppColors.border
         ..style = PaintingStyle.stroke,
     );
 
@@ -745,7 +746,7 @@ class SyncedPitchMiniPainter extends CustomPainter {
     canvas.drawLine(
       Offset(size.width / 2, 0),
       Offset(size.width / 2, size.height),
-      Paint()..color = Colors.white24,
+      Paint()..color = AppColors.border,
     );
 
     // Simulated synced tracking positions animated by playbackPos
@@ -761,7 +762,7 @@ class SyncedPitchMiniPainter extends CustomPainter {
 
     for (int i = 0; i < players.length; i++) {
       final isHome = i < 3;
-      final color = isHome ? const Color(0xFF2979FF) : const Color(0xFFFF5252);
+      final color = isHome ? AppColors.secondary : AppColors.danger;
       canvas.drawCircle(players[i], 8, Paint()..color = color);
       canvas.drawCircle(players[i], 12, Paint()..color = color.withValues(alpha: 0.3));
     }

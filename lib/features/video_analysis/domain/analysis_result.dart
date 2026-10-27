@@ -23,6 +23,8 @@ abstract class VideoTrack with _$VideoTrack {
   const factory VideoTrack({
     required int trackId,
     required List<TrackPosition> positions,
+    /// "A", "B" or "other" (referee / unknown) from jersey-color clustering.
+    String? team,
   }) = _VideoTrack;
 
   factory VideoTrack.fromJson(Map<String, dynamic> json) =>
@@ -38,6 +40,9 @@ abstract class PlayerAnalytics with _$PlayerAnalytics {
     required int sprintCount,
     required double maxSpeedKmh,
     required List<List<double>> heatmap,
+    String? team,
+    @Default(0) double avgSpeedKmh,
+    @Default(0) double sprintDistanceM,
   }) = _PlayerAnalytics;
 
   factory PlayerAnalytics.fromJson(Map<String, dynamic> json) =>
@@ -77,6 +82,10 @@ abstract class AnalysisResult with _$AnalysisResult {
     required List<VideoTrack> tracks,
     @Default([]) List<PlayerAnalytics> players,
     PossessionZones? possessionZones,
+    /// Detected + interpolated ball trajectory (board coordinates).
+    @Default([]) List<TrackPosition> ball,
+    @Default(true) bool calibrated,
+    @Default(<String, dynamic>{}) Map<String, dynamic> summary,
   }) = _AnalysisResult;
 
   factory AnalysisResult.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 import 'captain_main_dashboard.dart';
@@ -88,7 +89,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A), // Dark Slate Background
+      backgroundColor: AppColors.background, // Dark Slate Background
       body: Stack(
         children: [
           // خلفية إضاءة زرقاء خفيفة لتأثير الـ Neon Glow
@@ -100,7 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
               height: 300,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF38BDF8).withValues(alpha: 0.15),
+                color: AppColors.info.withValues(alpha: 0.15),
               ),
             ),
           ),
@@ -115,21 +116,21 @@ class _AuthScreenState extends State<AuthScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1E293B),
+                      color: AppColors.surfaceElevated,
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.3)),
+                      border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
                     ),
                     child: const Icon(
                       Icons.sports_soccer,
                       size: 48,
-                      color: Color(0xFF38BDF8),
+                      color: AppColors.info,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
+                  Text(
                     "CAPTAIN TACTICAL SUITE",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -138,7 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 6),
                   Text(
                     isLoginMode ? "سجّل دخولك للوصول إلى تحليلاتك والسبورة 3D" : "أنشئ حسابك وابدأ تحليل المباريات بالذكاء الاصطناعي",
-                    style: const TextStyle(color: Colors.white54, fontSize: 12),
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
 
@@ -148,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1E293B).withValues(alpha: 0.85),
+                      color: AppColors.surfaceElevated.withValues(alpha: 0.85),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                       boxShadow: [
@@ -205,7 +206,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                                color: Colors.white38,
+                                color: AppColors.textMuted,
                               ),
                               onPressed: () {
                                 setState(() => isPasswordVisible = !isPasswordVisible);
@@ -224,7 +225,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           // زر إرسال الطلب (Submit Button)
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0EA5E9), // Sky Blue Accent
+                              backgroundColor: AppColors.info, // Sky Blue Accent
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -232,10 +233,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             onPressed: isLoading ? null : _submitAuth,
                             child: isLoading
-                                ? const SizedBox(
+                                ? SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                    child: CircularProgressIndicator(color: AppColors.textPrimary, strokeWidth: 2),
                                   )
                                 : Text(
                                     isLoginMode ? "تسجيل الدخول" : "إنشاء حساب الكابتن",
@@ -248,8 +249,8 @@ class _AuthScreenState extends State<AuthScreen> {
                           // زر الدخول السريع كـ كابتن (تخطي التسجيل)
                           OutlinedButton.icon(
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFF10B981),
-                              side: const BorderSide(color: Color(0xFF10B981), width: 1.5),
+                              foregroundColor: AppColors.primary,
+                              side: BorderSide(color: AppColors.primary, width: 1.5),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -260,7 +261,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.bolt, color: Color(0xFF10B981)),
+                            icon: Icon(Icons.bolt, color: AppColors.primary),
                             label: const Text(
                               "⚡ دخول سريع ومجاني كـ كابتن (تخطي التسجيل)",
                               style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
@@ -284,7 +285,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -296,15 +297,15 @@ class _AuthScreenState extends State<AuthScreen> {
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: isLoginMode ? const Color(0xFF1E293B) : Colors.transparent,
+                  color: isLoginMode ? AppColors.surfaceElevated : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
-                  border: isLoginMode ? Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.5)) : null,
+                  border: isLoginMode ? Border.all(color: AppColors.info.withValues(alpha: 0.5)) : null,
                 ),
                 child: Text(
                   "تسجيل الدخول",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: isLoginMode ? Colors.white : Colors.white54,
+                    color: isLoginMode ? AppColors.textPrimary : AppColors.textSecondary,
                     fontWeight: isLoginMode ? FontWeight.bold : FontWeight.normal,
                     fontSize: 13,
                   ),
@@ -319,15 +320,15 @@ class _AuthScreenState extends State<AuthScreen> {
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: !isLoginMode ? const Color(0xFF1E293B) : Colors.transparent,
+                  color: !isLoginMode ? AppColors.surfaceElevated : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
-                  border: !isLoginMode ? Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.5)) : null,
+                  border: !isLoginMode ? Border.all(color: AppColors.info.withValues(alpha: 0.5)) : null,
                 ),
                 child: Text(
                   "حساب جديد",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: !isLoginMode ? Colors.white : Colors.white54,
+                    color: !isLoginMode ? AppColors.textPrimary : AppColors.textSecondary,
                     fontWeight: !isLoginMode ? FontWeight.bold : FontWeight.normal,
                     fontSize: 13,
                   ),
@@ -354,21 +355,21 @@ class _AuthScreenState extends State<AuthScreen> {
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      style: const TextStyle(color: Colors.white, fontSize: 14),
+      style: TextStyle(color: AppColors.textPrimary, fontSize: 14),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white54, fontSize: 13),
-        prefixIcon: Icon(icon, color: const Color(0xFF38BDF8), size: 20),
+        labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+        prefixIcon: Icon(icon, color: AppColors.info, size: 20),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: const Color(0xFF0F172A).withValues(alpha: 0.6),
+        fillColor: AppColors.background.withValues(alpha: 0.6),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFF38BDF8)),
+          borderSide: const BorderSide(color: AppColors.info),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

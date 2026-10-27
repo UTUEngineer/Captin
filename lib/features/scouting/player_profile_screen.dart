@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,7 @@ class DetailedSubAttribute {
   const DetailedSubAttribute({
     required this.title,
     required this.value,
-    this.barColor = const Color(0xFF00E676),
+    this.barColor = AppColors.brand,
   });
 }
 
@@ -122,13 +123,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
     RadarAttribute(label: 'PHY (76)', value: 76),
   ];
 
-  final List<DetailedSubAttribute> _subAttributes = const [
-    DetailedSubAttribute(title: 'Sprint Speed & Acceleration', value: 89, barColor: Color(0xFF00E676)),
-    DetailedSubAttribute(title: 'Vision & Key Passes (xT Impact)', value: 88, barColor: Color(0xFF00E676)),
-    DetailedSubAttribute(title: 'Close Dribbling in Tight Spaces', value: 93, barColor: Color(0xFF00E676)),
-    DetailedSubAttribute(title: 'Finishing & Shot Power', value: 81, barColor: Color(0xFF2979FF)),
-    DetailedSubAttribute(title: 'Press Resistance & Turn Rate', value: 90, barColor: Color(0xFF00E676)),
-    DetailedSubAttribute(title: 'Defensive Work Rate & Tracking', value: 52, barColor: Color(0xFFFF9100)),
+  final List<DetailedSubAttribute> _subAttributes = [
+    DetailedSubAttribute(title: 'Sprint Speed & Acceleration', value: 89, barColor: AppColors.primary),
+    DetailedSubAttribute(title: 'Vision & Key Passes (xT Impact)', value: 88, barColor: AppColors.primary),
+    DetailedSubAttribute(title: 'Close Dribbling in Tight Spaces', value: 93, barColor: AppColors.primary),
+    DetailedSubAttribute(title: 'Finishing & Shot Power', value: 81, barColor: AppColors.secondary),
+    DetailedSubAttribute(title: 'Press Resistance & Turn Rate', value: 90, barColor: AppColors.primary),
+    DetailedSubAttribute(title: 'Defensive Work Rate & Tracking', value: 52, barColor: AppColors.accentOrange),
   ];
 
   final List<MatchPerformanceLog> _matchHistory = const [
@@ -187,24 +188,24 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
     return Scaffold(
       backgroundColor: const Color(0xFF0B0F17),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF131926),
+        backgroundColor: AppColors.surface,
         elevation: 0,
         title: Text(
           'SCOUTING DOSSIER #${_player.jerseyNumber}',
-          style: const TextStyle(
+          style: TextStyle(
             letterSpacing: 1.5,
             fontWeight: FontWeight.w900,
             fontSize: 15,
-            color: Colors.white,
+            color: AppColors.textPrimary,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.share_outlined, color: Colors.white70),
+            icon: Icon(Icons.share_outlined, color: AppColors.textSecondary),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.picture_as_pdf_outlined, color: Color(0xFF00E676)),
+            icon: Icon(Icons.picture_as_pdf_outlined, color: AppColors.primary),
             onPressed: () {},
           ),
           const SizedBox(width: 8),
@@ -228,9 +229,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
   Widget _buildPlayerHeaderCard() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Color(0xFF131926),
-        border: Border(bottom: BorderSide(color: Colors.white10)),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border(bottom: BorderSide(color: AppColors.subtle)),
       ),
       child: Column(
         children: [
@@ -246,14 +247,14 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                     height: 82,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFF00E676), width: 2.5),
+                      border: Border.all(color: AppColors.primary, width: 2.5),
                       gradient: const LinearGradient(
                         colors: [Color(0xFF1E283D), Color(0xFF0F1522)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    child: const Icon(Icons.person, size: 54, color: Colors.white70),
+                    child: Icon(Icons.person, size: 54, color: AppColors.textSecondary),
                   ),
                   Positioned(
                     bottom: -4,
@@ -261,7 +262,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00E676),
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Text(
@@ -288,10 +289,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                         Flexible(
                           child: Text(
                             _player.commonName,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                              color: AppColors.textPrimary,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -299,14 +300,14 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF2979FF).withValues(alpha: 0.18),
+                            color: AppColors.secondary.withValues(alpha: 0.18),
                             borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: const Color(0xFF2979FF).withValues(alpha: 0.5)),
+                            border: Border.all(color: AppColors.secondary.withValues(alpha: 0.5)),
                           ),
                           child: Text(
                             _player.primaryPosition,
                             style: const TextStyle(
-                              color: Color(0xFF2979FF),
+                              color: AppColors.secondary,
                               fontWeight: FontWeight.w800,
                               fontSize: 12,
                             ),
@@ -329,7 +330,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                       child: Text(
                         _player.tacticalArchetype,
                         style: const TextStyle(
-                          color: Color(0xFFFFD700),
+                          color: AppColors.gold,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
@@ -372,13 +373,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
       children: [
         Text(
           title,
-          style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
           val,
           style: TextStyle(
-            color: highlight ? const Color(0xFF00E676) : Colors.white,
+            color: highlight ? AppColors.primary : AppColors.textPrimary,
             fontWeight: FontWeight.w800,
             fontSize: 12,
           ),
@@ -388,7 +389,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
   }
 
   Widget _bioDivider() {
-    return Container(height: 22, width: 1, color: Colors.white12);
+    return Container(height: 22, width: 1, color: AppColors.border);
   }
 
   // --- Tab Bar Navigation & Content ---
@@ -396,13 +397,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
     return Column(
       children: [
         Container(
-          color: const Color(0xFF131926),
+          color: AppColors.surface,
           child: TabBar(
             controller: _tabController,
-            indicatorColor: const Color(0xFF00E676),
+            indicatorColor: AppColors.primary,
             indicatorWeight: 3,
-            labelColor: const Color(0xFF00E676),
-            unselectedLabelColor: Colors.white60,
+            labelColor: AppColors.primary,
+            unselectedLabelColor: AppColors.textSecondary,
             tabs: const [
               Tab(icon: Icon(Icons.radar, size: 18), text: 'Radar & Attributes'),
               Tab(icon: Icon(Icons.history_toggle_off, size: 18), text: 'Match Logs'),
@@ -433,19 +434,19 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
         Container(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
           decoration: BoxDecoration(
-            color: const Color(0xFF131926),
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white10),
+            border: Border.all(color: AppColors.subtle),
           ),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'FIFA TACTICAL RADAR ATTRIBUTES',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontWeight: FontWeight.w900,
                       fontSize: 12,
                       letterSpacing: 1.1,
@@ -454,7 +455,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                   Text(
                     'ELITE TIER (86 OVR)',
                     style: TextStyle(
-                      color: Color(0xFF00E676),
+                      color: AppColors.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 11,
                     ),
@@ -468,9 +469,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                 child: CustomPaint(
                   painter: RadarChartPainter(
                     attributes: _radarStats,
-                    fillColor: const Color(0xFF00E676).withValues(alpha: 0.28),
-                    outlineColor: const Color(0xFF00E676),
-                    webColor: Colors.white12,
+                    fillColor: AppColors.primary.withValues(alpha: 0.28),
+                    outlineColor: AppColors.primary,
+                    webColor: AppColors.border,
                   ),
                 ),
               ),
@@ -482,17 +483,17 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF131926),
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white10),
+            border: Border.all(color: AppColors.subtle),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'TACTICAL SUB-METRICS',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                   fontWeight: FontWeight.w900,
                   fontSize: 12,
                   letterSpacing: 1.1,
@@ -515,10 +516,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(sub.title, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+              Text(sub.title, style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
               Text(
                 '${sub.value}',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12),
               ),
             ],
           ),
@@ -548,9 +549,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF131926),
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.white10),
+            border: Border.all(color: AppColors.subtle),
           ),
           child: Column(
             children: [
@@ -562,8 +563,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                     children: [
                       Text(
                         'vs ${match.opponent}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
@@ -571,7 +572,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                       const SizedBox(height: 2),
                       Text(
                         '${match.competition} • ${match.date}',
-                        style: const TextStyle(color: Colors.white38, fontSize: 11),
+                        style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                       ),
                     ],
                   ),
@@ -579,9 +580,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: match.rating >= 8.0
-                          ? const Color(0xFF00E676)
+                          ? AppColors.primary
                           : match.rating >= 7.0
-                              ? const Color(0xFF2979FF)
+                              ? AppColors.secondary
                               : Colors.amber,
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -597,7 +598,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                 ],
               ),
               const SizedBox(height: 14),
-              const Divider(color: Colors.white10, height: 1),
+              Divider(color: AppColors.subtle, height: 1),
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -619,11 +620,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
   Widget _matchStatCell(String title, String stat) {
     return Column(
       children: [
-        Text(title, style: const TextStyle(color: Colors.white38, fontSize: 10)),
+        Text(title, style: TextStyle(color: AppColors.textMuted, fontSize: 10)),
         const SizedBox(height: 4),
         Text(
           stat,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12),
         ),
       ],
     );
@@ -637,9 +638,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF131926),
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFFF9100).withValues(alpha: 0.4)),
+            border: Border.all(color: AppColors.accentOrange.withValues(alpha: 0.4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -649,16 +650,16 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFF9100).withValues(alpha: 0.18),
+                      color: AppColors.accentOrange.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.psychology, color: Color(0xFFFF9100), size: 20),
+                    child: const Icon(Icons.psychology, color: AppColors.accentOrange, size: 20),
                   ),
                   const SizedBox(width: 10),
                   const Text(
                     'CLAUDE 3.5 SONNET SCOUTING REPORT',
                     style: TextStyle(
-                      color: Color(0xFFFF9100),
+                      color: AppColors.accentOrange,
                       fontWeight: FontWeight.w900,
                       fontSize: 12,
                       letterSpacing: 1.1,
@@ -667,27 +668,27 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                 ],
               ),
               const SizedBox(height: 14),
-              const Text(
+              Text(
                 'Key Tactical Strengths',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 '• Exceptional half-space acceleration and 1v1 dribbling success rate (71%).\n'
                 '• Progressive ball carry of 14.8m per 90, creating passing angles for underlapping full-backs.\n'
                 '• Direct ball striking on cut-backs into the top-right bin.',
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 12, height: 1.4),
               ),
               const SizedBox(height: 14),
               const Text(
                 'Defensive Vulnerabilities & Press Triggers',
-                style: TextStyle(color: Color(0xFFFF5252), fontWeight: FontWeight.bold, fontSize: 13),
+                style: TextStyle(color: AppColors.danger, fontWeight: FontWeight.bold, fontSize: 13),
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 '• Slow recovery sprint when turnover occurs during high transition phases.\n'
                 '• Vulnerable to double-teams against physical center-backs pushing him wide onto his weak foot.',
-                style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.4),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 12, height: 1.4),
               ),
             ],
           ),
@@ -803,8 +804,8 @@ class RadarChartPainter extends CustomPainter {
 
       final textSpan = TextSpan(
         text: attributes[i].label,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: AppColors.textPrimary,
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),

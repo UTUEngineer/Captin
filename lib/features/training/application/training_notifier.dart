@@ -151,7 +151,7 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
       endY: endY,
       controlPoints: [control],
       style: state.selectedPathStyle,
-      colorValue: AppColors.pitchGreenLight.toARGB32(),
+      colorValue: AppColors.primary.toARGB32(),
     );
 
     state = state.copyWith(paths: [...state.paths, path]);

@@ -14,6 +14,8 @@ class Standing {
     required this.points,
     required this.goalsFor,
     required this.goalsAgainst,
+    this.form = '',
+    this.description,
   });
 
   final int rank;
@@ -28,6 +30,24 @@ class Standing {
   final int points;
   final int goalsFor;
   final int goalsAgainst;
+
+  /// Last results, oldest → newest, e.g. "WWDLW".
+  final String form;
+
+  /// Zone note from the provider, e.g. "Promotion - AFC Champions League".
+  final String? description;
+
+  int get goalDifference => goalsFor - goalsAgainst;
+
+  StandingZone get zone {
+    final d = (description ?? '').toLowerCase();
+    if (d.isEmpty) return StandingZone.none;
+    if (d.contains('relegation')) return StandingZone.relegation;
+    if (d.contains('champions') || d.contains('elite')) {
+      return StandingZone.championsLeague;
+    }
+    return StandingZone.continental;
+  }
 
   factory Standing.fromJson(Map<String, dynamic> json) {
     final team = json['team'] as Map<String, dynamic>;
@@ -47,6 +67,10 @@ class Standing {
       points: json['points'] as int,
       goalsFor: goals['for'] as int,
       goalsAgainst: goals['against'] as int,
+      form: json['form'] as String? ?? '',
+      description: json['description'] as String?,
     );
   }
 }
+
+enum StandingZone { none, championsLeague, continental, relegation }

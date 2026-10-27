@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../widgets/interactive_3d_pitch.dart';
@@ -64,7 +65,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
               IconButton(
                 icon: Icon(
                   Icons.remove_red_eye_outlined,
-                  color: _isPovActive ? const Color(0xFF10B981) : Colors.white,
+                  color: _isPovActive ? AppColors.primary : Colors.white,
                 ),
                 tooltip: "Switch to 'Be The Player' POV",
                 onPressed: () {
@@ -74,7 +75,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(_isPovActive ? "Switched to 'Be The Player' First-Person POV (Eye level Y=1.75m)" : "Switched to 3D Orbit Camera"),
-                      backgroundColor: const Color(0xFF10B981),
+                      backgroundColor: AppColors.primary,
                       duration: const Duration(seconds: 1),
                     ),
                   );
@@ -83,7 +84,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
               IconButton(
                 icon: Icon(
                   Icons.video_library_outlined,
-                  color: _keyframeEngine.isPlayingSequence ? const Color(0xFF10B981) : Colors.white,
+                  color: _keyframeEngine.isPlayingSequence ? AppColors.primary : Colors.white,
                 ),
                 tooltip: "Play Keyframe Sequence",
                 onPressed: () {
@@ -97,7 +98,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.cloud_upload_outlined, color: Color(0xFF10B981)),
+                icon: Icon(Icons.cloud_upload_outlined, color: AppColors.primary),
                 tooltip: 'حفظ الخطة التكتيكية في السحابة',
                 onPressed: () {
                   showDialog(
@@ -108,10 +109,10 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
               ),
               IconButton(
                 icon: _isExporting
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(color: Color(0xFF10B981), strokeWidth: 2),
+                        child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2),
                       )
                     : const Icon(Icons.share_outlined, color: Colors.white),
                 tooltip: "Export 3D PDF/GIF",
@@ -167,14 +168,14 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.grid_view, color: _showFormationsMenu ? const Color(0xFF10B981) : Colors.white70),
+                        icon: Icon(Icons.grid_view, color: _showFormationsMenu ? AppColors.primary : Colors.white70),
                         tooltip: 'Formation Switcher (4-3-3, 4-2-3-1...)',
                         onPressed: () {
                           setState(() => _showFormationsMenu = !_showFormationsMenu);
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.edit_road, color: _isDrawingLines ? const Color(0xFF10B981) : Colors.white70),
+                        icon: Icon(Icons.edit_road, color: _isDrawingLines ? AppColors.primary : Colors.white70),
                         tooltip: 'Draw Passing / Movement Arrows',
                         onPressed: () {
                           setState(() {
@@ -184,7 +185,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.crop_square, color: _isDrawingZones ? const Color(0xFF10B981) : Colors.white70),
+                        icon: Icon(Icons.crop_square, color: _isDrawingZones ? AppColors.primary : Colors.white70),
                         tooltip: 'Highlight Pressing / Compactness Zones',
                         onPressed: () {
                           setState(() {
@@ -208,7 +209,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1E293B),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFF10B981)),
+                      border: Border.all(color: AppColors.primary),
                       boxShadow: const [BoxShadow(color: Colors.black54, blurRadius: 12)],
                     ),
                     child: Column(
@@ -227,7 +228,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text('Formation $f Applied with Smooth Animation!'),
-                                    backgroundColor: const Color(0xFF10B981),
+                                    backgroundColor: AppColors.primary,
                                     duration: const Duration(seconds: 1),
                                   ),
                                 );
@@ -238,7 +239,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                                   children: [
                                     Icon(
                                       activeFormation == f ? Icons.radio_button_checked : Icons.radio_button_off,
-                                      color: activeFormation == f ? const Color(0xFF10B981) : Colors.white38,
+                                      color: activeFormation == f ? AppColors.primary : Colors.white38,
                                       size: 14,
                                     ),
                                     const SizedBox(width: 8),
@@ -267,7 +268,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.9),
+                      color: AppColors.primary.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 6)],
                     ),
@@ -329,7 +330,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.9),
+                      color: AppColors.primary.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 6)],
                     ),
@@ -392,7 +393,7 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
           width: 32,
           height: 32,
           decoration: BoxDecoration(
-            color: isGk ? Colors.amber : const Color(0xFF10B981),
+            color: isGk ? Colors.amber : AppColors.primary,
             shape: BoxShape.circle,
             border: Border.all(color: Colors.white, width: 1.5),
             boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(0, 2))],
@@ -441,9 +442,9 @@ class _VirtualPlaygroundScreenState extends State<VirtualPlaygroundScreen> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text('3D PDF Export Generated Successfully!'),
-            backgroundColor: Color(0xFF10B981),
+            backgroundColor: AppColors.primary,
           ),
         );
       }

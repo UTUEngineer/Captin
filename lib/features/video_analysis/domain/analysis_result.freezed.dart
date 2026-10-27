@@ -287,7 +287,8 @@ as int?,
 /// @nodoc
 mixin _$VideoTrack {
 
- int get trackId; List<TrackPosition> get positions;
+ int get trackId; List<TrackPosition> get positions;/// "A", "B" or "other" (referee / unknown) from jersey-color clustering.
+ String? get team;
 /// Create a copy of VideoTrack
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +301,16 @@ $VideoTrackCopyWith<VideoTrack> get copyWith => _$VideoTrackCopyWithImpl<VideoTr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VideoTrack&&(identical(other.trackId, trackId) || other.trackId == trackId)&&const DeepCollectionEquality().equals(other.positions, positions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VideoTrack&&(identical(other.trackId, trackId) || other.trackId == trackId)&&const DeepCollectionEquality().equals(other.positions, positions)&&(identical(other.team, team) || other.team == team));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trackId,const DeepCollectionEquality().hash(positions));
+int get hashCode => Object.hash(runtimeType,trackId,const DeepCollectionEquality().hash(positions),team);
 
 @override
 String toString() {
-  return 'VideoTrack(trackId: $trackId, positions: $positions)';
+  return 'VideoTrack(trackId: $trackId, positions: $positions, team: $team)';
 }
 
 
@@ -320,7 +321,7 @@ abstract mixin class $VideoTrackCopyWith<$Res>  {
   factory $VideoTrackCopyWith(VideoTrack value, $Res Function(VideoTrack) _then) = _$VideoTrackCopyWithImpl;
 @useResult
 $Res call({
- int trackId, List<TrackPosition> positions
+ int trackId, List<TrackPosition> positions, String? team
 });
 
 
@@ -337,11 +338,12 @@ class _$VideoTrackCopyWithImpl<$Res>
 
 /// Create a copy of VideoTrack
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? trackId = null,Object? positions = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? trackId = null,Object? positions = null,Object? team = freezed,}) {
   return _then(_self.copyWith(
 trackId: null == trackId ? _self.trackId : trackId // ignore: cast_nullable_to_non_nullable
 as int,positions: null == positions ? _self.positions : positions // ignore: cast_nullable_to_non_nullable
-as List<TrackPosition>,
+as List<TrackPosition>,team: freezed == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -426,10 +428,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int trackId,  List<TrackPosition> positions)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int trackId,  List<TrackPosition> positions,  String? team)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VideoTrack() when $default != null:
-return $default(_that.trackId,_that.positions);case _:
+return $default(_that.trackId,_that.positions,_that.team);case _:
   return orElse();
 
 }
@@ -447,10 +449,10 @@ return $default(_that.trackId,_that.positions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int trackId,  List<TrackPosition> positions)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int trackId,  List<TrackPosition> positions,  String? team)  $default,) {final _that = this;
 switch (_that) {
 case _VideoTrack():
-return $default(_that.trackId,_that.positions);case _:
+return $default(_that.trackId,_that.positions,_that.team);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -467,10 +469,10 @@ return $default(_that.trackId,_that.positions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int trackId,  List<TrackPosition> positions)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int trackId,  List<TrackPosition> positions,  String? team)?  $default,) {final _that = this;
 switch (_that) {
 case _VideoTrack() when $default != null:
-return $default(_that.trackId,_that.positions);case _:
+return $default(_that.trackId,_that.positions,_that.team);case _:
   return null;
 
 }
@@ -482,7 +484,7 @@ return $default(_that.trackId,_that.positions);case _:
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _VideoTrack implements VideoTrack {
-  const _VideoTrack({required this.trackId, required final  List<TrackPosition> positions}): _positions = positions;
+  const _VideoTrack({required this.trackId, required final  List<TrackPosition> positions, this.team}): _positions = positions;
   factory _VideoTrack.fromJson(Map<String, dynamic> json) => _$VideoTrackFromJson(json);
 
 @override final  int trackId;
@@ -493,6 +495,8 @@ class _VideoTrack implements VideoTrack {
   return EqualUnmodifiableListView(_positions);
 }
 
+/// "A", "B" or "other" (referee / unknown) from jersey-color clustering.
+@override final  String? team;
 
 /// Create a copy of VideoTrack
 /// with the given fields replaced by the non-null parameter values.
@@ -507,16 +511,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VideoTrack&&(identical(other.trackId, trackId) || other.trackId == trackId)&&const DeepCollectionEquality().equals(other._positions, _positions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VideoTrack&&(identical(other.trackId, trackId) || other.trackId == trackId)&&const DeepCollectionEquality().equals(other._positions, _positions)&&(identical(other.team, team) || other.team == team));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trackId,const DeepCollectionEquality().hash(_positions));
+int get hashCode => Object.hash(runtimeType,trackId,const DeepCollectionEquality().hash(_positions),team);
 
 @override
 String toString() {
-  return 'VideoTrack(trackId: $trackId, positions: $positions)';
+  return 'VideoTrack(trackId: $trackId, positions: $positions, team: $team)';
 }
 
 
@@ -527,7 +531,7 @@ abstract mixin class _$VideoTrackCopyWith<$Res> implements $VideoTrackCopyWith<$
   factory _$VideoTrackCopyWith(_VideoTrack value, $Res Function(_VideoTrack) _then) = __$VideoTrackCopyWithImpl;
 @override @useResult
 $Res call({
- int trackId, List<TrackPosition> positions
+ int trackId, List<TrackPosition> positions, String? team
 });
 
 
@@ -544,11 +548,12 @@ class __$VideoTrackCopyWithImpl<$Res>
 
 /// Create a copy of VideoTrack
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? trackId = null,Object? positions = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? trackId = null,Object? positions = null,Object? team = freezed,}) {
   return _then(_VideoTrack(
 trackId: null == trackId ? _self.trackId : trackId // ignore: cast_nullable_to_non_nullable
 as int,positions: null == positions ? _self._positions : positions // ignore: cast_nullable_to_non_nullable
-as List<TrackPosition>,
+as List<TrackPosition>,team: freezed == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -559,7 +564,7 @@ as List<TrackPosition>,
 /// @nodoc
 mixin _$PlayerAnalytics {
 
- int get trackId; double get distanceKm; int get sprintCount; double get maxSpeedKmh; List<List<double>> get heatmap;
+ int get trackId; double get distanceKm; int get sprintCount; double get maxSpeedKmh; List<List<double>> get heatmap; String? get team; double get avgSpeedKmh; double get sprintDistanceM;
 /// Create a copy of PlayerAnalytics
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -572,16 +577,16 @@ $PlayerAnalyticsCopyWith<PlayerAnalytics> get copyWith => _$PlayerAnalyticsCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlayerAnalytics&&(identical(other.trackId, trackId) || other.trackId == trackId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.sprintCount, sprintCount) || other.sprintCount == sprintCount)&&(identical(other.maxSpeedKmh, maxSpeedKmh) || other.maxSpeedKmh == maxSpeedKmh)&&const DeepCollectionEquality().equals(other.heatmap, heatmap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlayerAnalytics&&(identical(other.trackId, trackId) || other.trackId == trackId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.sprintCount, sprintCount) || other.sprintCount == sprintCount)&&(identical(other.maxSpeedKmh, maxSpeedKmh) || other.maxSpeedKmh == maxSpeedKmh)&&const DeepCollectionEquality().equals(other.heatmap, heatmap)&&(identical(other.team, team) || other.team == team)&&(identical(other.avgSpeedKmh, avgSpeedKmh) || other.avgSpeedKmh == avgSpeedKmh)&&(identical(other.sprintDistanceM, sprintDistanceM) || other.sprintDistanceM == sprintDistanceM));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trackId,distanceKm,sprintCount,maxSpeedKmh,const DeepCollectionEquality().hash(heatmap));
+int get hashCode => Object.hash(runtimeType,trackId,distanceKm,sprintCount,maxSpeedKmh,const DeepCollectionEquality().hash(heatmap),team,avgSpeedKmh,sprintDistanceM);
 
 @override
 String toString() {
-  return 'PlayerAnalytics(trackId: $trackId, distanceKm: $distanceKm, sprintCount: $sprintCount, maxSpeedKmh: $maxSpeedKmh, heatmap: $heatmap)';
+  return 'PlayerAnalytics(trackId: $trackId, distanceKm: $distanceKm, sprintCount: $sprintCount, maxSpeedKmh: $maxSpeedKmh, heatmap: $heatmap, team: $team, avgSpeedKmh: $avgSpeedKmh, sprintDistanceM: $sprintDistanceM)';
 }
 
 
@@ -592,7 +597,7 @@ abstract mixin class $PlayerAnalyticsCopyWith<$Res>  {
   factory $PlayerAnalyticsCopyWith(PlayerAnalytics value, $Res Function(PlayerAnalytics) _then) = _$PlayerAnalyticsCopyWithImpl;
 @useResult
 $Res call({
- int trackId, double distanceKm, int sprintCount, double maxSpeedKmh, List<List<double>> heatmap
+ int trackId, double distanceKm, int sprintCount, double maxSpeedKmh, List<List<double>> heatmap, String? team, double avgSpeedKmh, double sprintDistanceM
 });
 
 
@@ -609,14 +614,17 @@ class _$PlayerAnalyticsCopyWithImpl<$Res>
 
 /// Create a copy of PlayerAnalytics
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? trackId = null,Object? distanceKm = null,Object? sprintCount = null,Object? maxSpeedKmh = null,Object? heatmap = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? trackId = null,Object? distanceKm = null,Object? sprintCount = null,Object? maxSpeedKmh = null,Object? heatmap = null,Object? team = freezed,Object? avgSpeedKmh = null,Object? sprintDistanceM = null,}) {
   return _then(_self.copyWith(
 trackId: null == trackId ? _self.trackId : trackId // ignore: cast_nullable_to_non_nullable
 as int,distanceKm: null == distanceKm ? _self.distanceKm : distanceKm // ignore: cast_nullable_to_non_nullable
 as double,sprintCount: null == sprintCount ? _self.sprintCount : sprintCount // ignore: cast_nullable_to_non_nullable
 as int,maxSpeedKmh: null == maxSpeedKmh ? _self.maxSpeedKmh : maxSpeedKmh // ignore: cast_nullable_to_non_nullable
 as double,heatmap: null == heatmap ? _self.heatmap : heatmap // ignore: cast_nullable_to_non_nullable
-as List<List<double>>,
+as List<List<double>>,team: freezed == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
+as String?,avgSpeedKmh: null == avgSpeedKmh ? _self.avgSpeedKmh : avgSpeedKmh // ignore: cast_nullable_to_non_nullable
+as double,sprintDistanceM: null == sprintDistanceM ? _self.sprintDistanceM : sprintDistanceM // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -701,10 +709,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap,  String? team,  double avgSpeedKmh,  double sprintDistanceM)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PlayerAnalytics() when $default != null:
-return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap);case _:
+return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap,_that.team,_that.avgSpeedKmh,_that.sprintDistanceM);case _:
   return orElse();
 
 }
@@ -722,10 +730,10 @@ return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedK
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap,  String? team,  double avgSpeedKmh,  double sprintDistanceM)  $default,) {final _that = this;
 switch (_that) {
 case _PlayerAnalytics():
-return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap);case _:
+return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap,_that.team,_that.avgSpeedKmh,_that.sprintDistanceM);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -742,10 +750,10 @@ return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedK
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int trackId,  double distanceKm,  int sprintCount,  double maxSpeedKmh,  List<List<double>> heatmap,  String? team,  double avgSpeedKmh,  double sprintDistanceM)?  $default,) {final _that = this;
 switch (_that) {
 case _PlayerAnalytics() when $default != null:
-return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap);case _:
+return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedKmh,_that.heatmap,_that.team,_that.avgSpeedKmh,_that.sprintDistanceM);case _:
   return null;
 
 }
@@ -757,7 +765,7 @@ return $default(_that.trackId,_that.distanceKm,_that.sprintCount,_that.maxSpeedK
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _PlayerAnalytics implements PlayerAnalytics {
-  const _PlayerAnalytics({required this.trackId, required this.distanceKm, required this.sprintCount, required this.maxSpeedKmh, required final  List<List<double>> heatmap}): _heatmap = heatmap;
+  const _PlayerAnalytics({required this.trackId, required this.distanceKm, required this.sprintCount, required this.maxSpeedKmh, required final  List<List<double>> heatmap, this.team, this.avgSpeedKmh = 0, this.sprintDistanceM = 0}): _heatmap = heatmap;
   factory _PlayerAnalytics.fromJson(Map<String, dynamic> json) => _$PlayerAnalyticsFromJson(json);
 
 @override final  int trackId;
@@ -771,6 +779,9 @@ class _PlayerAnalytics implements PlayerAnalytics {
   return EqualUnmodifiableListView(_heatmap);
 }
 
+@override final  String? team;
+@override@JsonKey() final  double avgSpeedKmh;
+@override@JsonKey() final  double sprintDistanceM;
 
 /// Create a copy of PlayerAnalytics
 /// with the given fields replaced by the non-null parameter values.
@@ -785,16 +796,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlayerAnalytics&&(identical(other.trackId, trackId) || other.trackId == trackId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.sprintCount, sprintCount) || other.sprintCount == sprintCount)&&(identical(other.maxSpeedKmh, maxSpeedKmh) || other.maxSpeedKmh == maxSpeedKmh)&&const DeepCollectionEquality().equals(other._heatmap, _heatmap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlayerAnalytics&&(identical(other.trackId, trackId) || other.trackId == trackId)&&(identical(other.distanceKm, distanceKm) || other.distanceKm == distanceKm)&&(identical(other.sprintCount, sprintCount) || other.sprintCount == sprintCount)&&(identical(other.maxSpeedKmh, maxSpeedKmh) || other.maxSpeedKmh == maxSpeedKmh)&&const DeepCollectionEquality().equals(other._heatmap, _heatmap)&&(identical(other.team, team) || other.team == team)&&(identical(other.avgSpeedKmh, avgSpeedKmh) || other.avgSpeedKmh == avgSpeedKmh)&&(identical(other.sprintDistanceM, sprintDistanceM) || other.sprintDistanceM == sprintDistanceM));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trackId,distanceKm,sprintCount,maxSpeedKmh,const DeepCollectionEquality().hash(_heatmap));
+int get hashCode => Object.hash(runtimeType,trackId,distanceKm,sprintCount,maxSpeedKmh,const DeepCollectionEquality().hash(_heatmap),team,avgSpeedKmh,sprintDistanceM);
 
 @override
 String toString() {
-  return 'PlayerAnalytics(trackId: $trackId, distanceKm: $distanceKm, sprintCount: $sprintCount, maxSpeedKmh: $maxSpeedKmh, heatmap: $heatmap)';
+  return 'PlayerAnalytics(trackId: $trackId, distanceKm: $distanceKm, sprintCount: $sprintCount, maxSpeedKmh: $maxSpeedKmh, heatmap: $heatmap, team: $team, avgSpeedKmh: $avgSpeedKmh, sprintDistanceM: $sprintDistanceM)';
 }
 
 
@@ -805,7 +816,7 @@ abstract mixin class _$PlayerAnalyticsCopyWith<$Res> implements $PlayerAnalytics
   factory _$PlayerAnalyticsCopyWith(_PlayerAnalytics value, $Res Function(_PlayerAnalytics) _then) = __$PlayerAnalyticsCopyWithImpl;
 @override @useResult
 $Res call({
- int trackId, double distanceKm, int sprintCount, double maxSpeedKmh, List<List<double>> heatmap
+ int trackId, double distanceKm, int sprintCount, double maxSpeedKmh, List<List<double>> heatmap, String? team, double avgSpeedKmh, double sprintDistanceM
 });
 
 
@@ -822,14 +833,17 @@ class __$PlayerAnalyticsCopyWithImpl<$Res>
 
 /// Create a copy of PlayerAnalytics
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? trackId = null,Object? distanceKm = null,Object? sprintCount = null,Object? maxSpeedKmh = null,Object? heatmap = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? trackId = null,Object? distanceKm = null,Object? sprintCount = null,Object? maxSpeedKmh = null,Object? heatmap = null,Object? team = freezed,Object? avgSpeedKmh = null,Object? sprintDistanceM = null,}) {
   return _then(_PlayerAnalytics(
 trackId: null == trackId ? _self.trackId : trackId // ignore: cast_nullable_to_non_nullable
 as int,distanceKm: null == distanceKm ? _self.distanceKm : distanceKm // ignore: cast_nullable_to_non_nullable
 as double,sprintCount: null == sprintCount ? _self.sprintCount : sprintCount // ignore: cast_nullable_to_non_nullable
 as int,maxSpeedKmh: null == maxSpeedKmh ? _self.maxSpeedKmh : maxSpeedKmh // ignore: cast_nullable_to_non_nullable
 as double,heatmap: null == heatmap ? _self._heatmap : heatmap // ignore: cast_nullable_to_non_nullable
-as List<List<double>>,
+as List<List<double>>,team: freezed == team ? _self.team : team // ignore: cast_nullable_to_non_nullable
+as String?,avgSpeedKmh: null == avgSpeedKmh ? _self.avgSpeedKmh : avgSpeedKmh // ignore: cast_nullable_to_non_nullable
+as double,sprintDistanceM: null == sprintDistanceM ? _self.sprintDistanceM : sprintDistanceM // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -1423,7 +1437,8 @@ $TeamPossessionZonesCopyWith<$Res>? get teamB {
 /// @nodoc
 mixin _$AnalysisResult {
 
- String get videoId; double get durationSeconds; List<VideoTrack> get tracks; List<PlayerAnalytics> get players; PossessionZones? get possessionZones;
+ String get videoId; double get durationSeconds; List<VideoTrack> get tracks; List<PlayerAnalytics> get players; PossessionZones? get possessionZones;/// Detected + interpolated ball trajectory (board coordinates).
+ List<TrackPosition> get ball; bool get calibrated; Map<String, dynamic> get summary;
 /// Create a copy of AnalysisResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1436,16 +1451,16 @@ $AnalysisResultCopyWith<AnalysisResult> get copyWith => _$AnalysisResultCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnalysisResult&&(identical(other.videoId, videoId) || other.videoId == videoId)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&const DeepCollectionEquality().equals(other.tracks, tracks)&&const DeepCollectionEquality().equals(other.players, players)&&(identical(other.possessionZones, possessionZones) || other.possessionZones == possessionZones));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnalysisResult&&(identical(other.videoId, videoId) || other.videoId == videoId)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&const DeepCollectionEquality().equals(other.tracks, tracks)&&const DeepCollectionEquality().equals(other.players, players)&&(identical(other.possessionZones, possessionZones) || other.possessionZones == possessionZones)&&const DeepCollectionEquality().equals(other.ball, ball)&&(identical(other.calibrated, calibrated) || other.calibrated == calibrated)&&const DeepCollectionEquality().equals(other.summary, summary));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,videoId,durationSeconds,const DeepCollectionEquality().hash(tracks),const DeepCollectionEquality().hash(players),possessionZones);
+int get hashCode => Object.hash(runtimeType,videoId,durationSeconds,const DeepCollectionEquality().hash(tracks),const DeepCollectionEquality().hash(players),possessionZones,const DeepCollectionEquality().hash(ball),calibrated,const DeepCollectionEquality().hash(summary));
 
 @override
 String toString() {
-  return 'AnalysisResult(videoId: $videoId, durationSeconds: $durationSeconds, tracks: $tracks, players: $players, possessionZones: $possessionZones)';
+  return 'AnalysisResult(videoId: $videoId, durationSeconds: $durationSeconds, tracks: $tracks, players: $players, possessionZones: $possessionZones, ball: $ball, calibrated: $calibrated, summary: $summary)';
 }
 
 
@@ -1456,7 +1471,7 @@ abstract mixin class $AnalysisResultCopyWith<$Res>  {
   factory $AnalysisResultCopyWith(AnalysisResult value, $Res Function(AnalysisResult) _then) = _$AnalysisResultCopyWithImpl;
 @useResult
 $Res call({
- String videoId, double durationSeconds, List<VideoTrack> tracks, List<PlayerAnalytics> players, PossessionZones? possessionZones
+ String videoId, double durationSeconds, List<VideoTrack> tracks, List<PlayerAnalytics> players, PossessionZones? possessionZones, List<TrackPosition> ball, bool calibrated, Map<String, dynamic> summary
 });
 
 
@@ -1473,14 +1488,17 @@ class _$AnalysisResultCopyWithImpl<$Res>
 
 /// Create a copy of AnalysisResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? videoId = null,Object? durationSeconds = null,Object? tracks = null,Object? players = null,Object? possessionZones = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? videoId = null,Object? durationSeconds = null,Object? tracks = null,Object? players = null,Object? possessionZones = freezed,Object? ball = null,Object? calibrated = null,Object? summary = null,}) {
   return _then(_self.copyWith(
 videoId: null == videoId ? _self.videoId : videoId // ignore: cast_nullable_to_non_nullable
 as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
 as double,tracks: null == tracks ? _self.tracks : tracks // ignore: cast_nullable_to_non_nullable
 as List<VideoTrack>,players: null == players ? _self.players : players // ignore: cast_nullable_to_non_nullable
 as List<PlayerAnalytics>,possessionZones: freezed == possessionZones ? _self.possessionZones : possessionZones // ignore: cast_nullable_to_non_nullable
-as PossessionZones?,
+as PossessionZones?,ball: null == ball ? _self.ball : ball // ignore: cast_nullable_to_non_nullable
+as List<TrackPosition>,calibrated: null == calibrated ? _self.calibrated : calibrated // ignore: cast_nullable_to_non_nullable
+as bool,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,
   ));
 }
 /// Create a copy of AnalysisResult
@@ -1577,10 +1595,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones,  List<TrackPosition> ball,  bool calibrated,  Map<String, dynamic> summary)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnalysisResult() when $default != null:
-return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones);case _:
+return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones,_that.ball,_that.calibrated,_that.summary);case _:
   return orElse();
 
 }
@@ -1598,10 +1616,10 @@ return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones,  List<TrackPosition> ball,  bool calibrated,  Map<String, dynamic> summary)  $default,) {final _that = this;
 switch (_that) {
 case _AnalysisResult():
-return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones);case _:
+return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones,_that.ball,_that.calibrated,_that.summary);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1618,10 +1636,10 @@ return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String videoId,  double durationSeconds,  List<VideoTrack> tracks,  List<PlayerAnalytics> players,  PossessionZones? possessionZones,  List<TrackPosition> ball,  bool calibrated,  Map<String, dynamic> summary)?  $default,) {final _that = this;
 switch (_that) {
 case _AnalysisResult() when $default != null:
-return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones);case _:
+return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_that.possessionZones,_that.ball,_that.calibrated,_that.summary);case _:
   return null;
 
 }
@@ -1633,7 +1651,7 @@ return $default(_that.videoId,_that.durationSeconds,_that.tracks,_that.players,_
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _AnalysisResult implements AnalysisResult {
-  const _AnalysisResult({required this.videoId, required this.durationSeconds, required final  List<VideoTrack> tracks, final  List<PlayerAnalytics> players = const [], this.possessionZones}): _tracks = tracks,_players = players;
+  const _AnalysisResult({required this.videoId, required this.durationSeconds, required final  List<VideoTrack> tracks, final  List<PlayerAnalytics> players = const [], this.possessionZones, final  List<TrackPosition> ball = const [], this.calibrated = true, final  Map<String, dynamic> summary = const <String, dynamic>{}}): _tracks = tracks,_players = players,_ball = ball,_summary = summary;
   factory _AnalysisResult.fromJson(Map<String, dynamic> json) => _$AnalysisResultFromJson(json);
 
 @override final  String videoId;
@@ -1653,6 +1671,23 @@ class _AnalysisResult implements AnalysisResult {
 }
 
 @override final  PossessionZones? possessionZones;
+/// Detected + interpolated ball trajectory (board coordinates).
+ final  List<TrackPosition> _ball;
+/// Detected + interpolated ball trajectory (board coordinates).
+@override@JsonKey() List<TrackPosition> get ball {
+  if (_ball is EqualUnmodifiableListView) return _ball;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_ball);
+}
+
+@override@JsonKey() final  bool calibrated;
+ final  Map<String, dynamic> _summary;
+@override@JsonKey() Map<String, dynamic> get summary {
+  if (_summary is EqualUnmodifiableMapView) return _summary;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_summary);
+}
+
 
 /// Create a copy of AnalysisResult
 /// with the given fields replaced by the non-null parameter values.
@@ -1667,16 +1702,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnalysisResult&&(identical(other.videoId, videoId) || other.videoId == videoId)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&const DeepCollectionEquality().equals(other._tracks, _tracks)&&const DeepCollectionEquality().equals(other._players, _players)&&(identical(other.possessionZones, possessionZones) || other.possessionZones == possessionZones));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnalysisResult&&(identical(other.videoId, videoId) || other.videoId == videoId)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&const DeepCollectionEquality().equals(other._tracks, _tracks)&&const DeepCollectionEquality().equals(other._players, _players)&&(identical(other.possessionZones, possessionZones) || other.possessionZones == possessionZones)&&const DeepCollectionEquality().equals(other._ball, _ball)&&(identical(other.calibrated, calibrated) || other.calibrated == calibrated)&&const DeepCollectionEquality().equals(other._summary, _summary));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,videoId,durationSeconds,const DeepCollectionEquality().hash(_tracks),const DeepCollectionEquality().hash(_players),possessionZones);
+int get hashCode => Object.hash(runtimeType,videoId,durationSeconds,const DeepCollectionEquality().hash(_tracks),const DeepCollectionEquality().hash(_players),possessionZones,const DeepCollectionEquality().hash(_ball),calibrated,const DeepCollectionEquality().hash(_summary));
 
 @override
 String toString() {
-  return 'AnalysisResult(videoId: $videoId, durationSeconds: $durationSeconds, tracks: $tracks, players: $players, possessionZones: $possessionZones)';
+  return 'AnalysisResult(videoId: $videoId, durationSeconds: $durationSeconds, tracks: $tracks, players: $players, possessionZones: $possessionZones, ball: $ball, calibrated: $calibrated, summary: $summary)';
 }
 
 
@@ -1687,7 +1722,7 @@ abstract mixin class _$AnalysisResultCopyWith<$Res> implements $AnalysisResultCo
   factory _$AnalysisResultCopyWith(_AnalysisResult value, $Res Function(_AnalysisResult) _then) = __$AnalysisResultCopyWithImpl;
 @override @useResult
 $Res call({
- String videoId, double durationSeconds, List<VideoTrack> tracks, List<PlayerAnalytics> players, PossessionZones? possessionZones
+ String videoId, double durationSeconds, List<VideoTrack> tracks, List<PlayerAnalytics> players, PossessionZones? possessionZones, List<TrackPosition> ball, bool calibrated, Map<String, dynamic> summary
 });
 
 
@@ -1704,14 +1739,17 @@ class __$AnalysisResultCopyWithImpl<$Res>
 
 /// Create a copy of AnalysisResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? videoId = null,Object? durationSeconds = null,Object? tracks = null,Object? players = null,Object? possessionZones = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? videoId = null,Object? durationSeconds = null,Object? tracks = null,Object? players = null,Object? possessionZones = freezed,Object? ball = null,Object? calibrated = null,Object? summary = null,}) {
   return _then(_AnalysisResult(
 videoId: null == videoId ? _self.videoId : videoId // ignore: cast_nullable_to_non_nullable
 as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
 as double,tracks: null == tracks ? _self._tracks : tracks // ignore: cast_nullable_to_non_nullable
 as List<VideoTrack>,players: null == players ? _self._players : players // ignore: cast_nullable_to_non_nullable
 as List<PlayerAnalytics>,possessionZones: freezed == possessionZones ? _self.possessionZones : possessionZones // ignore: cast_nullable_to_non_nullable
-as PossessionZones?,
+as PossessionZones?,ball: null == ball ? _self._ball : ball // ignore: cast_nullable_to_non_nullable
+as List<TrackPosition>,calibrated: null == calibrated ? _self.calibrated : calibrated // ignore: cast_nullable_to_non_nullable
+as bool,summary: null == summary ? _self._summary : summary // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,
   ));
 }
 

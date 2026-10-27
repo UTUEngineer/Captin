@@ -1,7 +1,8 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:captain/widgets/tactical_arrows_painter.dart';
 import 'package:flutter/material.dart';
 
-const Color _emeraldAccent = Color(0xFF10B981);
+final Color _emeraldAccent = AppColors.primary;
 const Color _emeraldBorder = Color(0xFF059669);
 
 class TacticalViewerScreen extends StatelessWidget {

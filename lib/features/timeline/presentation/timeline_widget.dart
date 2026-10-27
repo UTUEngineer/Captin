@@ -174,7 +174,7 @@ class _TimelineWidgetState extends ConsumerState<TimelineWidget> {
                           width: 16,
                           height: 16,
                           decoration: BoxDecoration(
-                            color: AppColors.pitchGreenLight,
+                            color: AppColors.primary,
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 2),
                           ),

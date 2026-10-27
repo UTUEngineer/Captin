@@ -16,7 +16,7 @@ class LeaguesCacheStore {
   }
 
   List<League>? readLeagues(String regionCode) {
-    final cacheKey = '$_cachePrefix\_$regionCode';
+    final cacheKey = '${_cachePrefix}_$regionCode';
     final raw = _prefs.getString(cacheKey);
     final timestamp = _prefs.getInt('${cacheKey}_ts');
     if (raw == null || timestamp == null) return null;
@@ -31,7 +31,7 @@ class LeaguesCacheStore {
   }
 
   Future<void> writeLeagues(String regionCode, List<League> leagues) async {
-    final cacheKey = '$_cachePrefix\_$regionCode';
+    final cacheKey = '${_cachePrefix}_$regionCode';
     await _prefs.setString(
       cacheKey,
       jsonEncode(leagues.map((league) => league.toJson()).toList()),

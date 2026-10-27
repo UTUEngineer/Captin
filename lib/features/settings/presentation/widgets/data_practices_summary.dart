@@ -42,7 +42,7 @@ class DataPracticesSummary extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('• ', style: TextStyle(color: AppColors.textSecondary)),
+                Text('• ', style: TextStyle(color: AppColors.textSecondary)),
                 Expanded(
                   child: Text(
                     line,

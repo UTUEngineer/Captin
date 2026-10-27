@@ -159,9 +159,9 @@ class _InstructionBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
+          Icon(
             Icons.touch_app_outlined,
-            color: AppColors.pitchGreenLight,
+            color: AppColors.primary,
             size: 20,
           ),
           const SizedBox(width: 10),

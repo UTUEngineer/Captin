@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -53,24 +54,24 @@ class _PrivacySettingsViewState extends State<PrivacySettingsView> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF0F172A),
-        title: const Text(
+        backgroundColor: AppColors.background,
+        title: Text(
           'Delete Account Permanently?',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
         ),
-        content: const Text(
+        content: Text(
           'This action is irreversible. All your tactical whiteboard templates, match footage, tracking telemetry, and AI scouting reports will be permanently destroyed.',
-          style: TextStyle(color: Colors.white70, fontSize: 13),
+          style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
+            child: Text('Cancel', style: TextStyle(color: AppColors.textSecondary)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Delete Everything', style: TextStyle(color: Colors.white)),
+            child: Text('Delete Everything', style: TextStyle(color: AppColors.textPrimary)),
           ),
         ],
       ),
@@ -114,9 +115,9 @@ class _PrivacySettingsViewState extends State<PrivacySettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0F1D),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: AppColors.background,
         title: const Text('Privacy & Data Governance'),
       ),
       body: Padding(
@@ -124,14 +125,14 @@ class _PrivacySettingsViewState extends State<PrivacySettingsView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Data Sovereignty & Portability',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Under GDPR and PDPL regulations, you have full ownership of your data. You can download a structured copy of your tactical boards or permanently delete your account at any time.',
-              style: TextStyle(fontSize: 13, color: Colors.white60),
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 24),
 
@@ -139,7 +140,7 @@ class _PrivacySettingsViewState extends State<PrivacySettingsView> {
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.white,
-                side: const BorderSide(color: Colors.white24),
+                side: BorderSide(color: AppColors.border),
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: _isExporting ? null : _handleDataExport,
@@ -150,7 +151,7 @@ class _PrivacySettingsViewState extends State<PrivacySettingsView> {
             ),
 
             const SizedBox(height: 16),
-            const Divider(color: Colors.white12),
+            Divider(color: AppColors.border),
             const SizedBox(height: 16),
 
             const Text(

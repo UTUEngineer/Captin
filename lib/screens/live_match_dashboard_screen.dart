@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
 
   // Score State
   int _scoreHome = 0;
-  int _scoreAway = 0;
+  final int _scoreAway = 0;
 
   // Roster State
   late List<MatchPlayer> _pitchPlayers;
@@ -266,7 +267,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
     final activeOnPitchCount = _pitchPlayers.where((p) => !p.redCard).length;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF06101E),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -276,7 +277,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: const Color(0xFF0A192F).withValues(alpha: 0.9),
-                border: Border(bottom: BorderSide(color: const Color(0xFF00E676).withValues(alpha: 0.2))),
+                border: Border(bottom: BorderSide(color: AppColors.primary.withValues(alpha: 0.2))),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -289,14 +290,14 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                         height: 10,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: _isRunning ? const Color(0xFF00E676) : Colors.amberAccent,
+                          color: _isRunning ? AppColors.primary : Colors.amberAccent,
                         ),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         _half,
-                        style: const TextStyle(
-                          color: Color(0xFF00E676),
+                        style: TextStyle(
+                          color: AppColors.primary,
                           fontSize: 11,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.2,
@@ -308,12 +309,12 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                         decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white24),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Text(
                           _formattedTimer,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'monospace',
@@ -328,7 +329,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                         },
                         icon: Icon(
                           _isRunning ? Icons.pause_circle : Icons.play_circle,
-                          color: Colors.white70,
+                          color: AppColors.textSecondary,
                           size: 26,
                         ),
                       ),
@@ -341,9 +342,9 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Text('AZ-ZAWR\'A SC', style: TextStyle(color: Color(0xFF38BDF8), fontSize: 13, fontWeight: FontWeight.w900)),
-                          Text('HOME', style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.bold)),
+                        children: [
+                          Text('AZ-ZAWR\'A SC', style: TextStyle(color: AppColors.info, fontSize: 13, fontWeight: FontWeight.w900)),
+                          Text('HOME', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.bold)),
                         ],
                       ),
                       const SizedBox(width: 12),
@@ -352,22 +353,22 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                         decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.4)),
+                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF00E676).withValues(alpha: 0.2),
+                              color: AppColors.primary.withValues(alpha: 0.2),
                               blurRadius: 16,
                             ),
                           ],
                         ),
                         child: Row(
                           children: [
-                            Text('$_scoreHome', style: const TextStyle(color: Color(0xFF00E676), fontSize: 24, fontWeight: FontWeight.w900)),
-                            const Padding(
+                            Text('$_scoreHome', style: TextStyle(color: AppColors.primary, fontSize: 24, fontWeight: FontWeight.w900)),
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text('-', style: TextStyle(color: Colors.white38, fontSize: 18)),
+                              child: Text('-', style: TextStyle(color: AppColors.textMuted, fontSize: 18)),
                             ),
-                            Text('$_scoreAway', style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900)),
+                            Text('$_scoreAway', style: TextStyle(color: AppColors.textPrimary, fontSize: 24, fontWeight: FontWeight.w900)),
                           ],
                         ),
                       ),
@@ -375,9 +376,9 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text('AL-QUWA AL-JAWIYA', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w900)),
-                          Text('AWAY', style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.bold)),
+                        children: [
+                          Text('AL-QUWA AL-JAWIYA', style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w900)),
+                          Text('AWAY', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -402,17 +403,17 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? const Color(0xFF00E676).withValues(alpha: 0.25)
-                                    : const Color(0xFF0F243E),
+                                    ? AppColors.primary.withValues(alpha: 0.25)
+                                    : AppColors.surface,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: isSelected ? const Color(0xFF00E676) : Colors.white12,
+                                  color: isSelected ? AppColors.primary : AppColors.border,
                                 ),
                               ),
                               child: Text(
                                 period,
                                 style: TextStyle(
-                                  color: isSelected ? const Color(0xFF00E676) : Colors.white60,
+                                  color: isSelected ? AppColors.primary : AppColors.textSecondary,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -428,7 +429,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                           context.go(AppRoutes.postMatchReport);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF38BDF8),
+                          backgroundColor: AppColors.info,
                           foregroundColor: Colors.black,
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -458,9 +459,9 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0B1C33).withValues(alpha: 0.7),
+                          color: AppColors.background.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.white12),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [
@@ -469,28 +470,28 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
                                       'ACTIVE PITCH XI',
-                                      style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w900),
+                                      style: TextStyle(color: AppColors.textPrimary, fontSize: 15, fontWeight: FontWeight.w900),
                                     ),
                                     Text(
                                       'Tap player card to log Goal, Card, or select for Sub',
-                                      style: TextStyle(color: Colors.white54, fontSize: 11),
+                                      style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                                     ),
                                   ],
                                 ),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF00E676).withValues(alpha: 0.15),
+                                    color: AppColors.primary.withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: const Color(0xFF00E676)),
+                                    border: Border.all(color: AppColors.primary),
                                   ),
                                   child: Text(
                                     '$activeOnPitchCount On Pitch',
-                                    style: const TextStyle(
-                                      color: Color(0xFF00E676),
+                                    style: TextStyle(
+                                      color: AppColors.primary,
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -520,13 +521,13 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                       color: player.redCard
                                           ? Colors.red.withValues(alpha: 0.15)
                                           : (isSelected
-                                              ? const Color(0xFF00E676).withValues(alpha: 0.2)
-                                              : const Color(0xFF0F243E)),
+                                              ? AppColors.primary.withValues(alpha: 0.2)
+                                              : AppColors.surface),
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
                                         color: player.redCard
                                             ? Colors.redAccent
-                                            : (isSelected ? const Color(0xFF00E676) : Colors.white12),
+                                            : (isSelected ? AppColors.primary : AppColors.border),
                                         width: isSelected ? 1.5 : 1.0,
                                       ),
                                     ),
@@ -543,14 +544,14 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                   height: 26,
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    color: const Color(0xFF06101E),
-                                                    border: Border.all(color: const Color(0xFF38BDF8)),
+                                                    color: AppColors.background,
+                                                    border: Border.all(color: AppColors.info),
                                                   ),
                                                   child: Center(
                                                     child: Text(
                                                       '${player.number}',
                                                       style: const TextStyle(
-                                                        color: Color(0xFF38BDF8),
+                                                        color: AppColors.info,
                                                         fontSize: 11,
                                                         fontWeight: FontWeight.w900,
                                                       ),
@@ -563,16 +564,16 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                   children: [
                                                     Text(
                                                       player.name,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
+                                                      style: TextStyle(
+                                                        color: AppColors.textPrimary,
                                                         fontSize: 11,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
                                                     Text(
                                                       player.role,
-                                                      style: const TextStyle(
-                                                        color: Colors.white54,
+                                                      style: TextStyle(
+                                                        color: AppColors.textSecondary,
                                                         fontSize: 9,
                                                         fontWeight: FontWeight.bold,
                                                       ),
@@ -619,15 +620,15 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                   child: Container(
                                                     padding: const EdgeInsets.symmetric(vertical: 4),
                                                     decoration: BoxDecoration(
-                                                      color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                                                      color: AppColors.primary.withValues(alpha: 0.2),
                                                       borderRadius: BorderRadius.circular(6),
-                                                      border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.4)),
+                                                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
                                                     ),
-                                                    child: const Center(
+                                                    child: Center(
                                                       child: Text(
                                                         'GOAL',
                                                         style: TextStyle(
-                                                          color: Color(0xFF00E676),
+                                                          color: AppColors.primary,
                                                           fontSize: 9,
                                                           fontWeight: FontWeight.w900,
                                                         ),
@@ -673,18 +674,18 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                     padding: const EdgeInsets.symmetric(vertical: 4),
                                                     decoration: BoxDecoration(
                                                       color: isSelected
-                                                          ? const Color(0xFF00E676)
-                                                          : const Color(0xFF06101E),
+                                                          ? AppColors.primary
+                                                          : AppColors.background,
                                                       borderRadius: BorderRadius.circular(6),
                                                       border: Border.all(
-                                                        color: isSelected ? const Color(0xFF00E676) : Colors.white24,
+                                                        color: isSelected ? AppColors.primary : AppColors.border,
                                                       ),
                                                     ),
                                                     child: Center(
                                                       child: Text(
                                                         'SUB',
                                                         style: TextStyle(
-                                                          color: isSelected ? Colors.black : Colors.white70,
+                                                          color: isSelected ? Colors.black : AppColors.textSecondary,
                                                           fontSize: 9,
                                                           fontWeight: FontWeight.w900,
                                                         ),
@@ -708,17 +709,17 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                 margin: const EdgeInsets.only(top: 8),
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF0F243E),
+                                  color: AppColors.surface,
                                   borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(color: const Color(0xFF00E676)),
+                                  border: Border.all(color: AppColors.primary),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Subbing OFF: #${_selectedPitchPlayer!.number} ${_selectedPitchPlayer!.name}',
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      style: TextStyle(
+                                        color: AppColors.textPrimary,
                                         fontSize: 11,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -730,8 +731,8 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                             padding: const EdgeInsets.only(right: 12),
                                             child: Text(
                                               'IN: #${_selectedSubPlayer!.number} ${_selectedSubPlayer!.name}',
-                                              style: const TextStyle(
-                                                color: Color(0xFF00E676),
+                                              style: TextStyle(
+                                                color: AppColors.primary,
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -739,7 +740,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                           ),
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFF00E676),
+                                            backgroundColor: AppColors.primary,
                                             foregroundColor: Colors.black,
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(10),
@@ -776,17 +777,17 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                             child: Container(
                               padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF0B1C33).withValues(alpha: 0.7),
+                                color: AppColors.background.withValues(alpha: 0.7),
                                 borderRadius: BorderRadius.circular(24),
-                                border: Border.all(color: Colors.white12),
+                                border: Border.all(color: AppColors.border),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'BENCH SUBSTITUTES (${_benchPlayers.length})',
-                                    style: const TextStyle(
-                                      color: Color(0xFF00E676),
+                                    style: TextStyle(
+                                      color: AppColors.primary,
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.2,
@@ -812,11 +813,11 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                             decoration: BoxDecoration(
                                               color: isSubSelected
-                                                  ? const Color(0xFF00E676).withValues(alpha: 0.2)
-                                                  : const Color(0xFF0F243E),
+                                                  ? AppColors.primary.withValues(alpha: 0.2)
+                                                  : AppColors.surface,
                                               borderRadius: BorderRadius.circular(12),
                                               border: Border.all(
-                                                color: isSubSelected ? const Color(0xFF00E676) : Colors.white12,
+                                                color: isSubSelected ? AppColors.primary : AppColors.border,
                                               ),
                                             ),
                                             child: Row(
@@ -835,7 +836,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                         child: Text(
                                                           '${sub.number}',
                                                           style: const TextStyle(
-                                                            color: Color(0xFF38BDF8),
+                                                            color: AppColors.info,
                                                             fontSize: 10,
                                                             fontWeight: FontWeight.bold,
                                                           ),
@@ -845,8 +846,8 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                     const SizedBox(width: 8),
                                                     Text(
                                                       sub.name,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
+                                                      style: TextStyle(
+                                                        color: AppColors.textPrimary,
                                                         fontSize: 11,
                                                         fontWeight: FontWeight.bold,
                                                       ),
@@ -856,13 +857,13 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white10,
+                                                    color: AppColors.subtle,
                                                     borderRadius: BorderRadius.circular(4),
                                                   ),
                                                   child: Text(
                                                     sub.role,
-                                                    style: const TextStyle(
-                                                      color: Colors.white70,
+                                                    style: TextStyle(
+                                                      color: AppColors.textSecondary,
                                                       fontSize: 9,
                                                       fontWeight: FontWeight.bold,
                                                     ),
@@ -887,17 +888,17 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                             child: Container(
                               padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF0B1C33).withValues(alpha: 0.7),
+                                color: AppColors.background.withValues(alpha: 0.7),
                                 borderRadius: BorderRadius.circular(24),
-                                border: Border.all(color: Colors.white12),
+                                border: Border.all(color: AppColors.border),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'MATCH INCIDENT LOG (${_events.length})',
-                                    style: const TextStyle(
-                                      color: Color(0xFF00E676),
+                                    style: TextStyle(
+                                      color: AppColors.primary,
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.2,
@@ -906,10 +907,10 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                   const SizedBox(height: 10),
                                   Expanded(
                                     child: _events.isEmpty
-                                        ? const Center(
+                                        ? Center(
                                             child: Text(
                                               'No incidents logged yet',
-                                              style: TextStyle(color: Colors.white38, fontSize: 11),
+                                              style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                                             ),
                                           )
                                         : ListView.builder(
@@ -920,9 +921,9 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                 margin: const EdgeInsets.only(bottom: 6),
                                                 padding: const EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
-                                                  color: const Color(0xFF0F243E),
+                                                  color: AppColors.surface,
                                                   borderRadius: BorderRadius.circular(10),
-                                                  border: Border.all(color: Colors.white12),
+                                                  border: Border.all(color: AppColors.border),
                                                 ),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -931,8 +932,8 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                       children: [
                                                         Text(
                                                           "${ev.minute}'",
-                                                          style: const TextStyle(
-                                                            color: Color(0xFF00E676),
+                                                          style: TextStyle(
+                                                            color: AppColors.primary,
                                                             fontWeight: FontWeight.w900,
                                                             fontSize: 11,
                                                           ),
@@ -943,8 +944,8 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                           children: [
                                                             Text(
                                                               ev.player,
-                                                              style: const TextStyle(
-                                                                color: Colors.white,
+                                                              style: TextStyle(
+                                                                color: AppColors.textPrimary,
                                                                 fontSize: 11,
                                                                 fontWeight: FontWeight.bold,
                                                               ),
@@ -952,8 +953,8 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                                                             if (ev.detail != null)
                                                               Text(
                                                                 ev.detail!,
-                                                                style: const TextStyle(
-                                                                  color: Colors.white54,
+                                                                style: TextStyle(
+                                                                  color: AppColors.textSecondary,
                                                                   fontSize: 9,
                                                                 ),
                                                               ),
@@ -995,10 +996,10 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                   decoration: BoxDecoration(
                     color: const Color(0xFF0C1F38),
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.4), width: 1.5),
+                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.4), width: 1.5),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF00E676).withValues(alpha: 0.3),
+                        color: AppColors.primary.withValues(alpha: 0.3),
                         blurRadius: 30,
                       ),
                     ],
@@ -1006,14 +1007,14 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'LOG DISCIPLINARY INCIDENT',
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900),
+                        style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w900),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Target: #${_cardModalPlayer!.number} ${_cardModalPlayer!.name}',
-                        style: const TextStyle(color: Color(0xFF00E676), fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -1062,7 +1063,7 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () => setState(() => _cardModalPlayer = null),
-                        child: const Text('Cancel', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                        child: Text('Cancel', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                       ),
                     ],
                   ),
@@ -1075,13 +1076,13 @@ class _LiveMatchDashboardScreenState extends ConsumerState<LiveMatchDashboardScr
   Widget _buildEventBadge(String type) {
     switch (type) {
       case 'goal':
-        return const Text('⚽ GOAL', style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 10));
+        return Text('⚽ GOAL', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 10));
       case 'yellow_card':
         return const Text('🟨 YELLOW', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 10));
       case 'red_card':
         return const Text('🟥 RED', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 10));
       case 'sub':
-        return const Text('🔄 SUB', style: TextStyle(color: Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 10));
+        return const Text('🔄 SUB', style: TextStyle(color: AppColors.info, fontWeight: FontWeight.bold, fontSize: 10));
       default:
         return const SizedBox.shrink();
     }

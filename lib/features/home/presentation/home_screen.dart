@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(color: AppColors.pitchLine, width: 1.5),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.sports_soccer,
                     size: 36,
                     color: AppColors.textPrimary,

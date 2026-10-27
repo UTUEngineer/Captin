@@ -30,10 +30,10 @@ class ReportTypeSelector extends StatelessWidget {
                   color: selected ? AppColors.textPrimary : AppColors.textSecondary,
                 ),
               ),
-              selectedColor: const Color(0xFF00C853).withValues(alpha: 0.25),
-              checkmarkColor: const Color(0xFF00C853),
+              selectedColor: AppColors.primary.withValues(alpha: 0.25),
+              checkmarkColor: AppColors.primary,
               side: BorderSide(
-                color: selected ? const Color(0xFF00C853) : AppColors.border,
+                color: selected ? AppColors.primary : AppColors.border,
               ),
               onSelected: (_) => onSelected(type),
             ),

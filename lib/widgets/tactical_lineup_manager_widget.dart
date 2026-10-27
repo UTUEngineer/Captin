@@ -1,3 +1,4 @@
+import 'package:captain/core/theme/app_colors.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -150,7 +151,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
     return Material(
       color: Colors.transparent,
       child: Container(
-        color: const Color(0xFF020617).withValues(alpha: 0.88),
+        color: AppColors.background.withValues(alpha: 0.88),
         child: BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
           child: Center(
@@ -161,10 +162,10 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
               decoration: BoxDecoration(
                 color: const Color(0xFF08172B),
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: const Color(0xFF00E676).withValues(alpha: 0.4), width: 1.5),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.4), width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF00E676).withValues(alpha: 0.25),
+                    color: AppColors.primary.withValues(alpha: 0.25),
                     blurRadius: 40,
                     spreadRadius: 2,
                   ),
@@ -187,7 +188,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                               colors: [Color(0xFF113822), Color(0xFF0C2918)],
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.5), width: 2),
+                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.5), width: 2),
                           ),
                           child: Stack(
                             children: [
@@ -220,14 +221,14 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: player.isCaptain
-                                                      ? const Color(0xFFFBBF24)
+                                                      ? AppColors.gold
                                                       : (isSelected
-                                                          ? const Color(0xFF00E676)
+                                                          ? AppColors.primary
                                                           : const Color(0xFF0F2D4A)),
                                                   border: Border.all(
                                                     color: player.isCaptain
                                                         ? Colors.amberAccent
-                                                        : (isSelected ? Colors.white : const Color(0xFF38BDF8)),
+                                                        : (isSelected ? Colors.white : AppColors.info),
                                                     width: 2,
                                                   ),
                                                   boxShadow: [
@@ -235,7 +236,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                                       color: player.isCaptain
                                                           ? Colors.amber.withValues(alpha: 0.8)
                                                           : (isSelected
-                                                              ? const Color(0xFF00E676).withValues(alpha: 0.8)
+                                                              ? AppColors.primary.withValues(alpha: 0.8)
                                                               : Colors.black45),
                                                       blurRadius: isSelected || player.isCaptain ? 14 : 4,
                                                     ),
@@ -247,7 +248,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                                     style: TextStyle(
                                                       color: player.isCaptain || isSelected
                                                           ? const Color(0xFF020617)
-                                                          : const Color(0xFF38BDF8),
+                                                          : AppColors.info,
                                                       fontWeight: FontWeight.w900,
                                                       fontSize: 14,
                                                     ),
@@ -266,11 +267,11 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                                       color: Colors.redAccent,
                                                       border: Border.all(color: Colors.white, width: 1.5),
                                                     ),
-                                                    child: const Center(
+                                                    child: Center(
                                                       child: Text(
                                                         'C',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: AppColors.textPrimary,
                                                           fontSize: 9,
                                                           fontWeight: FontWeight.w900,
                                                         ),
@@ -286,12 +287,12 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                             decoration: BoxDecoration(
                                               color: Colors.black.withValues(alpha: 0.8),
                                               borderRadius: BorderRadius.circular(6),
-                                              border: Border.all(color: Colors.white12),
+                                              border: Border.all(color: AppColors.border),
                                             ),
                                             child: Text(
                                               '${player.name} • ${player.role}',
-                                              style: const TextStyle(
-                                                color: Colors.white,
+                                              style: TextStyle(
+                                                color: AppColors.textPrimary,
                                                 fontSize: 9,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -328,17 +329,17 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                       children: [
                                         Text(
                                           '${widget.captainName} • ${widget.captainTier}',
-                                          style: const TextStyle(
-                                            color: Color(0xFF00E676),
+                                          style: TextStyle(
+                                            color: AppColors.primary,
                                             fontSize: 10,
                                             fontWeight: FontWeight.bold,
                                             letterSpacing: 1.5,
                                           ),
                                         ),
-                                        const Text(
+                                        Text(
                                           'Starting XI Lineup',
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: AppColors.textPrimary,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w900,
                                           ),
@@ -366,10 +367,10 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                 const SizedBox(height: 20),
 
                                 // Formation Selection Grid
-                                const Text(
+                                Text(
                                   'SHAPE & FORMATION',
                                   style: TextStyle(
-                                    color: Colors.white54,
+                                    color: AppColors.textSecondary,
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.0,
@@ -388,11 +389,11 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                             padding: const EdgeInsets.symmetric(vertical: 12),
                                             decoration: BoxDecoration(
                                               color: isSelected
-                                                  ? const Color(0xFF00E676).withValues(alpha: 0.2)
-                                                  : const Color(0xFF0F243E),
+                                                  ? AppColors.primary.withValues(alpha: 0.2)
+                                                  : AppColors.surface,
                                               borderRadius: BorderRadius.circular(12),
                                               border: Border.all(
-                                                color: isSelected ? const Color(0xFF00E676) : Colors.white12,
+                                                color: isSelected ? AppColors.primary : AppColors.border,
                                                 width: 1.5,
                                               ),
                                             ),
@@ -400,7 +401,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                               child: Text(
                                                 fmt,
                                                 style: TextStyle(
-                                                  color: isSelected ? const Color(0xFF00E676) : Colors.white70,
+                                                  color: isSelected ? AppColors.primary : AppColors.textSecondary,
                                                   fontWeight: FontWeight.w900,
                                                   fontSize: 13,
                                                 ),
@@ -418,17 +419,17 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                 Container(
                                   padding: const EdgeInsets.all(14),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF0F243E).withValues(alpha: 0.6),
+                                    color: AppColors.surface.withValues(alpha: 0.6),
                                     borderRadius: BorderRadius.circular(14),
-                                    border: Border.all(color: Colors.white12),
+                                    border: Border.all(color: AppColors.border),
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Text(
                                         'Tactical Switch:',
                                         style: TextStyle(
-                                          color: Color(0xFF00E676),
+                                          color: AppColors.primary,
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -437,7 +438,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                                       Text(
                                         'Tap any two player pins on the pitch to swap their positions and tactical assignments.',
                                         style: TextStyle(
-                                          color: Colors.white70,
+                                          color: AppColors.textSecondary,
                                           fontSize: 11,
                                           height: 1.4,
                                         ),
@@ -456,7 +457,7 @@ class _TacticalLineupManagerWidgetState extends State<TacticalLineupManagerWidge
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF00E676),
+                                  backgroundColor: AppColors.primary,
                                   foregroundColor: Colors.black,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
@@ -497,7 +498,7 @@ class Pitch2DPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final linePaint = Paint()
-      ..color = const Color(0xFF10B981).withValues(alpha: 0.4)
+      ..color = AppColors.primary.withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
 

@@ -185,7 +185,7 @@ class _ProcessingBody extends StatelessWidget {
                     minHeight: 8,
                     borderRadius: BorderRadius.circular(999),
                     backgroundColor: AppColors.surfaceElevated,
-                    color: AppColors.pitchGreenLight,
+                    color: AppColors.primary,
                   ),
                   const SizedBox(height: 12),
                   Text(

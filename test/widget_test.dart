@@ -2,6 +2,7 @@ import 'package:captain/features/settings/application/app_preferences_notifier.d
 import 'package:captain/features/settings/domain/app_preferences.dart';
 import 'package:captain/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +29,14 @@ void main() {
       ),
     );
     await tester.pump();
+
+    // The intro video can't play in tests; it falls through to the splash.
+    if (find.text('Skip').evaluate().isNotEmpty ||
+        find.text('تخطي').evaluate().isNotEmpty) {
+      await tester.tap(find.byType(GestureDetector).first);
+    }
+    await tester.pump(const Duration(seconds: 4));
+    await tester.pump(const Duration(milliseconds: 600));
 
     expect(find.textContaining('CAPTAIN'), findsWidgets);
 

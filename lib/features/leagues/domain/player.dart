@@ -60,6 +60,8 @@ class PlayerStats {
     required this.redCards,
     required this.rating,
     required this.minutesPlayed,
+    this.teamName,
+    this.teamLogo,
   });
 
   final Player player;
@@ -70,6 +72,8 @@ class PlayerStats {
   final int redCards;
   final double rating;
   final int minutesPlayed;
+  final String? teamName;
+  final String? teamLogo;
 
   factory PlayerStats.fromJson(Map<String, dynamic> json) {
     final stats = (json['statistics'] as List<dynamic>).first as Map<String, dynamic>;
@@ -86,6 +90,48 @@ class PlayerStats {
       redCards: cards['red'] as int? ?? 0,
       rating: double.tryParse('${games['rating'] ?? '0'}') ?? 0,
       minutesPlayed: games['minutes'] as int? ?? 0,
+      teamName: (stats['team'] as Map<String, dynamic>?)?['name'] as String?,
+      teamLogo: (stats['team'] as Map<String, dynamic>?)?['logo'] as String?,
     );
+  }
+}
+
+/// Squad member from `/players/squads`.
+class SquadPlayer {
+  const SquadPlayer({
+    required this.id,
+    required this.name,
+    this.age,
+    this.number,
+    this.position,
+    this.photo,
+  });
+
+  final int id;
+  final String name;
+  final int? age;
+  final int? number;
+  final String? position;
+  final String? photo;
+
+  factory SquadPlayer.fromJson(Map<String, dynamic> json) {
+    return SquadPlayer(
+      id: json['id'] as int,
+      name: json['name'] as String? ?? '',
+      age: json['age'] as int?,
+      number: json['number'] as int?,
+      position: json['position'] as String?,
+      photo: json['photo'] as String?,
+    );
+  }
+
+  String get positionAr {
+    const map = {
+      'Goalkeeper': 'حراس المرمى',
+      'Defender': 'المدافعون',
+      'Midfielder': 'لاعبو الوسط',
+      'Attacker': 'المهاجمون',
+    };
+    return map[position] ?? position ?? '';
   }
 }

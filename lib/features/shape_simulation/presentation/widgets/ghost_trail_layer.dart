@@ -57,9 +57,7 @@ class _GhostDot extends StatelessWidget {
     final anchor = layout.positionFor(position.dx, position.dy);
     final size = layout.tokenSize;
 
-    final color = player.isHomeTeam
-        ? AppColors.pitchGreenLight
-        : AppColors.accentRed;
+    final color = player.isHomeTeam ? AppColors.homeTeam : AppColors.awayTeam;
 
     return Positioned(
       left: anchor.dx - size / 2,
