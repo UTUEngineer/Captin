@@ -62,7 +62,6 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - .env
     - docs/PRIVACY_POLICY.md
     - assets/video/
     - assets/models/
