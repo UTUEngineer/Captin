@@ -1,5 +1,3 @@
-import 'package:captain/core/config/app_config.dart';
-
 import 'package:captain/core/constants/app_constants.dart';
 
 import 'package:captain/core/presentation/app_shell.dart';

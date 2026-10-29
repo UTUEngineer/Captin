@@ -47,8 +47,11 @@
 			</array>
 		</dict>
 	</dict>
+	<!-- أضف هذا المفتاح لمنع كراش التطبيق ورفض أبل -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>يحتاج تطبيق Captin إلى الوصول إلى مكتبة الصور ومقاطع الفيديو لتمكين المدرب من تحليل مباريات كرة القدم وتطبيق التكتيكات بدقة.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Captain saves exported tactical board images to your photo library.</string>
+	<string>يحتاج تطبيق Captin إلى صلاحية حفظ لقطات ومقاطع التحليل التكتيكي إلى جهازك.</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
 	<key>NSAppTransportSecurity</key>

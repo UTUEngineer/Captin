@@ -1,4 +1,4 @@
-package com.UTUEngineer.captin
+package com.utuengineer.captain
 
 import io.flutter.embedding.android.FlutterActivity
 
