@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:captain/core/router/app_router.dart';
 import 'package:captain/core/theme/app_colors.dart';
+import 'package:captain/features/settings/application/app_preferences_notifier.dart';
 import 'package:captain/features/video_analysis/application/recent_analyses_providers.dart';
 import 'package:captain/features/video_analysis/application/video_processing_notifier.dart';
 import 'package:captain/features/video_analysis/application/video_processing_providers.dart';
@@ -44,23 +45,25 @@ class _VideoProcessingScreenState extends ConsumerState<VideoProcessingScreen> {
         .start(widget.args);
   }
 
-  Future<void> _confirmCancel() async {
+  Future<void> _confirmCancel(bool isArabic) async {
     final shouldCancel = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Stop monitoring?'),
-        content: const Text(
-          'Analysis will continue on the server, but this screen will stop '
-          'checking for updates. You can resume later from Home.',
+        title: Text(isArabic ? 'إيقاف المتابعة؟' : 'Stop monitoring?'),
+        content: Text(
+          isArabic
+              ? 'سيستمر التحليل على الخادم، ولكن ستتوقف هذه الشاشة عن التحقق من التحديثات. يمكنك المتابعة لاحقاً من الرئيسية.'
+              : 'Analysis will continue on the server, but this screen will stop '
+                  'checking for updates. You can resume later from Home.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Keep waiting'),
+            child: Text(isArabic ? 'متابعة الانتظار' : 'Keep waiting'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Stop monitoring'),
+            child: Text(isArabic ? 'إيقاف المتابعة' : 'Stop monitoring'),
           ),
         ],
       ),
@@ -75,6 +78,7 @@ class _VideoProcessingScreenState extends ConsumerState<VideoProcessingScreen> {
   @override
   Widget build(BuildContext context) {
     final storeAsync = ref.watch(localVideoJobStoreProvider);
+    final isArabic = ref.watch(appPreferencesProvider).value?.isArabic ?? true;
 
     return storeAsync.when(
       data: (store) {
@@ -96,7 +100,8 @@ class _VideoProcessingScreenState extends ConsumerState<VideoProcessingScreen> {
               unawaited(
                 ref.read(recentAnalysesProvider.notifier).recordCompleted(
                       videoId: next.videoId!,
-                      label: next.jobLabel ?? 'Video analysis',
+                      label: next.jobLabel ??
+                          (isArabic ? 'تحليل الفيديو' : 'Video analysis'),
                     ),
               );
               context.go(AppRoutes.videoResult(next.videoId!));
@@ -106,17 +111,18 @@ class _VideoProcessingScreenState extends ConsumerState<VideoProcessingScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Analyzing video'),
+            title: Text(isArabic ? 'تحليل الفيديو' : 'Analyzing video'),
             leading: IconButton(
               icon: const Icon(Icons.close),
               onPressed: processingState.isTerminal
                   ? () => context.pop()
-                  : _confirmCancel,
+                  : () => _confirmCancel(isArabic),
             ),
           ),
           body: _ProcessingBody(
             state: processingState,
-            onCancel: _confirmCancel,
+            isArabic: isArabic,
+            onCancel: () => _confirmCancel(isArabic),
             onRetry: () => context.go(AppRoutes.analyzeVideo),
           ),
         );
@@ -125,9 +131,12 @@ class _VideoProcessingScreenState extends ConsumerState<VideoProcessingScreen> {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(title: const Text('Analyzing video')),
+        appBar: AppBar(
+          title: Text(isArabic ? 'تحليل الفيديو' : 'Analyzing video'),
+        ),
         body: _ProcessingErrorView(
           message: error.toString(),
+          isArabic: isArabic,
           onRetry: () => context.go(AppRoutes.analyzeVideo),
         ),
       ),
@@ -140,23 +149,33 @@ class _ProcessingBody extends StatelessWidget {
     required this.state,
     required this.onCancel,
     required this.onRetry,
+    required this.isArabic,
   });
 
   final VideoProcessingState state;
   final VoidCallback onCancel;
   final VoidCallback onRetry;
+  final bool isArabic;
 
   @override
   Widget build(BuildContext context) {
     return switch (state.phase) {
       VideoProcessingPhase.failed => _ProcessingErrorView(
-          message: state.failureMessage ?? 'Video analysis failed.',
+          message: state.failureMessage ??
+              (isArabic
+                  ? 'فشل تحليل الفيديو.'
+                  : 'Video analysis failed.'),
+          isArabic: isArabic,
           onRetry: onRetry,
         ),
       VideoProcessingPhase.cancelled => _ProcessingErrorView(
-          message: state.statusMessage ?? 'Monitoring stopped.',
+          message: state.statusMessage ??
+              (isArabic
+                  ? 'تم إيقاف المتابعة.'
+                  : 'Monitoring stopped.'),
+          isArabic: isArabic,
           onRetry: onRetry,
-          retryLabel: 'Back to analyze',
+          retryLabel: isArabic ? 'العودة للتحليل' : 'Back to analyze',
         ),
       VideoProcessingPhase.completed => const Center(
           child: CircularProgressIndicator(),
@@ -171,12 +190,16 @@ class _ProcessingBody extends StatelessWidget {
                   Text(
                     state.jobLabel!,
                     style: Theme.of(context).textTheme.titleLarge,
+                    textDirection: TextDirection.ltr,
                   ),
                   const SizedBox(height: 8),
                 ],
                 Text(
-                  state.statusMessage ?? 'Working…',
+                  state.statusMessage ??
+                      (isArabic ? 'جاري المعالجة…' : 'Working…'),
                   style: Theme.of(context).textTheme.bodyLarge,
+                  textDirection:
+                      isArabic ? TextDirection.rtl : TextDirection.ltr,
                 ),
                 const SizedBox(height: 32),
                 if (state.phase == VideoProcessingPhase.uploading) ...[
@@ -189,7 +212,9 @@ class _ProcessingBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Uploading… ${(state.uploadProgress * 100).clamp(0, 100).toStringAsFixed(0)}%',
+                    isArabic
+                        ? 'جاري الرفع… ${(state.uploadProgress * 100).clamp(0, 100).toStringAsFixed(0)}%'
+                        : 'Uploading… ${(state.uploadProgress * 100).clamp(0, 100).toStringAsFixed(0)}%',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -203,7 +228,9 @@ class _ProcessingBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '${state.processingProgress.clamp(0, 100)}% complete',
+                    isArabic
+                        ? '${state.processingProgress.clamp(0, 100)}% مكتمل'
+                        : '${state.processingProgress.clamp(0, 100)}% complete',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -211,7 +238,7 @@ class _ProcessingBody extends StatelessWidget {
                 const Spacer(),
                 OutlinedButton(
                   onPressed: onCancel,
-                  child: const Text('Cancel'),
+                  child: Text(isArabic ? 'إلغاء' : 'Cancel'),
                 ),
               ],
             ),
@@ -225,12 +252,14 @@ class _ProcessingErrorView extends StatelessWidget {
   const _ProcessingErrorView({
     required this.message,
     required this.onRetry,
-    this.retryLabel = 'Try again',
+    required this.isArabic,
+    this.retryLabel,
   });
 
   final String message;
   final VoidCallback onRetry;
-  final String retryLabel;
+  final bool isArabic;
+  final String? retryLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -250,11 +279,14 @@ class _ProcessingErrorView extends StatelessWidget {
               message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge,
+              textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: onRetry,
-              child: Text(retryLabel),
+              child: Text(
+                retryLabel ?? (isArabic ? 'إعادة المحاولة' : 'Try again'),
+              ),
             ),
           ],
         ),

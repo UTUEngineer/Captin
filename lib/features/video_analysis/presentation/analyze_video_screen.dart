@@ -83,9 +83,14 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
 
     if (quotaResult.isFailure || quotaResult.valueOrNull != true) {
       setState(() => _isStarting = false);
+      final isArabic = ref.read(appPreferencesProvider).value?.isArabic ?? true;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Video analysis quota reached. Try again later.'),
+        SnackBar(
+          content: Text(
+            isArabic
+                ? 'تم الوصول إلى الحد الأقصى لتحليل الفيديو. حاول لاحقاً.'
+                : 'Video analysis quota reached. Try again later.',
+          ),
         ),
       );
       return;
@@ -108,14 +113,14 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = ref.watch(appPreferencesProvider).value;
+    final isArabic = prefs?.isArabic ?? true;
     final availability = ref.watch(backendAvailabilityProvider);
-    final backendUrl =
-        ref.watch(appPreferencesProvider).value?.effectiveBackendUrl ??
-            AppConfig.visionApiBaseUrl;
+    final backendUrl = prefs?.effectiveBackendUrl ?? AppConfig.visionApiBaseUrl;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Analyze Match Video'),
+        title: Text(isArabic ? 'تحليل فيديو المباراة' : 'Analyze Match Video'),
       ),
       body: SafeArea(
         child: Column(
@@ -125,6 +130,7 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: _AnalysisInfoBanner(
                 maxMinutes: AppConfig.maxVideoDurationMinutes,
+                isArabic: isArabic,
               ),
             ),
             availability.when(
@@ -136,6 +142,7 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: BackendUnavailableBanner(
                   backendUrl: backendUrl,
+                  isArabic: isArabic,
                   onRetry: () => ref
                       .read(backendAvailabilityProvider.notifier)
                       .refresh(),
@@ -149,6 +156,7 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: BackendUnavailableBanner(
                     backendUrl: backendUrl,
+                    isArabic: isArabic,
                     onRetry: () => ref
                         .read(backendAvailabilityProvider.notifier)
                         .refresh(),
@@ -159,16 +167,16 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: SegmentedButton<AnalyzeVideoSource>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: AnalyzeVideoSource.upload,
-                    label: Text('Upload video'),
-                    icon: Icon(Icons.upload_file_outlined),
+                    label: Text(isArabic ? 'رفع فيديو' : 'Upload video'),
+                    icon: const Icon(Icons.upload_file_outlined),
                   ),
                   ButtonSegment(
                     value: AnalyzeVideoSource.youtube,
-                    label: Text('YouTube link'),
-                    icon: Icon(Icons.link_outlined),
+                    label: Text(isArabic ? 'رابط يوتيوب' : 'YouTube link'),
+                    icon: const Icon(Icons.link_outlined),
                   ),
                 ],
                 selected: {_source},
@@ -187,12 +195,14 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
                           key: const ValueKey('upload'),
                           selectedVideo: _selectedVideo,
                           onPickVideo: _pickVideo,
+                          isArabic: isArabic,
                         )
                       : SingleChildScrollView(
                           key: const ValueKey('youtube'),
                           child: _YoutubeLinkPanel(
                             controller: _youtubeController,
                             showValidationError: _youtubeTouched,
+                            isArabic: isArabic,
                             onChanged: (_) => setState(() {}),
                             onSubmitted: () =>
                                 setState(() => _youtubeTouched = true),
@@ -214,7 +224,11 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.play_circle_outline),
-                label: Text(_isStarting ? 'Checking…' : 'Start analysis'),
+                label: Text(
+                  _isStarting
+                      ? (isArabic ? 'جاري التحقق…' : 'Checking…')
+                      : (isArabic ? 'بدء التحليل' : 'Start analysis'),
+                ),
               ),
             ),
           ],
@@ -225,9 +239,13 @@ class _AnalyzeVideoScreenState extends ConsumerState<AnalyzeVideoScreen> {
 }
 
 class _AnalysisInfoBanner extends StatelessWidget {
-  const _AnalysisInfoBanner({required this.maxMinutes});
+  const _AnalysisInfoBanner({
+    required this.maxMinutes,
+    required this.isArabic,
+  });
 
   final int maxMinutes;
+  final bool isArabic;
 
   @override
   Widget build(BuildContext context) {
@@ -249,8 +267,11 @@ class _AnalysisInfoBanner extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Video analysis takes several minutes depending on clip length. '
-              'For best accuracy, use clips under $maxMinutes minutes.',
+              isArabic
+                  ? 'يستغرق تحليل الفيديو عدة دقائق بحسب مدة المقطع. للحصول على أفضل دقة، استخدم مقاطع أقل من $maxMinutes دقائق.'
+                  : 'Video analysis takes several minutes depending on clip length. '
+                      'For best accuracy, use clips under $maxMinutes minutes.',
+              textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.textPrimary,
                     height: 1.4,
@@ -268,10 +289,12 @@ class _UploadVideoPanel extends StatelessWidget {
     super.key,
     required this.selectedVideo,
     required this.onPickVideo,
+    required this.isArabic,
   });
 
   final SelectedVideoFile? selectedVideo;
   final VoidCallback onPickVideo;
+  final bool isArabic;
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +307,7 @@ class _UploadVideoPanel extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: onPickVideo,
                 icon: const Icon(Icons.video_library_outlined),
-                label: const Text('Choose video'),
+                label: Text(isArabic ? 'اختر ملف فيديو' : 'Choose video'),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 28,
@@ -299,20 +322,27 @@ class _UploadVideoPanel extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: _SelectedVideoCard(video: selectedVideo!),
+                  child: _SelectedVideoCard(
+                    video: selectedVideo!,
+                    isArabic: isArabic,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 OutlinedButton.icon(
                   onPressed: onPickVideo,
                   icon: const Icon(Icons.swap_horiz_outlined),
-                  label: const Text('Choose a different video'),
+                  label: Text(
+                    isArabic ? 'اختيار فيديو آخر' : 'Choose a different video',
+                  ),
                 ),
               ],
             ),
           ),
         const SizedBox(height: 8),
         Text(
-          'Supported formats: MP4, MOV, MKV',
+          isArabic
+              ? 'الصيغ المدعومة: MP4, MOV, MKV'
+              : 'Supported formats: MP4, MOV, MKV',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
@@ -322,9 +352,13 @@ class _UploadVideoPanel extends StatelessWidget {
 }
 
 class _SelectedVideoCard extends StatelessWidget {
-  const _SelectedVideoCard({required this.video});
+  const _SelectedVideoCard({
+    required this.video,
+    required this.isArabic,
+  });
 
   final SelectedVideoFile video;
+  final bool isArabic;
 
   @override
   Widget build(BuildContext context) {
@@ -354,9 +388,11 @@ class _SelectedVideoCard extends StatelessWidget {
                     size: 56,
                     color: AppColors.primary,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'Video ready for analysis',
+                    isArabic
+                        ? 'الفيديو جاهز للتحليل'
+                        : 'Video ready for analysis',
                     style: TextStyle(color: AppColors.textSecondary),
                   ),
                 ],
@@ -365,19 +401,22 @@ class _SelectedVideoCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: isArabic ? Alignment.centerRight : Alignment.centerLeft,
             child: Text(
               video.name,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleLarge,
+              textDirection: TextDirection.ltr,
             ),
           ),
           const SizedBox(height: 6),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: isArabic ? Alignment.centerRight : Alignment.centerLeft,
             child: Text(
-              'Size: ${video.formattedSize}',
+              isArabic
+                  ? 'الحجم: ${video.formattedSize}'
+                  : 'Size: ${video.formattedSize}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -393,12 +432,14 @@ class _YoutubeLinkPanel extends StatelessWidget {
     required this.showValidationError,
     required this.onChanged,
     required this.onSubmitted,
+    required this.isArabic,
   });
 
   final TextEditingController controller;
   final bool showValidationError;
   final ValueChanged<String> onChanged;
   final VoidCallback onSubmitted;
+  final bool isArabic;
 
   @override
   Widget build(BuildContext context) {
@@ -410,48 +451,64 @@ class _YoutubeLinkPanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'Paste a public YouTube match clip link',
+          isArabic
+              ? 'الصق رابط مقطع مباراة من يوتيوب'
+              : 'Paste a public YouTube match clip link',
           style: Theme.of(context).textTheme.titleLarge,
+          textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
         ),
         const SizedBox(height: 8),
         Text(
-          'We download the clip for analysis. Private or deleted videos are not supported.',
+          isArabic
+              ? 'نقوم بتحميل المقطع للتحليل. المقاطع الخاصة أو المحذوفة غير مدعومة.'
+              : 'We download the clip for analysis. Private or deleted videos are not supported.',
           style: Theme.of(context).textTheme.bodyMedium,
+          textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
         ),
         const SizedBox(height: 20),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: 'https://youtube.com/watch?v=...',
-            filled: true,
-            fillColor: AppColors.surfaceElevated,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.border),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: showError ? AppColors.accentRed : AppColors.border,
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: TextField(
+            controller: controller,
+            textDirection: TextDirection.ltr,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              hintText: 'https://youtube.com/watch?v=...',
+              hintTextDirection: TextDirection.ltr,
+              filled: true,
+              fillColor: AppColors.surfaceElevated,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.border),
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: showError
-                    ? AppColors.accentRed
-                    : AppColors.primary,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: showError ? AppColors.accentRed : AppColors.border,
+                ),
               ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: showError
+                      ? AppColors.accentRed
+                      : AppColors.primary,
+                ),
+              ),
+              errorText: showError
+                  ? (isArabic
+                      ? 'يرجى إدخال رابط يوتيوب صالح'
+                      : 'Enter a valid YouTube URL')
+                  : null,
+              prefixIcon: const Icon(Icons.link),
             ),
-            errorText: showError ? 'Enter a valid YouTube URL' : null,
-            prefixIcon: const Icon(Icons.link),
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.done,
+            autocorrect: false,
+            onChanged: onChanged,
+            onSubmitted: (_) => onSubmitted(),
+            onEditingComplete: onSubmitted,
           ),
-          keyboardType: TextInputType.url,
-          textInputAction: TextInputAction.done,
-          autocorrect: false,
-          onChanged: onChanged,
-          onSubmitted: (_) => onSubmitted(),
-          onEditingComplete: onSubmitted,
         ),
         if (isValid)
           Container(
@@ -465,9 +522,15 @@ class _YoutubeLinkPanel extends StatelessWidget {
             child: Row(
               children: [
                 Icon(Icons.check_circle_outline, color: AppColors.primary),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
-                  child: Text('Link looks valid and ready to analyze.'),
+                  child: Text(
+                    isArabic
+                        ? 'الرابط صالح وجاهز للتحليل.'
+                        : 'Link looks valid and ready to analyze.',
+                    textDirection:
+                        isArabic ? TextDirection.rtl : TextDirection.ltr,
+                  ),
                 ),
               ],
             ),

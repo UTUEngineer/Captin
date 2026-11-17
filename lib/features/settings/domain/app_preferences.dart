@@ -44,11 +44,11 @@ class AppPreferences {
 
   String get effectiveBackendUrl {
     final trimmed = backendBaseUrl.trim();
-    if (trimmed.isNotEmpty) return trimmed;
+    if (trimmed.isNotEmpty) return adaptLoopbackUrlForPlatform(trimmed);
 
     final configured = AppConfig.visionApiBaseUrl;
-    if (configured != AppConfig.defaultVisionApiBaseUrl) {
-      return configured;
+    if (configured.isNotEmpty && configured != AppConfig.defaultVisionApiBaseUrl) {
+      return adaptLoopbackUrlForPlatform(configured);
     }
 
     return platformDefaultVisionApiUrl();
