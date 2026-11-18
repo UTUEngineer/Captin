@@ -188,8 +188,13 @@ class TacticalBoardState {
 }
 
 class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
-  TacticalBoardNotifier() : super(const TacticalBoardState()) {
-    selectFormation(FormationType.f433, recordHistory: false);
+  TacticalBoardNotifier() : super(_initialState());
+
+  static TacticalBoardState _initialState() {
+    return TacticalBoardState(
+      selectedFormation: FormationType.f433,
+      players: _buildPlayersForFormation(FormationType.f433),
+    );
   }
 
   final List<BoardSnapshot> _undoStack = [];
@@ -1426,7 +1431,7 @@ class TacticalBoardNotifier extends StateNotifier<TacticalBoardState> {
     _syncHistoryFlags();
   }
 
-  List<Player> _buildPlayersForFormation(FormationType type) {
+  static List<Player> _buildPlayersForFormation(FormationType type) {
     final slots = formationSlotsFor(type);
     // Formation slots describe one team over the whole pitch; with both teams
     // on the board, fit each side into its own half so tokens never overlap.
